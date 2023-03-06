@@ -1,8 +1,8 @@
 #pragma once
 
-enum class TokenName {
-    Add, // +
-    Sub, // -
-    Mul, // *
-    Div, // /
-}
+#include <vector>
+#include <string>
+
+#inlcude "Token.hpp"
+
+std::vector<TokenName>& lex(std::string usr_expr);
