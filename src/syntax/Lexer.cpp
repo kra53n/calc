@@ -14,12 +14,12 @@ std::vector<Token> lex(std::string usr_expr) {
     default:
       if (is_digit(*it)) {
         std::string text;
-    	int start_pos = pos;
-    	while (is_digit(*it)){
+        int start_pos = pos;
+        while (is_digit(*it)){
           text = text + *it;
           pos++;
           it++;
-    	} 
+        } 
         tokens.push_back(Token { Token::TokenName::Num, text, start_pos, pos });
       }
       break;
