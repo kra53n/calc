@@ -3,6 +3,6 @@
 #include <vector>
 #include <string>
 
-#inlcude "Token.hpp"
+#include "Token.hpp"
 
-std::vector<TokenName>& lex(std::string usr_expr);
+std::vector<Token> lex(std::string usr_expr);

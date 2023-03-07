@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <iostream>
 
 struct Token {
   enum class TokenName {
@@ -8,10 +9,20 @@ struct Token {
     Sub, // -
     Mul, // *
     Div, // /
-	Num,
+    Num,
   };
 
   TokenName name;
   std::string text;
   int start_pos;
-}
+  int end_pos;
+
+  #ifdef TEST
+  friend std::ostream& operator<<(std::ostream& out, const Token& token) {
+    out << "Text: " << token.text << "; ";
+    out << "Start pos: " << token.start_pos << "; ";
+    out << "End pos: " << token.end_pos << "; ";
+    return out;
+  }
+  #endif
+};
