@@ -15,20 +15,20 @@ std::vector<Token> lex(std::string usr_expr) {
     case '+': tokens.push_back(Token { Token::TokenName::Add, "+", pos, pos+1 }); break;
     case '-': tokens.push_back(Token { Token::TokenName::Sub, "-", pos, pos+1 }); break;
     case '/': tokens.push_back(Token { Token::TokenName::Mul, "/", pos, pos+1 }); break;
-	case '(': tokens.push_back(Token { Token::TokenName::OBrac, "(", pos, pos+1 }); break;
-	case ')': tokens.push_back(Token { Token::TokenName::CBrac, ")", pos, pos+1 }); break;
-	case '*': {
-	  it++;
-	  if (*it == '*') {
+    case '(': tokens.push_back(Token { Token::TokenName::OBrac, "(", pos, pos+1 }); break;
+    case ')': tokens.push_back(Token { Token::TokenName::CBrac, ")", pos, pos+1 }); break;
+    case '*': {
+      it++;
+      if (*it == '*') {
         tokens.push_back(Token { Token::TokenName::Rtd, "**", pos, pos+2 });
-		pos++;
-	  } else {
-		it--;
+        pos++;
+      } else {
+        it--;
         tokens.push_back(Token { Token::TokenName::Mul, "*", pos, pos+1 });
-	  }
-	} break;
+      }
+    } break;
     default: {
-	  std::string text;
+      std::string text;
       int start_pos = pos;
 
       if (is_digit(*it)) {
@@ -38,12 +38,12 @@ std::vector<Token> lex(std::string usr_expr) {
           it++;
         } 
         tokens.push_back(Token { Token::TokenName::Num, text, start_pos, pos });
-		continue;
+        continue;
       }
-	} break;
+    } break;
     }
     pos++;
-	it++;
+    it++;
   }
   return tokens;
 }

@@ -2,6 +2,7 @@
 
 #include <string>
 #include <iostream>
+#include <unordered_map>
 
 struct Token {
   enum class TokenName {
@@ -9,10 +10,10 @@ struct Token {
     Sub, // -
     Mul, // *
     Div, // /
-	Rtd, // ** - Raise to degree
+    Rtd, // ** - Raise to degree
     Num,
-	OBrac, // (
-	CBrac, // )
+    OBrac, // (
+    CBrac, // )
   };
 
   TokenName name;
@@ -20,9 +21,7 @@ struct Token {
   int start_pos;
   int end_pos;
 
-  int priority(Token tk) {
-	return 1;
-  }
+  int priority(Token& tk);
 
   #ifdef TEST
   friend std::ostream& operator<<(std::ostream& out, const Token& token) {
@@ -32,4 +31,14 @@ struct Token {
     return out;
   }
   #endif
+};
+
+const std::unordered_map<Token::TokenName, int> _token_priority = {
+  { Token::TokenName::Add, 0 },
+  { Token::TokenName::Sub, 0 },
+  { Token::TokenName::Mul, 1 },
+  { Token::TokenName::Div, 1 },
+  { Token::TokenName::Rtd, 2 },
+  { Token::TokenName::OBrac, 3 },
+  { Token::TokenName::CBrac, 3 },
 };

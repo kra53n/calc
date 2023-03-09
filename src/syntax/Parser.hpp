@@ -1,7 +1,8 @@
 #pragma once
 
 #include <stack>
+#include <queue>
 #include <vector>
 #include "Token.hpp"
 
-std::stack<Token> parse(std::vector<Token> tokens);
+std::queue<Token> parse(std::vector<Token> tokens);
