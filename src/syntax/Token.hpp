@@ -9,13 +9,20 @@ struct Token {
     Sub, // -
     Mul, // *
     Div, // /
+	Rtd, // ** - Raise to degree
     Num,
+	OBrac, // (
+	CBrac, // )
   };
 
   TokenName name;
   std::string text;
   int start_pos;
   int end_pos;
+
+  int priority(Token tk) {
+	return 1;
+  }
 
   #ifdef TEST
   friend std::ostream& operator<<(std::ostream& out, const Token& token) {
