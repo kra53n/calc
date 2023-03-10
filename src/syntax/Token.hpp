@@ -22,15 +22,7 @@ struct Token {
   int end_pos;
 
   int priority(Token& tk);
-
-  #ifdef TEST
-  friend std::ostream& operator<<(std::ostream& out, const Token& token) {
-    out << "Text: " << token.text << "; ";
-    out << "Start pos: " << token.start_pos << "; ";
-    out << "End pos: " << token.end_pos << "; ";
-    return out;
-  }
-  #endif
+  friend std::ostream& operator<<(std::ostream& out, const Token& token);
 };
 
 const std::unordered_map<Token::TokenName, int> _token_priority = {
