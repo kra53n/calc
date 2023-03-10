@@ -1,4 +1,4 @@
-#include "Parser.hpp"
+#include "parse.hpp"
 
 using namespace std;
 
@@ -22,14 +22,20 @@ queue<Token> parse(vector<Token> tokens) {
       ) {
         s.push(tk);
       } else if (tk.priority(s.top()) <= 0) {
-        while (tk.priority(s.top()) < 0 and
+        while (tk.priority(s.top()) > 0 and
                s.top().name != Token::TokenName::OBrac
         ) {
           q.push(s.top());
           s.pop();
         }
         s.push(tk);
-      } else if (tk.name == Token::TokenName::OBrac) {
+      }
+    } break;
+    case Token::TokenName::Num: {
+      q.push(tk);
+    } break;
+    default: {
+      if (tk.name == Token::TokenName::OBrac) {
         s.push(tk);
       } else if (tk.name == Token::TokenName::CBrac) {
         while (s.top().name != Token::TokenName::OBrac) {
@@ -38,10 +44,8 @@ queue<Token> parse(vector<Token> tokens) {
         }
         s.pop();
       }
-    } break;
-    case Token::TokenName::Num: {
-      q.push(tk);
-    } break;
+
+        } break;
     }
   }
 

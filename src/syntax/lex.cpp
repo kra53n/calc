@@ -1,4 +1,4 @@
-#include "Lexer.hpp"
+#include "lex.hpp"
 
 #define is_digit(ch) ('0' - 0 <= ch && ch <= '9' - 0)
 
