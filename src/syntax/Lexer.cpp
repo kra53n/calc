@@ -2,11 +2,6 @@
 
 #define is_digit(ch) ('0' - 0 <= ch && ch <= '9' - 0)
 
-#ifdef TEST
-#include <iostream>
-#endif
-using namespace std;
-
 std::vector<Token> lex(std::string usr_expr) {
   std::vector<Token> tokens;
   int pos = 0;
