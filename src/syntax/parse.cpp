@@ -44,8 +44,7 @@ queue<Token> parse(vector<Token> tokens) {
         }
         s.pop();
       }
-
-        } break;
+    } break;
     }
   }
 
