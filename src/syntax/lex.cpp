@@ -1,5 +1,6 @@
 #include "lex.hpp"
 
+
 std::string get_expr_between(std::string expr, char open, char close) {
   int pos = 0;
   std::stack<char> st;
@@ -113,8 +114,6 @@ std::vector<Token> lex(std::string usr_expr) {
       if (to_continue) {
         continue;
       }
-    }
-    }
   }
   return tokens;
 }
