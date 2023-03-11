@@ -33,7 +33,8 @@ queue<Token> parse(vector<Token> tokens) {
     } break;
     case Token::TokenName::Cx:
     case Token::TokenName::Mx:
-    case Token::TokenName::Num: {
+    case Token::TokenName::Num:
+    case Token::TokenName::BigInt: {
       q.push(tk);
     } break;
     default: {
