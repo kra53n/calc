@@ -41,7 +41,6 @@ bool get_sub_expr_args(
 
 std::vector<Token> lex(std::string usr_expr) {
   std::vector<Token> tokens;
-  int pos = 0;
   for (int pos = 0; pos < usr_expr.length(); pos++) {
     switch (usr_expr[pos]) {
     case '\n':
@@ -81,7 +80,7 @@ std::vector<Token> lex(std::string usr_expr) {
         if (get_sub_expr_args(substr, keyword, text, start_pos, end_pos)) {
           tokens.push_back(Token { Token::TokenName::Cx, text, pos, end_pos+1 });
           pos += end_pos;
-		  break;
+          break;
         };
       }
     }

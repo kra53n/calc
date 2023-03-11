@@ -13,10 +13,10 @@ struct Token {
     OBrac, // (
     CBrac, // )
     Num,
-	BigInt,
-	Var, // Variable
-	Mx, // Matrix
-	Cx, // Complex
+    BigInt,
+    Var, // Variable
+    Mx, // Matrix
+    Cx, // Complex
   };
 
   TokenName name;
