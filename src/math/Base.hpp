@@ -4,5 +4,6 @@
 
 class Base {
 public:
-    virtual std::string result() = 0;
-}
+  virtual std::string result() const;
+  friend std::ostream& operator<<(std::ostream& out, const Base& base);
+};

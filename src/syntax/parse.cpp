@@ -3,9 +3,9 @@
 using namespace std;
 
 // Implementation of Reverse Polish Notation algorithm
-queue<Token> parse(vector<Token> tokens) {
+queue<Token>* parse(vector<Token> tokens) {
   stack<Token> s;
-  queue<Token> q;
+  queue<Token>* q;
 
   for (Token tk : tokens) {
     switch (tk.name) {
@@ -25,7 +25,7 @@ queue<Token> parse(vector<Token> tokens) {
         while (tk.priority(s.top()) > 0 and
                s.top().name != Token::TokenName::OBrac
         ) {
-          q.push(s.top());
+          q->push(s.top());
           s.pop();
         }
         s.push(tk);
@@ -35,14 +35,14 @@ queue<Token> parse(vector<Token> tokens) {
     case Token::TokenName::Mx:
     case Token::TokenName::Num:
     case Token::TokenName::BigInt: {
-      q.push(tk);
+      q->push(tk);
     } break;
     default: {
       if (tk.name == Token::TokenName::OBrac) {
         s.push(tk);
       } else if (tk.name == Token::TokenName::CBrac) {
         while (s.top().name != Token::TokenName::OBrac) {
-          q.push(s.top());
+          q->push(s.top());
           s.pop();
         }
         s.pop();
@@ -58,7 +58,7 @@ queue<Token> parse(vector<Token> tokens) {
       s.pop();
       continue;
     }
-    q.push(s.top());
+    q->push(s.top());
     s.pop();
   }
   
