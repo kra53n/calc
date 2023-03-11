@@ -10,9 +10,13 @@ struct Token {
     Mul, // *
     Div, // /
     Rtd, // ** - Raise to degree
-    Num,
     OBrac, // (
     CBrac, // )
+    Num,
+    BigInt,
+    Var, // Variable
+    Mx, // Matrix
+    Cx, // Complex
   };
 
   TokenName name;
