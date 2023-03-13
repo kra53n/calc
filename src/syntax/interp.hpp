@@ -5,6 +5,6 @@
 
 #include "Token.hpp"
 #include "../math/Num.hpp"
-#include "../math/Base.hpp"
+#include "../math/Calculatable.hpp"
 
-Base* interp(std::queue<Token>* tokens);
+Calculatable* interp(std::queue<Token>* tokens);

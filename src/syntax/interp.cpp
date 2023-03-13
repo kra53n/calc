@@ -1,13 +1,13 @@
 #include "interp.hpp"
 
-Base* get_type(Token& token) {
+Calculatable* get_type(Token& token) {
   switch (token.name) {
   case Token::TokenName::Num: return new Num(token.text);
   }
 }
 
-Base* interp(std::queue<Token>* tokens) {
-  std::stack<Base*> st;
+Calculatable* interp(std::queue<Token>* tokens) {
+  std::stack<Calculatable*> st;
   while (tokens->size()) {
 	Token tk = tokens->front();
 	switch (tk.name) {

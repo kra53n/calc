@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Base.hpp"
+#include "Calculatable.hpp"
 
-class Num : public Base {
+class Num : public Calculatable {
   int data;
 public:
   Num(std::string text);
