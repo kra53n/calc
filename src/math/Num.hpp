@@ -7,5 +7,5 @@ class Num : public Base {
 public:
   Num(std::string text);
   ~Num();
-  std::string result();
-}
+  std::string result() const;
+};

@@ -4,6 +4,6 @@ Num::Num(std::string text) {
   data = stoi(text);
 }
 
-std::string Num::result() {
+std::string Num::result() const {
   return std::to_string(data);
 }
