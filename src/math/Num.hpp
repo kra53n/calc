@@ -8,4 +8,7 @@ public:
   Num(std::string text);
   ~Num();
   std::string result() const;
+
+  int get_data() const;
+  Calculatable* add(Calculatable& num);
 };
