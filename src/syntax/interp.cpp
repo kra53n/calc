@@ -9,14 +9,14 @@ Calculatable* get_type(Token& token) {
 Calculatable* interp(std::queue<Token>* tokens) {
   std::stack<Calculatable*> st;
   while (tokens->size()) {
-	Token tk = tokens->front();
-	switch (tk.name) {
-	case Token::TokenName::Mx:
-	case Token::TokenName::Cx:
-	case Token::TokenName::Num:
-	case Token::TokenName::BigInt: {
-	  st.push(get_type(tk));
-	} break;
+    Token tk = tokens->front();
+    switch (tk.name) {
+    case Token::TokenName::Mx:
+    case Token::TokenName::Cx:
+    case Token::TokenName::Num:
+    case Token::TokenName::BigInt: {
+      st.push(get_type(tk));
+    } break;
     case Token::TokenName::Add:
     case Token::TokenName::Sub:
     case Token::TokenName::Mul:
@@ -24,15 +24,16 @@ Calculatable* interp(std::queue<Token>* tokens) {
     case Token::TokenName::Rtd:
     case Token::TokenName::OBrac:
     case Token::TokenName::CBrac: {
-	  Calculatable* obj1 = st.top();
-	  st.pop();
-	  Calculatable* obj2 = st.top();
-	  st.pop();
-	  switch (tk.name) {
-	  case Token::TokenName::Add: st.push(c1->add(c2)); break;
-	  }
-	} break;
+      Calculatable* obj1 = st.top();
+      st.pop();
+      Calculatable* obj2 = st.top();
+      st.pop();
+      switch (tk.name) {
+      case Token::TokenName::Add: st.push(obj1->add(obj2)); break;
+      }
+    } break;
 	}
+	tokens->pop();
   }
   return st.top();
 }
