@@ -24,12 +24,12 @@ Calculatable* interp(std::queue<Token>* tokens) {
     case Token::TokenName::Rtd:
     case Token::TokenName::OBrac:
     case Token::TokenName::CBrac: {
-	  Calculatable* c1 = st.top();
+	  Calculatable* obj1 = st.top();
 	  st.pop();
-	  Calculatable* c2 = st.top();
+	  Calculatable* obj2 = st.top();
 	  st.pop();
 	  switch (tk.name) {
-	  case Token::TokenName::Add: st.push(*c1 + *c2); break;
+	  case Token::TokenName::Add: st.push(c1->add(c2)); break;
 	  }
 	} break;
 	}

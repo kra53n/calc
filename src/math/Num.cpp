@@ -12,8 +12,7 @@ int Num::get_data() const {
   return data;
 }
 
-Calculatable* Num::add(Calculatable& num) {
-  num = *((Num*)(&num));
+Calculatable* Num::add(Num* num) {
   this->data += num.get_data();
   return this;
 }

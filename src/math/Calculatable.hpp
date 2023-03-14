@@ -2,6 +2,8 @@
 
 #include <string>
 
+#include "../syntax/Token.hpp"
+
 class Calculatable {
 public:
   virtual std::string result() const = 0;

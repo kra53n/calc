@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Calculatable.hpp"
+#include "../syntax/Token.hpp"
 
 class Num : public Calculatable {
   int data;
