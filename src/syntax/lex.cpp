@@ -48,7 +48,6 @@ bool get_sub_expr_args(
 }
 
 std::vector<Token> lex(std::string usr_expr) {
-  std::cout << get_expr_between("(12 12 12)", '(', ')') << std::endl;
   std::vector<Token> tokens;
   for (int pos = 0; pos < usr_expr.length(); pos++) {
     switch (usr_expr[pos]) {

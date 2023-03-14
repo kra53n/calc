@@ -14,7 +14,7 @@ struct Token {
     CBrac, // )
     Num,
     BigInt,
-	  Fraction,
+    Fraction,
     Var, // Variable
     Mx, // Matrix
     Cx, // Complex

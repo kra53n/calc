@@ -6,4 +6,4 @@
 
 #include "Token.hpp"
 
-std::queue<Token> parse(std::vector<Token> tokens);
+std::queue<Token>* parse(std::vector<Token> tokens);
