@@ -103,7 +103,10 @@ std::vector<Token> lex(std::string usr_expr) {
         if (get_sub_expr_args(substr, keyword, text, start_pos, end_pos)) {
           start_pos += pos;
           end_pos += pos;
-          tokens.push_back(Token { Token::TokenName::Cx, text, start_pos, end_pos+1 });
+          // idk why but I have problem while trying to do _token_name_by_string[keyword].
+          // so Im using find method
+          Token::TokenName tk_name = _token_name_by_string.find(keyword)->second;
+          tokens.push_back(Token { tk_name, text, start_pos, end_pos + 1});
           to_continue = true;
           pos = end_pos;
           break;
@@ -115,5 +118,6 @@ std::vector<Token> lex(std::string usr_expr) {
     }
     }
   }
+  // add function for processing `-` sign
   return tokens;
 }
