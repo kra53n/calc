@@ -1,5 +1,6 @@
 #include "lex.hpp"
 
+#include <iostream>
 
 std::string get_expr_between(std::string expr, char open, char close) {
   int pos = 0;
@@ -71,7 +72,7 @@ std::vector<Token> lex(std::string usr_expr) {
     } break;
     case '[': {
       std::string text = get_expr_between(usr_expr.substr(pos), '[', ']');
-      tokens.push_back(Token { Token::TokenName::Fraction, text, pos+1, pos+text.length()+1 });
+      tokens.push_back(Token { Token::TokenName::Fraction, text, pos+1, pos+(int)text.length()+1 });
       pos += text.length();
     } break;
     default: {
@@ -79,21 +80,19 @@ std::vector<Token> lex(std::string usr_expr) {
       int start_pos = pos;
 
       if (isdigit(usr_expr[pos])) {
-        if (pos > 0 and usr_expr[pos-1] == '-') {
-          text = text + '-';
-        }
         while (isdigit(usr_expr[pos])) {
           text = text + usr_expr[pos];
           pos++;
         } 
         tokens.push_back(Token {
-          text.compare("2147483647") <= 0 ?
+          text.length() <= std::string("2147483647").length() ?
             Token::TokenName::Num :
              Token::TokenName::BigInt,
           text,
           start_pos,
           pos
         });
+        pos--;
         continue;
       }
 

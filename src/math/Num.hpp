@@ -12,4 +12,8 @@ public:
 
   int get_data() const;
   Calculatable* add(Calculatable* other);
+  Calculatable* sub(Calculatable* other);
+  Calculatable* mul(Calculatable* other);
+  Calculatable* div(Calculatable* other);
+  Calculatable* rtd(Calculatable* other);
 };

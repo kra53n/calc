@@ -14,16 +14,15 @@ queue<Token>* parse(vector<Token> tokens) {
     case Token::TokenName::Sub:
     case Token::TokenName::Mul:
     case Token::TokenName::Div:
-    case Token::TokenName::Rtd:
-    case Token::TokenName::OBrac:
-    case Token::TokenName::CBrac: {
+    case Token::TokenName::Rtd: {
       if (s.empty() or
           tk.name == Token::TokenName::OBrac or
           tk.priority(s.top()) > 0
       ) {
         s.push(tk);
       } else if (tk.priority(s.top()) <= 0) {
-        while (tk.priority(s.top()) > 0 and
+        while (s.size() and
+               tk.priority(s.top()) < 0 and
                s.top().name != Token::TokenName::OBrac
         ) {
           q->push(s.top());

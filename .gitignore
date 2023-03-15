@@ -1,3 +1,9 @@
 test.*
 run.*
 *.exe
+*.vcxproj*
+*.sln
+
+.vs/
+x64/
+x86
