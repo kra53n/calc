@@ -34,7 +34,8 @@ queue<Token>* parse(vector<Token> tokens) {
     case Token::TokenName::Cx:
     case Token::TokenName::Mx:
     case Token::TokenName::Num:
-    case Token::TokenName::BigInt: {
+    case Token::TokenName::BigInt:
+    case Token::TokenName::Fraction: {
       q->push(tk);
     } break;
     default: {

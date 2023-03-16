@@ -58,7 +58,7 @@ std::vector<Token> lex(std::string usr_expr) {
       continue;
     case '+': tokens.push_back(Token { Token::TokenName::Add, "+", pos, pos+1 }); break;
     case '-': tokens.push_back(Token { Token::TokenName::Sub, "-", pos, pos+1 }); break;
-    case '/': tokens.push_back(Token { Token::TokenName::Mul, "/", pos, pos+1 }); break;
+    case '/': tokens.push_back(Token { Token::TokenName::Div, "/", pos, pos+1 }); break;
     case '(': tokens.push_back(Token { Token::TokenName::OBrac, "(", pos, pos+1 }); break;
     case ')': tokens.push_back(Token { Token::TokenName::CBrac, ")", pos, pos+1 }); break;
     case '*': {

@@ -5,6 +5,7 @@
 Calculatable* get_type(Token& token) {
   switch (token.name) {
   case Token::TokenName::Num: return new Num(token.text);
+  case Token::TokenName::Fraction: return new Fraction(token.text);
   }
 }
 
@@ -17,7 +18,8 @@ Calculatable* interp(std::queue<Token>* tokens) {
     case Token::TokenName::Mx:
     case Token::TokenName::Cx:
     case Token::TokenName::Num:
-    case Token::TokenName::BigInt: {
+    case Token::TokenName::BigInt:
+    case Token::TokenName::Fraction: {
       st.push(get_type(tk));
     } break;
     case Token::TokenName::Add:
@@ -37,7 +39,6 @@ Calculatable* interp(std::queue<Token>* tokens) {
       case Token::TokenName::Mul: obj2->mul(obj1); break;
       case Token::TokenName::Div: obj2->div(obj1); break;
       case Token::TokenName::Rtd: obj2->rtd(obj1); break;
-        //case Token::TokenName::Sub: st.push(obj1->sub(obj2)); break;
       }
       delete obj1;
       st.push(obj2);
