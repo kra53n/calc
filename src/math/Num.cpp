@@ -5,6 +5,9 @@ Num::Num(std::string& text) {
   data = stoi(text);
 }
 
+Num::~Num() {
+}
+
 std::string Num::result() const {
   return std::to_string(data);
 }
@@ -14,43 +17,80 @@ int Num::get_data() const {
 }
 
 Calculatable* Num::add(Calculatable* other) {
-  if (other->get_token_name() == Token::TokenName::Num) {
+  switch (other->get_token_name()) {
+  case Token::TokenName::Num: {
     this->data += ((Num*)other)->get_data();
-  } else {
-    // some error here
+  } break;
+  case Token::TokenName::Fraction: {
+    Fraction* fraction = new Fraction(this);
+    fraction->add(other);
+    delete this;
+    return fraction;
+  } break;
+  default:
+	// error
+	break;
   }
   return this;
 }
 
 Calculatable* Num::sub(Calculatable* other) {
-  if (other->get_token_name() == Token::TokenName::Num) {
+  switch (other->get_token_name()) {
+  case Token::TokenName::Num: {
     this->data -= ((Num*)other)->get_data();
-  } else {
-    // some error here
+  } break;
+  case Token::TokenName::Fraction: {
+    Fraction* fraction = new Fraction(this);
+    fraction->sub(other);
+    delete this;
+    return fraction;
+  } break;
+  default:
+	// error
+	break;
   }
   return this;
 }
 
 Calculatable* Num::mul(Calculatable* other) {
-  if (other->get_token_name() == Token::TokenName::Num) {
+  switch (other->get_token_name()) {
+  case Token::TokenName::Num: {
     this->data *= ((Num*)other)->get_data();
-  } else {
-    // some error here
+  } break;
+  case Token::TokenName::Fraction: {
+    Fraction* fraction = new Fraction(this);
+    fraction->mul(other);
+    delete this;
+    return fraction;
+  } break;
+  default:
+	// error
+	break;
   }
   return this;
 }
 
 Calculatable* Num::div(Calculatable* other) {
-  if (other->get_token_name() == Token::TokenName::Num) {
+  switch (other->get_token_name()) {
+  case Token::TokenName::Num: {
     this->data /= ((Num*)other)->get_data();
-  } else {
-    // some error here
+  } break;
+  case Token::TokenName::Fraction: {
+    Fraction* fraction = new Fraction(this);
+    fraction->div(other);
+    delete this;
+    return fraction;
+  } break;
+  default:
+	// error
+	break;
   }
   return this;
 }
 
 Calculatable* Num::rtd(Calculatable* other) {
-  if (other->get_token_name() == Token::TokenName::Num) {
+  switch (other->get_token_name()) {
+  case Token::TokenName::Num: {
     int power = ((Num*)other)->get_data();
     int tmp = this->data;
     for (int i = 0; i < power-1; i++) {
@@ -59,8 +99,16 @@ Calculatable* Num::rtd(Calculatable* other) {
     if (power == 0) {
       this->data = 1;
     }
-  } else {
-    // some error here
+  } break;
+  case Token::TokenName::Fraction: {
+    Fraction* fraction = new Fraction(this);
+    fraction->rtd(other);
+    delete this;
+    return fraction;
+  } break;
+  default:
+	// error
+	break;
   }
   return this;
 }

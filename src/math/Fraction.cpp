@@ -1,3 +1,4 @@
+#include "Num.hpp"
 #include "Fraction.hpp"
 
 Fraction::Fraction(std::string& text) {
@@ -21,6 +22,12 @@ Fraction::Fraction(std::string& text) {
   this->data.denominator = std::stoi(denominator);
 }
 
+Fraction::Fraction(Num* num) {
+  this->token_name = Token::TokenName::Fraction;
+  this->data.numerator = num->get_data();
+  this->data.denominator = 1;
+}
+
 std::string Fraction::result() const {
   std::string res = "[" + std::to_string(this->data.numerator) + "/" + std::to_string(this->data.denominator) + "]";
   return res;
@@ -31,7 +38,8 @@ Fraction::_Data Fraction::get_data() const {
 }
 
 Calculatable* Fraction::add(Calculatable* other) {
-  if (other->get_token_name() == Token::TokenName::Fraction) {
+  switch (other->get_token_name()) {
+  case Token::TokenName::Fraction: {
     _Data other_data = ((Fraction*)other)->get_data();
     if (this->data.denominator == other_data.denominator) {
       this->data.numerator += other_data.numerator;
@@ -39,14 +47,20 @@ Calculatable* Fraction::add(Calculatable* other) {
     }
     this->data.numerator = this->data.numerator * other_data.denominator + other_data.numerator * this->data.denominator;
     this->data.denominator *= other_data.denominator;
-  } else {
-    // error
+  } break;
+  case Token::TokenName::Num: {
+	this->data.numerator += ((Num*)other)->get_data() * this->data.denominator;
+  } break;
+  default:
+	// error
+	break;
   }
   return this;
 }
 
 Calculatable* Fraction::sub(Calculatable* other) {
-  if (other->get_token_name() == Token::TokenName::Fraction) {
+  switch (other->get_token_name()) {
+  case Token::TokenName::Fraction: {
     _Data other_data = ((Fraction*)other)->get_data();
     if (this->data.denominator == other_data.denominator) {
       this->data.numerator -= other_data.numerator;
@@ -54,30 +68,47 @@ Calculatable* Fraction::sub(Calculatable* other) {
     }
     this->data.numerator = this->data.numerator * other_data.denominator - other_data.numerator * this->data.denominator;
     this->data.denominator *= other_data.denominator;
-  } else {
-    // error
+  } break;
+  case Token::TokenName::Num: {
+	this->data.numerator -= ((Num*)other)->get_data() * this->data.denominator;
+  } break;
+  default:
+	// error
+	break;
   }
   return this;
 }
 
 Calculatable* Fraction::mul(Calculatable* other) {
-  if (other->get_token_name() == Token::TokenName::Fraction) {
+  switch (other->get_token_name()) {
+  case Token::TokenName::Fraction: {
     _Data other_data = ((Fraction*)other)->get_data();
     this->data.numerator *= other_data.numerator;
     this->data.denominator *= other_data.denominator;
-  } else {
-    // error
+  } break;
+  case Token::TokenName::Num: {
+    this->data.numerator *= ((Num*)other)->get_data();
+  } break;
+  default:
+	// error
+	break;
   }
   return this;
 }
 
 Calculatable* Fraction::div(Calculatable* other) {
-  if (other->get_token_name() == Token::TokenName::Fraction) {
+  switch (other->get_token_name()) {
+  case Token::TokenName::Fraction: {
     _Data other_data = ((Fraction*)other)->get_data();
     this->data.numerator *= other_data.denominator;
     this->data.denominator *= other_data.numerator;
-  } else {
-    // error
+  } break;
+  case Token::TokenName::Num: {
+    this->data.denominator *= ((Num*)other)->get_data();
+  } break;
+  default:
+	// error
+	break;
   }
   return this;
 }
@@ -90,6 +121,10 @@ Calculatable* Fraction::rtd(Calculatable* other) {
     for (int i = 1; i < power; i++) {
       this->data.numerator *= numerator;
       this->data.denominator *= denominator;
+    }
+    if (power == 0) {
+        this->data.numerator = 1;
+        this->data.denominator = 1;
     }
   } else {
     // error

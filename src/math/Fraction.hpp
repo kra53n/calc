@@ -4,9 +4,10 @@
 #include <cstdlib>
 #include <algorithm>
 
-#include "Num.hpp"
 #include "Calculatable.hpp"
 #include "../syntax/Token.hpp"
+
+class Num;
 
 class Fraction : public Calculatable {
   struct _Data {
@@ -16,10 +17,10 @@ class Fraction : public Calculatable {
   _Data data;
 public:
   Fraction(std::string& text);
+  Fraction(Num* num);
   ~Fraction();
   std::string result() const;
 
-  void simplify();
   _Data get_data() const;
   Calculatable* add(Calculatable* other);
   Calculatable* sub(Calculatable* other);

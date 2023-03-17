@@ -34,11 +34,11 @@ Calculatable* interp(std::queue<Token>* tokens) {
       Calculatable* obj2 = st.top();
       st.pop();
       switch (tk.name) {
-      case Token::TokenName::Add: obj2->add(obj1); break;
-      case Token::TokenName::Sub: obj2->sub(obj1); break;
-      case Token::TokenName::Mul: obj2->mul(obj1); break;
-      case Token::TokenName::Div: obj2->div(obj1); break;
-      case Token::TokenName::Rtd: obj2->rtd(obj1); break;
+      case Token::TokenName::Add: obj2 = obj2->add(obj1); break;
+      case Token::TokenName::Sub: obj2 = obj2->sub(obj1); break;
+      case Token::TokenName::Mul: obj2 = obj2->mul(obj1); break;
+      case Token::TokenName::Div: obj2 = obj2->div(obj1); break;
+      case Token::TokenName::Rtd: obj2 = obj2->rtd(obj1); break;
       }
       delete obj1;
       st.push(obj2);

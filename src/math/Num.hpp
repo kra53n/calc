@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Fraction.hpp"
 #include "Calculatable.hpp"
 #include "../syntax/Token.hpp"
 
