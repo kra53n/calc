@@ -14,7 +14,8 @@ queue<Token>* parse(vector<Token> tokens) {
     case Token::TokenName::Sub:
     case Token::TokenName::Mul:
     case Token::TokenName::Div:
-    case Token::TokenName::Rtd: {
+    case Token::TokenName::Rtd:
+    case Token::TokenName::AssignVar: {
       if (s.empty() or
           tk.name == Token::TokenName::OBrac or
           tk.priority(s.top()) > 0
@@ -34,6 +35,7 @@ queue<Token>* parse(vector<Token> tokens) {
     case Token::TokenName::Cx:
     case Token::TokenName::Mx:
     case Token::TokenName::Num:
+    case Token::TokenName::Var:
     case Token::TokenName::BigInt:
     case Token::TokenName::Fraction: {
       q->push(tk);

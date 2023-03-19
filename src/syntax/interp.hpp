@@ -1,7 +1,9 @@
 #pragma once
 
+#include <map>
 #include <queue>
 #include <stack>
+#include <string>
 
 #include "Token.hpp"
 #include "../math/Num.hpp"

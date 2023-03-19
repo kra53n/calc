@@ -16,6 +16,7 @@ struct Token {
     BigInt,
     Fraction,
     Var, // Variable
+    AssignVar,
     Mx, // Matrix
     Cx, // Complex
   };
@@ -30,11 +31,12 @@ struct Token {
 };
 
 const std::unordered_map<Token::TokenName, int> _token_priority = {
-  { Token::TokenName::Add, 0 },
-  { Token::TokenName::Sub, 0 },
-  { Token::TokenName::Mul, 1 },
-  { Token::TokenName::Div, 1 },
-  { Token::TokenName::Rtd, 2 },
-  { Token::TokenName::OBrac, 3 },
-  { Token::TokenName::CBrac, 3 },
+  { Token::TokenName::AssignVar, 0 },
+  { Token::TokenName::Add, 1 },
+  { Token::TokenName::Sub, 1 },
+  { Token::TokenName::Mul, 2 },
+  { Token::TokenName::Div, 2 },
+  { Token::TokenName::Rtd, 3 },
+  { Token::TokenName::OBrac, 4 },
+  { Token::TokenName::CBrac, 4 },
 };

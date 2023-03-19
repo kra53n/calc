@@ -1,6 +1,7 @@
 #include "lex.hpp"
 
 #include <iostream>
+// TODO: delete above including
 
 std::string get_expr_between(std::string expr, char open, char close) {
   int pos = 0;
@@ -78,6 +79,23 @@ std::vector<Token> lex(std::string usr_expr) {
     default: {
       std::string text;
       int start_pos = pos;
+
+      if (isalpha(usr_expr[pos])) {
+        while (isalpha(usr_expr[pos])) {
+          text = text + usr_expr[pos];
+          pos++;
+        }
+        int finding_eq = pos;
+        while (finding_eq < usr_expr.length() and usr_expr[finding_eq++] != '=');
+        tokens.push_back(Token {
+          finding_eq == usr_expr.length() ? Token::TokenName::Var : Token::TokenName::AssignVar,
+          text,
+          start_pos,
+          pos,
+        });
+        pos--;
+        continue;
+      }
 
       if (isdigit(usr_expr[pos])) {
         while (isdigit(usr_expr[pos])) {

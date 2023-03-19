@@ -123,8 +123,8 @@ Calculatable* Fraction::rtd(Calculatable* other) {
       this->data.denominator *= denominator;
     }
     if (power == 0) {
-        this->data.numerator = 1;
-        this->data.denominator = 1;
+      this->data.numerator = 1;
+      this->data.denominator = 1;
     }
   } else {
     // error

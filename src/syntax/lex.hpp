@@ -3,6 +3,7 @@
 #include <stack>
 #include <vector>
 #include <string>
+#include <cctype>
 #include <unordered_map>
 
 #include "Token.hpp"

@@ -1,7 +1,5 @@
 #include "interp.hpp"
 
-#include <iostream>
-
 Calculatable* get_type(Token& token) {
   switch (token.name) {
   case Token::TokenName::Num: return new Num(token.text);
@@ -10,16 +8,27 @@ Calculatable* get_type(Token& token) {
 }
 
 Calculatable* interp(std::queue<Token>* tokens) {
+  static std::unordered_map<std::string, Calculatable*> vars;
   std::stack<Calculatable*> st;
   while (tokens->size()) {
     Token tk = tokens->front();
     tokens->pop();
     switch (tk.name) {
+    case Token::TokenName::AssignVar: {
+      vars[tk.text] = st.top();
+      st.pop();
+      return nullptr;
+    } break;
     case Token::TokenName::Mx:
     case Token::TokenName::Cx:
+    case Token::TokenName::Var:
     case Token::TokenName::Num:
     case Token::TokenName::BigInt:
     case Token::TokenName::Fraction: {
+      if (tk.name == Token::TokenName::Var) {
+        st.push(vars[tk.text]);
+        continue;
+      }
       st.push(get_type(tk));
     } break;
     case Token::TokenName::Add:
