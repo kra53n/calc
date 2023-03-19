@@ -28,8 +28,8 @@ Calculatable* Num::add(Calculatable* other) {
     return fraction;
   } break;
   default:
-	// error
-	break;
+    // error
+    break;
   }
   return this;
 }
@@ -46,8 +46,8 @@ Calculatable* Num::sub(Calculatable* other) {
     return fraction;
   } break;
   default:
-	// error
-	break;
+    // error
+    break;
   }
   return this;
 }
@@ -64,8 +64,8 @@ Calculatable* Num::mul(Calculatable* other) {
     return fraction;
   } break;
   default:
-	// error
-	break;
+    // error
+    break;
   }
   return this;
 }
@@ -82,8 +82,8 @@ Calculatable* Num::div(Calculatable* other) {
     return fraction;
   } break;
   default:
-	// error
-	break;
+    // error
+    break;
   }
   return this;
 }
@@ -107,8 +107,8 @@ Calculatable* Num::rtd(Calculatable* other) {
     return fraction;
   } break;
   default:
-	// error
-	break;
+    // error
+    break;
   }
   return this;
 }

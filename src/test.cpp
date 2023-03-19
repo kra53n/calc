@@ -10,11 +10,14 @@ using namespace std;
 
 int main() {
   //string usr_expr = "[1/2] + matrix(1) -1**2 + 123 + 3 * 321 * complex(1 3) + matrix((1 2) (2 1)) + 2 * (21 + 2)**2";
-  string usr_expr = "a = 2 + 2";
-  vector<Token> tokens = lex(usr_expr);
-  for (Token token : tokens) {
-    cout << token << endl;
-  }
-
-  cout << interp(parse(tokens))->result() << endl;
+  std::string usr_expr;
+  do {
+    cout << "> ";
+    getline(cin, usr_expr);
+    vector<Token> tokens = lex(usr_expr);
+    Calculatable* val = interp(parse(tokens));
+    if (val) {
+      cout << val->result() << endl;
+    }
+  } while(usr_expr != "0");
 }

@@ -15,7 +15,11 @@ Calculatable* interp(std::queue<Token>* tokens) {
     tokens->pop();
     switch (tk.name) {
     case Token::TokenName::AssignVar: {
+      if (vars.count(tk.text)) {
+        delete vars[tk.text];
+      }
       vars[tk.text] = st.top();
+      vars[tk.text]->is_var = true;
       st.pop();
       return nullptr;
     } break;
@@ -49,7 +53,9 @@ Calculatable* interp(std::queue<Token>* tokens) {
       case Token::TokenName::Div: obj2 = obj2->div(obj1); break;
       case Token::TokenName::Rtd: obj2 = obj2->rtd(obj1); break;
       }
-      delete obj1;
+      if (not obj1->is_var) {
+        delete obj1;
+      }
       st.push(obj2);
     } break;
     }

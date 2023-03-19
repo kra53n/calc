@@ -8,6 +8,8 @@ class Calculatable {
 protected:
   Token::TokenName token_name;
 public:
+  bool is_var = false;
+
   friend std::ostream& operator<<(std::ostream& out, const Calculatable& calculatable);
   Token::TokenName get_token_name();
 

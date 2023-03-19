@@ -49,11 +49,11 @@ Calculatable* Fraction::add(Calculatable* other) {
     this->data.denominator *= other_data.denominator;
   } break;
   case Token::TokenName::Num: {
-	this->data.numerator += ((Num*)other)->get_data() * this->data.denominator;
+    this->data.numerator += ((Num*)other)->get_data() * this->data.denominator;
   } break;
   default:
-	// error
-	break;
+    // error
+    break;
   }
   return this;
 }
@@ -70,11 +70,11 @@ Calculatable* Fraction::sub(Calculatable* other) {
     this->data.denominator *= other_data.denominator;
   } break;
   case Token::TokenName::Num: {
-	this->data.numerator -= ((Num*)other)->get_data() * this->data.denominator;
+    this->data.numerator -= ((Num*)other)->get_data() * this->data.denominator;
   } break;
   default:
-	// error
-	break;
+    // error
+    break;
   }
   return this;
 }
@@ -90,8 +90,8 @@ Calculatable* Fraction::mul(Calculatable* other) {
     this->data.numerator *= ((Num*)other)->get_data();
   } break;
   default:
-	// error
-	break;
+    // error
+    break;
   }
   return this;
 }
@@ -107,8 +107,8 @@ Calculatable* Fraction::div(Calculatable* other) {
     this->data.denominator *= ((Num*)other)->get_data();
   } break;
   default:
-	// error
-	break;
+    // error
+    break;
   }
   return this;
 }
