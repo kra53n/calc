@@ -1,7 +1,6 @@
 #include <iostream>
 #include <String>
 #include <vector>
-#include <algorithm>
 #include <iomanip>
 
 using namespace std;
@@ -12,8 +11,6 @@ private:
     int sign;
     static const int BASE = 2;
     static const int BASE10 = 100;
-    BigInt _multi(BigInt&);
-    BigInt _simplemulti(BigInt&);
 
 public:
     BigInt();
@@ -28,6 +25,8 @@ public:
     BigInt operator + (BigInt& num);
     BigInt operator - (BigInt& num);
     BigInt operator * (BigInt);
+    BigInt operator / (BigInt num);
+    bool operator>=(BigInt num);
     int getBASE();
     friend ostream& operator << (ostream& os, BigInt& num);
 };
