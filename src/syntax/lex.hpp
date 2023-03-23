@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stack>
+#include <queue>
 #include <vector>
 #include <string>
 #include <cctype>
@@ -15,4 +16,4 @@ const std::unordered_map<std::string, Token::TokenName> _token_name_by_string = 
   { "mx", Token::TokenName::Mx },
 };
 
-std::vector<Token> lex(std::string usr_expr);
+std::vector<Token> lex(std::string& usr_expr);

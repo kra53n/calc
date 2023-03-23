@@ -1,141 +1,138 @@
 #include "lex.hpp"
 
-#include <iostream>
-// TODO: delete above including
+struct LexChar {
+  int pos;
+  char ch;
+};
 
-std::string get_expr_between(std::string expr, char open, char close) {
-  int pos = 0;
-  std::stack<char> st;
-  st.push(expr[pos++]);
-  while (st.size() and pos < expr.length()) {
-    if (expr[pos] == open) {
-      st.push(open);
-    } else if (expr[pos] == close) {
-      st.pop();
-    }
-    pos++;
-  }
-  return expr.substr(1, pos-2);
-}
-
-// Get args from function
-// E.g.:
-//   Input: substr -> matrix((1 2) (2 1))
-//   Input: keyword -> matrix
-//   Output: text -> (1 2) (2 1)
-//   Output: start_pos -> 7
-//   Output: end_pos -> 19
-bool get_sub_expr_args(
-  std::string substr,
-  std::string keyword,
-  std::string& text,
-  int& start_pos,
-  int& end_pos,
-  char open = '(',
-  char close = ')'
-) {
-  int pos = substr.find(keyword);
-  if (pos == std::string::npos or pos != 0) {
-    return false;
-  }
-  pos = substr.find(open);
-  // TODO: here must be thrown an error
-  if (pos == std::string::npos) {
-    return false;
-  }
-  text = get_expr_between(substr.substr(pos), open, close);
-  start_pos = pos + 1;
-  end_pos = pos + text.length();
-  return true;
-}
-
-std::vector<Token> lex(std::string usr_expr) {
-  std::vector<Token> tokens;
-  for (int pos = 0; pos < usr_expr.length(); pos++) {
-    switch (usr_expr[pos]) {
-    case '\n':
-    case '\t':
+std::queue<LexChar> get_chars(std::string& usr_expr) {
+  std::queue<LexChar> q;
+  for (int i = 0; i < usr_expr.length(); i++) {
+    char ch = usr_expr[i];
+    switch (ch) {
     case ' ':
+    case '\t':
+    case '\n':
       continue;
-    case '+': tokens.push_back(Token { Token::TokenName::Add, "+", pos, pos+1 }); break;
-    case '-': tokens.push_back(Token { Token::TokenName::Sub, "-", pos, pos+1 }); break;
-    case '/': tokens.push_back(Token { Token::TokenName::Div, "/", pos, pos+1 }); break;
-    case '(': tokens.push_back(Token { Token::TokenName::OBrac, "(", pos, pos+1 }); break;
-    case ')': tokens.push_back(Token { Token::TokenName::CBrac, ")", pos, pos+1 }); break;
-    case '*': {
-      pos++;
-      if (usr_expr[pos] == '*') {
-        tokens.push_back(Token { Token::TokenName::Rtd, "**", pos-1, pos+1 });
-      } else {
-        pos--;
-        tokens.push_back(Token { Token::TokenName::Mul, "*", pos, pos+1 });
-      }
-    } break;
-    case '[': {
-      std::string text = get_expr_between(usr_expr.substr(pos), '[', ']');
-      tokens.push_back(Token { Token::TokenName::Fraction, text, pos+1, pos+(int)text.length()+1 });
-      pos += text.length();
-    } break;
-    default: {
-      std::string text;
-      int start_pos = pos;
-
-      if (isalpha(usr_expr[pos])) {
-        while (isalpha(usr_expr[pos])) {
-          text = text + usr_expr[pos];
-          pos++;
-        }
-        int finding_eq = pos;
-        while (finding_eq < usr_expr.length() and usr_expr[finding_eq++] != '=');
-        tokens.push_back(Token {
-          finding_eq == usr_expr.length() ? Token::TokenName::Var : Token::TokenName::AssignVar,
-          text,
-          start_pos,
-          pos,
-        });
-        pos--;
-        continue;
-      }
-
-      if (isdigit(usr_expr[pos])) {
-        while (isdigit(usr_expr[pos])) {
-          text = text + usr_expr[pos];
-          pos++;
-        } 
-        tokens.push_back(Token {
-          text.length() <= std::string("2147483647").length() ?
-            Token::TokenName::Num :
-             Token::TokenName::BigInt,
-          text,
-          start_pos,
-          pos
-        });
-        pos--;
-        continue;
-      }
-
-      bool to_continue = false;
-      std::string substr = usr_expr.substr(pos, usr_expr.length()-pos);
-      int end_pos;
-      for (std::string keyword : { "complex", "cx", "matrix", "mx" }) {
-        if (get_sub_expr_args(substr, keyword, text, start_pos, end_pos)) {
-          start_pos += pos;
-          end_pos += pos;
-          // idk why but I have problem while trying to do _token_name_by_string[keyword].
-          // so Im using find method
-          Token::TokenName tk_name = _token_name_by_string.find(keyword)->second;
-          tokens.push_back(Token { tk_name, text, start_pos, end_pos + 1});
-          to_continue = true;
-          pos = end_pos;
-          break;
-        };
-      }
-      if (to_continue) {
-        continue;
-      }
     }
-    }
+    q.push(LexChar { i, ch });
   }
-  // add function for processing `-` sign
+  return q;
+}
+
+Token process_digit(std::queue<LexChar>& chars, int pos) {
+  std::string text;
+  int end_pos = pos;
+  for (; chars.size() and isdigit(chars.front().ch); chars.pop()) {
+    text = text + chars.front().ch;
+    end_pos = chars.front().pos;
+  }
+  return Token { Token::TokenName::Num, text, pos, end_pos+1 };
+}
+
+Token process_var(std::queue<LexChar>& chars, int pos) {
+  std::string text;
+  int end_pos = pos;
+  for (; chars.size() and isalpha(chars.front().ch); chars.pop()) {
+    text = text + chars.front().ch;
+    end_pos = chars.front().pos;
+  }
+  if (chars.size() and chars.front().ch == '=') {
+    end_pos = chars.front().pos;
+    chars.pop();
+    return Token { Token::TokenName::AssignVar, text, pos, end_pos+1 };
+  }
+  return Token { Token::TokenName::Var, text, pos, end_pos+1 };
+}
+
+Token process_plus(std::queue<LexChar>& chars, int pos) {
+  std::string text;
+  int end_pos = pos;
+  for (; chars.size() and chars.front().ch == '+'; chars.pop()) {
+    text = text + chars.front().ch;
+    end_pos = chars.front().pos;
+  }
+  return Token { Token::TokenName::Add, text, pos, end_pos+1 };
+}
+
+Token process_minus(std::queue<LexChar>& chars, int pos) {
+  std::string text;
+  int end_pos = pos;
+  for (; chars.size() and chars.front().ch == '-'; chars.pop()) {
+    text = text + chars.front().ch;
+    end_pos = chars.front().pos;
+  }
+  return Token {
+    text.length() % 2 ? Token::TokenName::Sub : Token::TokenName::Add,
+    text,
+    pos,
+    end_pos+1
+  };
+}
+
+Token process_star(std::queue<LexChar>& chars, int pos) {
+  std::string text;
+  int end_pos = pos;
+  for (; chars.size() and chars.front().ch == '*'; chars.pop()) {
+    text = text + chars.front().ch;
+    end_pos = chars.front().pos;
+  }
+  if (text.length() > 2) {
+    // TODO: error
+  }
+  return Token {
+    text.length() % 2 ? Token::TokenName::Mul : Token::TokenName::Rtd,
+    text,
+    pos,
+    end_pos+1
+  };
+}
+
+Token process_slash(std::queue<LexChar>& chars, int pos) {
+  std::string text;
+  int end_pos = pos;
+  for (; chars.size() and chars.front().ch == '/'; chars.pop()) {
+    text = text + chars.front().ch;
+    end_pos = chars.front().pos;
+  }
+  if (text.length() > 1) {
+    // TODO: error
+  }
+  return Token { Token::TokenName::Div, text, pos, end_pos+1 };
+}
+
+Token process_obrac(std::queue<LexChar>& chars, int pos) {
+  chars.pop();
+  return Token { Token::TokenName::OBrac, "(", pos, pos + 1};
+}
+
+Token process_cbrac(std::queue<LexChar>& chars, int pos) {
+  chars.pop();
+  return Token { Token::TokenName::OBrac, ")", pos, pos + 1};
+}
+
+std::vector<Token> lex(std::string& usr_expr) {
+  std::vector<Token> tokens;
+  std::queue<LexChar> chars = get_chars(usr_expr); 
+  while (chars.size()) {
+    Token tk;
+    switch(chars.front().ch) {
+    case '+': tk = process_plus(chars, chars.front().pos); break;
+    case '-': tk = process_minus(chars, chars.front().pos); break;
+    case '*': tk = process_star(chars, chars.front().pos); break;
+    case '/': tk = process_slash(chars, chars.front().pos); break;
+    case '(': tk = process_obrac(chars, chars.front().pos); break;
+    case ')': tk = process_cbrac(chars, chars.front().pos); break;
+    default: {
+      if (isdigit(chars.front().ch)) {
+        tk = process_digit(chars, chars.front().pos);
+      }
+      else if (isalpha(chars.front().ch)) {
+        tk = process_var(chars, chars.front().pos);
+      }
+    } break;
+    }
+    tokens.push_back(tk);
+  }
   return tokens;
 }
