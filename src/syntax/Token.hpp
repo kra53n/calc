@@ -17,8 +17,8 @@ struct Token {
     Fraction,
     Var, // Variable
     AssignVar,
-    Mx, // Matrix
-    Cx, // Complex
+    Matrix,
+    Complex,
   };
 
   TokenName name;

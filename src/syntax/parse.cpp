@@ -15,7 +15,6 @@ std::queue<Token>* parse(std::vector<Token> tokens) {
     case Token::TokenName::Div:
     case Token::TokenName::Rtd:
     case Token::TokenName::AssignVar: {
-      // TODO: fix: tk.name == Token::TokenName::OBrac or
       if (s.empty() or
           s.top().name == Token::TokenName::OBrac or
           tk.priority(s.top()) > 0
@@ -32,11 +31,11 @@ std::queue<Token>* parse(std::vector<Token> tokens) {
         s.push(tk);
       }
     } break;
-    case Token::TokenName::Cx:
-    case Token::TokenName::Mx:
     case Token::TokenName::Num:
     case Token::TokenName::Var:
     case Token::TokenName::BigInt:
+    case Token::TokenName::Matrix:
+    case Token::TokenName::Complex:
     case Token::TokenName::Fraction: {
       q->push(tk);
     } break;
