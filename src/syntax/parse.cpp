@@ -1,12 +1,9 @@
 #include "parse.hpp"
-#include <iostream>
-
-using namespace std;
 
 // Implementation of Reverse Polish Notation algorithm
-queue<Token>* parse(vector<Token> tokens) {
-  stack<Token> s;
-  queue<Token>* q = new queue<Token>;
+std::queue<Token>* parse(std::vector<Token> tokens) {
+  std::stack<Token> s;
+  std::queue<Token>* q = new std::queue<Token>;
 
   for (Token tk : tokens) {
     switch (tk.name) {
@@ -16,8 +13,9 @@ queue<Token>* parse(vector<Token> tokens) {
     case Token::TokenName::Div:
     case Token::TokenName::Rtd:
     case Token::TokenName::AssignVar: {
+      // TODO: fix: tk.name == Token::TokenName::OBrac or
       if (s.empty() or
-          tk.name == Token::TokenName::OBrac or
+          s.top().name == Token::TokenName::OBrac or
           tk.priority(s.top()) > 0
       ) {
         s.push(tk);
