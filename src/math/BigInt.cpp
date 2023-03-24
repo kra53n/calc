@@ -1,275 +1,254 @@
-﻿#include "BigInt.h"
+#include "BigInt.h"
 
-BigInt::BigInt()
-{
-    sign = 1;
+BigInt::BigInt() {
+    digits.push_back(0);
+    sign = true;
 }
 
-BigInt::BigInt(string str)
-{
-    int i;
-    for (i = str.size() - BASE; i >= BASE - 1; i -= BASE) {
-        chunks.push_back(stoi(str.substr(i, BASE)));
-    }
+BigInt::BigInt(std::string number) {
+    int didits_pos = isdigit(number.at(0)) ? 0 : 1;
+    sign = number.at(0) == '-' ? false : true;
 
-    if (str[0] == '-') {
-        sign = -1;
-        if (i + BASE - 1 != 0) {
-            chunks.push_back(stoi(str.substr(1, i + BASE - 1)));
-        }
-    }
-    else {
-        sign = 1;
-        chunks.push_back(stoi(str.substr(0, i + BASE)));
-    }
+    for (unsigned int i = didits_pos; i < number.length(); i++)
+        digits.push_back(number.at(i) - '0');
+
+    ignoreLeadingZeros();
 }
 
-void BigInt::_resize(int newSize) {
-    chunks.resize(newSize);
+BigInt::BigInt(long long number)
+    : BigInt(std::to_string(number)) {
 }
 
-void BigInt::_normalizationChunks() {
-    int over = 0; 
-    for (int i = 0; i < chunks.size() - 1; i++) {
-        chunks[i] += over; 
-        over = my_div(chunks[i], BASE10); 
-        chunks[i] = my_mod(chunks[i], BASE10); 
-    }
-
-    chunks[chunks.size() - 1] += over;
-
-    if (chunks[chunks.size() - 1] / BASE10) {
-        over = my_div(chunks[chunks.size() - 1], BASE10);
-        chunks[chunks.size() - 1] = my_mod(chunks[chunks.size() - 1], BASE10);
-        chunks.push_back(over); 
-    }
+BigInt::BigInt(const BigInt& rhs) {
+    sign = rhs.sign;
+    digits = rhs.digits;
 }
 
-void BigInt::_normalizationSigns() {
-    if (chunks[chunks.size() - 1] < 0) {
-        sign = -sign; 
-        chunks[0] = BASE10 - chunks[0]; 
-        for (int i = 1; i < chunks.size(); i++) {
-            chunks[i] = (BASE10 - chunks[i] - 1) % BASE10; 
-        }
-    }
-
-    int i = chunks.size() - 1;
-    while (chunks[i] == 0) {
-        if (i == 0) {
-            sign = 1;
-            return;
-        }
-        chunks.pop_back();
-        i--;
-    }
-    return;
+void BigInt::ignoreLeadingZeros() {
+    while (digits.size() > 1 && digits.at(0) == 0)
+        digits.erase(digits.begin(), digits.begin() + 1);
 }
 
-BigInt BigInt::_plus(BigInt& num) {
-    BigInt res;
-    res.sign = this->sign;
-    for (int i = 0; i < this->chunks.size(); i++) {
-        res.chunks.push_back(this->chunks[i] + num.chunks[i]);
-    }
-    return res;
+std::string BigInt::to_string() const {
+    std::string str;
+    if (!sign)
+        str += "-";
+    for (unsigned int i = 0; i < digits.size(); i++)
+        str += std::to_string(digits.at(i));
+    return str;
 }
 
-BigInt BigInt::_minus(BigInt& num) {
-    BigInt res;
-    res.sign = this->sign;
-    for (int i = 0; i < this->chunks.size(); i++) {
-        res.chunks.push_back(this->chunks[i] - num.chunks[i]);
-    }
-    return res;
+BigInt& BigInt::operator=(const BigInt& rhs) {
+    if (this == &rhs)
+        return *this;
+    sign = rhs.sign;
+    digits = rhs.digits;
+    return *this;
 }
 
-BigInt BigInt::operator + (BigInt& num) {
-    BigInt res;
-    if (this->chunks.size() > num.chunks.size()) {
-        num._resize(chunks.size());
-    }
-    else {
-        this->_resize(num.chunks.size());
-    }
+bool BigInt::operator>(const BigInt& rhs) const {
+    if (sign == true && rhs.sign == false)
+        return true;
+    if (sign == false && rhs.sign == true)
+        return false;
 
-    if (sign == num.sign) {
-        res = this->_plus(num);
-    }
-    else {
-        res = (*this)._minus(num);
-    }
-    res._normalizationChunks();
-    return res;
-}
+    if (digits.size() > rhs.digits.size())
+        return sign;
+    if (digits.size() < rhs.digits.size())
+        return !sign;
 
-BigInt BigInt::operator - (BigInt& num) {
-    BigInt res;
-    if (this->chunks.size() > num.chunks.size()) {
-        num._resize(chunks.size());
-    }
-    else {
-        (*this)._resize(num.chunks.size());
-    }
-    if (sign != num.sign) {
-        res = (*this)._plus(num);
-    }
-    else {
-        res = (*this)._minus(num);
-    }
-    res._normalizationChunks();
-    return res;
-}
-
-ostream& operator << (ostream& os, BigInt& num) {
-    num._normalizationSigns();
-    if (num.sign == -1) {
-        os << '-';
-    }
-    os << num.chunks[num.chunks.size() - 1];
-    for (int i = num.chunks.size() - 2; i >= 0; i--) {
-        os << setw(num.getBASE()) << setfill('0') << num.chunks[i];
-    }
-    return os;
-}
-
-int BigInt::getBASE() {
-    return this->BASE;
-}
-
-int BigInt::my_div(int num, int diver) {
-    if ((num < 0) && (num % diver))
-        return num / diver - 1;
-    else
-        return num / diver;
-}
-
-int BigInt::my_mod(int num, int diver) {
-    if ((num < 0) && (num % diver))
-        return num % diver + diver;
-    else
-        return num % diver;
-}
-
-BigInt BigInt::operator * (BigInt num) {
-    BigInt result;
-
-    auto maxSize = max(this->chunks.size(), num.chunks.size());
-
-    int newSize = 1;
-    while (newSize < maxSize) {
-        newSize *= 2;
-    }
-
-    this->_resize(newSize);
-    num._resize(newSize);
-
-    result._resize(2 * this->chunks.size());
-    result.sign = this->sign;
-
-    for (int i = 0; i < this->chunks.size(); i++) {
-        for (int j = 0; j < num.chunks.size(); j++) {
-            result.chunks[i + j] += this->chunks[i] * num.chunks[j];
-        }
-    }
-
-    result._normalizationChunks();
-
-    if (this->sign == num.sign) {
-        result.sign = 1;
-    }
-    else {
-        result.sign = -1;
-    }
-
-    return result;
-}
-
-BigInt BigInt::operator / (BigInt num) {
-    BigInt buff = *this;
-    BigInt buff1 = num;
-    BigInt result("0");
-    BigInt one("1");
-
-    buff.sign = 1;
-    buff1.sign = 1;
-
-    while (buff >= buff1)
-    {
-        buff = buff - buff1;
-        buff._normalizationChunks();
-        result = result + one;
-        result._normalizationChunks();
-    }
-
-    if (this->sign == num.sign) {
-        result.sign = 1;
-    }
-    else {
-        result.sign = -1;
-    }
-
-    return result;
-}
-
-bool BigInt::operator >= (BigInt num) {
-    num._normalizationChunks();
-    num._normalizationSigns();
-    this->_normalizationChunks();
-    this->_normalizationSigns();
-
-    if (this->sign != num.sign) {
-        if (sign == -1) {
-            return false;
-        }
-        else {
-            return true;
-        }
-    }
-    else {
-        if (this->chunks.size() > num.chunks.size()) {
-            return true;
-        }
-        if (this->chunks.size() < num.chunks.size()) {
-            return false;
-        }
-
-        if (sign == -1) {
-            for (int i = this->chunks.size() - 1; i >= 0; i--) {
-                if (this->chunks[i] > num.chunks[i]) {
-                    return false;
-                }
-                if (this->chunks[i] < num.chunks[i]) {
-                    return true;
-                }
-            }
-
-            if (this->chunks[0] > num.chunks[0]) {
-                return false;
-            }
-            else {
-                return true;
-            }
-        }
-        else {
-            for (int i = this->chunks.size() - 1; i >= 0; i--) {
-                if (this->chunks[i] < num.chunks[i]) {
-                    return false;
-                }
-                if (this->chunks[i] > num.chunks[i]) {
-                    return true;
-                }
-            }
-
-            if (this->chunks[0] < num.chunks[0]) {
-                return false;
-            }
-            else {
-                return true;
-            }
-        }
+    for (size_t i = 0; i < digits.size(); i++) {
+        if (digits.at(i) > rhs.digits.at(i))
+            return sign;
+        if (digits.at(i) < rhs.digits.at(i))
+            return !sign;
     }
 
     return false;
 }
 
+bool BigInt::operator<(const BigInt& rhs) const {
+    return false == (*this == rhs) && false == (*this > rhs);
+}
+
+bool BigInt::operator==(const BigInt& rhs) const {
+    return (sign == rhs.sign && digits == rhs.digits);
+}
+
+BigInt BigInt::abs() const {
+    BigInt a(*this);
+    a.sign = true;
+    return a;
+}
+
+const BigInt BigInt::operator+(const BigInt& rhs) const {
+    BigInt sum;
+    if (digits.at(0) == 0 && rhs.digits.at(0) == 0)
+        return sum;
+    if (sign == rhs.sign) {
+        sum.digits.clear();
+        sum.sign = sign;
+        unsigned int carry = 0;
+        int index1 = digits.size() - 1;
+        int index2 = rhs.digits.size() - 1;
+        while (index1 >= 0 || index2 >= 0) {
+            auto digitsum = this->digit(index1) + rhs.digit(index2) + carry;
+
+            carry = digitsum / 10;
+            digitsum %= 10;
+
+            sum.digits.push_back(digitsum);
+            index1--;
+            index2--;
+        }
+        if (carry != 0)
+            sum.digits.push_back(carry);
+        std::reverse(sum.digits.begin(), sum.digits.end());
+    }
+    else {
+        if (this->abs() > rhs.abs()) {
+            sum = this->abs() - rhs.abs();
+            sum.sign = sign;
+        }
+        else {
+            sum = rhs.abs() - this->abs();
+            sum.sign = rhs.sign;
+        }
+    }
+    return sum;
+}
+
+const BigInt BigInt::operator-(const BigInt& rhs) const {
+    BigInt difference;
+    if ((digits.at(0) == 0 && rhs.digits.at(0) == 0))
+        return difference;
+    if (sign == rhs.sign) { // (1) - (2) or (-1) - (-2)
+        if (this->abs() > rhs.abs() || this->abs() == rhs.abs()) { // (2) - (1)
+            difference.digits.clear();
+            int index1 = digits.size() - 1;
+            int index2 = rhs.digits.size() - 1;
+            int borrow = 0;
+            difference.sign = sign;
+            while (index1 >= 0 || index2 >= 0) {
+                auto digitdiff = this->digit(index1) - rhs.digit(index2) - borrow;
+
+                if (digitdiff < 0) {
+                    borrow = 1;
+                    digitdiff += 10;
+                }
+                else borrow = 0;
+
+                difference.digits.push_back(digitdiff);
+                index1--;
+                index2--;
+            }
+            std::reverse(difference.digits.begin(), difference.digits.end());
+            difference.ignoreLeadingZeros();
+        }
+        else { // (1) - (5) = - ( (5) - (1) )
+            difference = (rhs - (*this));
+            difference.sign = !difference.sign;
+        }
+    }
+    else { // (-1) - 5 = (-1) + (-6)
+        difference = this->abs() + rhs.abs();
+        difference.sign = sign;
+    }
+    return difference;
+}
+
+const BigInt BigInt::operator/(const BigInt& rhs) const {
+    BigInt buffer;
+    BigInt result;
+    BigInt rhsAbs = rhs.abs();
+    result.digits.clear();
+    buffer.digits.clear();
+
+    if (rhs == BigInt(0))
+        throw std::overflow_error("Divide by zero exception");
+
+    for (size_t i = 0; i < digits.size(); ++i) {
+        buffer.digits.push_back(digits[i]);
+        buffer.ignoreLeadingZeros();
+        if (buffer < rhsAbs) {
+            result.digits.push_back(0);
+            continue;
+        }
+        int count;
+        for (count = 0; buffer > rhsAbs || buffer == rhsAbs; ++count) {
+            buffer = buffer - rhsAbs;
+        }
+        result.digits.push_back(count);
+    }
+    result.ignoreLeadingZeros();
+
+    result.sign = true;
+    if (sign != rhs.sign && result.digits[0] != 0)
+        result.sign = false;
+
+    return result;
+}
+
+BigInt BigInt::digitMultiply(unsigned int digit) const {
+    BigInt result;
+    result.digits.clear();
+    result.sign = true;
+    unsigned int carry = 0;
+    for (int i = digits.size() - 1; i >= 0; i--) {
+        unsigned int digitproduct = digits.at(i) * digit + carry;
+        if (digitproduct > 9) {
+            carry = digitproduct / 10;
+            digitproduct %= 10;
+        }
+        else
+            carry = 0;
+
+        result.digits.push_back(digitproduct);
+    }
+    if (carry != 0)
+        result.digits.push_back(carry);
+
+    std::reverse(result.digits.begin(), result.digits.end());
+    return result;
+}
+
+const BigInt BigInt::operator*(const BigInt& rhs) const {
+    BigInt product;
+    BigInt psum;
+    unsigned int zeros_to_insert = 0;
+    for (int i = rhs.digits.size() - 1; i >= 0; i--) {
+        unsigned int digit = rhs.digits.at(i);
+        product = this->digitMultiply(digit);
+        product.digits.insert(product.digits.end(), zeros_to_insert++, 0);
+        psum = psum + product;
+    }
+    if (sign != rhs.sign)
+        psum.sign = false;
+    return psum;
+}
+
+const BigInt BigInt::operator%(const BigInt& rhs) const {
+    BigInt result;
+    BigInt divResult = *this / rhs;
+
+    result = *this - divResult * rhs;
+    return result;
+}
+
+std::istream& operator>>(std::istream& ist, BigInt& bigint) {
+    std::string number;
+    ist >> number;
+
+    bigint = BigInt(number);
+
+    return ist;
+}
+
+std::ostream& operator<<(std::ostream& ost, BigInt& bigint) {
+    ost << bigint.to_string();
+    return ost;
+}
+
+int BigInt::digit(int index) const {
+    return index >= 0 ? digits[index] : 0;
+}
