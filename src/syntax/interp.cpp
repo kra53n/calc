@@ -3,6 +3,7 @@
 Calculatable* get_type(Token& token) {
   switch (token.name) {
   case Token::TokenName::Num: return new Num(token.text);
+  case Token::TokenName::Matrix: return new Matrix(token.text);
   case Token::TokenName::Fraction: return new Fraction(token.text);
   }
 }

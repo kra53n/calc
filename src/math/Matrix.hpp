@@ -1,18 +1,19 @@
 #pragma once
+
+#include <vector>
 #include <string>
+
 #include "Fraction.hpp"
 #include "Calculatable.hpp"
-#include "Token.hpp"
-#include <vector>
-class Mx : public Calculatable
-{
+#include "../syntax/Token.hpp"
 
-public:
+class Matrix : public Calculatable
+{
 	int R, C;
 	std::vector<std::vector<int>> data;
-	std::vector<std::vector<int>> Result;
-	Mx(std::string& text);
-	~Mx();
+public:
+	Matrix(std::string& text);
+	~Matrix();
 
 	std::vector<std::vector<int>> parse_matrix(std::string s);
 	std::vector<std::vector<int>> multiplyMatrices(const std::vector<std::vector<int>>& A, const std::vector<std::vector<int>>& B);
@@ -26,6 +27,6 @@ public:
 	Calculatable* sub(Calculatable* other);
 	Calculatable* mul(Calculatable* other);
 	Calculatable* div(Calculatable* other);
-	//Calculatable* rtd(Calculatable* other);
+	Calculatable* rtd(Calculatable* other);
 };
 

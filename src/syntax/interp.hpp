@@ -7,6 +7,7 @@
 
 #include "Token.hpp"
 #include "../math/Num.hpp"
+#include "../math/Matrix.hpp"
 #include "../math/Fraction.hpp"
 #include "../math/Calculatable.hpp"
 
