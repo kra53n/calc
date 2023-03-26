@@ -23,11 +23,11 @@ Calculatable* interp(std::queue<Token>* tokens) {
       st.pop();
       return nullptr;
     } break;
-    case Token::TokenName::Mx:
-    case Token::TokenName::Cx:
     case Token::TokenName::Var:
     case Token::TokenName::Num:
     case Token::TokenName::BigInt:
+    case Token::TokenName::Matrix:
+    case Token::TokenName::Complex:
     case Token::TokenName::Fraction: {
       if (tk.name == Token::TokenName::Var) {
         st.push(vars[tk.text]);

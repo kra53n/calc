@@ -1,33 +1,43 @@
-#include <iostream>
-#include <String>
-#include <vector>
 #include <algorithm>
-#include <iomanip>
+#include <sstream>
+#include <string>
+#include <vector>
+#include <exception>
+#include <iostream>
 
 using namespace std;
 
 class BigInt {
-private:
-    vector<int> chunks;
-    int sign;
-    static const int BASE = 2;
-    static const int BASE10 = 100;
-    BigInt _multi(BigInt&);
-    BigInt _simplemulti(BigInt&);
-
 public:
-    BigInt();
-    BigInt(string str);
-    BigInt _plus(BigInt& a);
-    BigInt _minus(BigInt& a);
-    void _normalizationSigns();
-    void _normalizationChunks();
-    void _resize(int newsize);
-    int my_div(int num, int diver);
-    int my_mod(int num, int diver);
-    BigInt operator + (BigInt& num);
-    BigInt operator - (BigInt& num);
-    BigInt operator * (BigInt);
-    int getBASE();
-    friend ostream& operator << (ostream& os, BigInt& num);
+	BigInt();
+	BigInt(std::string number);
+	BigInt(long long number);
+	BigInt(const BigInt& rhs);
+
+	BigInt& operator=(const BigInt& rhs);
+
+	bool operator>(const BigInt& rhs) const;
+	bool operator<(const BigInt& rhs) const;
+	bool operator==(const BigInt& rhs) const;
+
+	friend std::istream& operator>>(std::istream& inStream, BigInt& bigint);
+	friend std::ostream& operator<<(std::ostream& outStream, BigInt& bigint);
+
+	const BigInt operator+(const BigInt& rhs) const;
+	const BigInt operator-(const BigInt& rhs) const;
+	const BigInt operator*(const BigInt& rhs) const;
+	const BigInt operator/(const BigInt& rhs) const;
+	const BigInt operator%(const BigInt& rhs) const;
+
+	std::string to_string() const;
+
+	BigInt abs() const;
+private:
+	void ignoreLeadingZeros();
+	BigInt digitMultiply(unsigned int digit) const;
+
+	int digit(int index) const;
+
+	std::vector<unsigned int> digits;
+	bool sign;
 };
