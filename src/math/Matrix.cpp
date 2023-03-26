@@ -6,6 +6,7 @@
 Matrix::Matrix(std::string& text)
 {
     data = parse_matrix(text);
+	token_name = Token::TokenName::Matrix;
 }
 
 Matrix::~Matrix()
