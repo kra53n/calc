@@ -15,15 +15,6 @@ BigInt::BigInt(std::string number) {
     ignoreLeadingZeros();
 }
 
-BigInt::BigInt(long long number)
-    : BigInt(std::to_string(number)) {
-}
-
-BigInt::BigInt(const BigInt& rhs) {
-    sign = rhs.sign;
-    digits = rhs.digits;
-}
-
 void BigInt::ignoreLeadingZeros() {
     while (digits.size() > 1 && digits.at(0) == 0)
         digits.erase(digits.begin(), digits.begin() + 1);
@@ -81,7 +72,7 @@ BigInt BigInt::abs() const {
     return a;
 }
 
-const BigInt BigInt::operator+(const BigInt& rhs) const {
+BigInt BigInt::operator+(const BigInt& rhs) const {
     BigInt sum;
     if (digits.at(0) == 0 && rhs.digits.at(0) == 0)
         return sum;
@@ -118,12 +109,12 @@ const BigInt BigInt::operator+(const BigInt& rhs) const {
     return sum;
 }
 
-const BigInt BigInt::operator-(const BigInt& rhs) const {
+BigInt BigInt::operator-(const BigInt& rhs) const {
     BigInt difference;
     if ((digits.at(0) == 0 && rhs.digits.at(0) == 0))
         return difference;
-    if (sign == rhs.sign) { // (1) - (2) or (-1) - (-2)
-        if (this->abs() > rhs.abs() || this->abs() == rhs.abs()) { // (2) - (1)
+    if (sign == rhs.sign) { 
+        if (this->abs() > rhs.abs() || this->abs() == rhs.abs()) { 
             difference.digits.clear();
             int index1 = digits.size() - 1;
             int index2 = rhs.digits.size() - 1;
@@ -145,27 +136,24 @@ const BigInt BigInt::operator-(const BigInt& rhs) const {
             std::reverse(difference.digits.begin(), difference.digits.end());
             difference.ignoreLeadingZeros();
         }
-        else { // (1) - (5) = - ( (5) - (1) )
+        else { 
             difference = (rhs - (*this));
             difference.sign = !difference.sign;
         }
     }
-    else { // (-1) - 5 = (-1) + (-6)
+    else {
         difference = this->abs() + rhs.abs();
         difference.sign = sign;
     }
     return difference;
 }
 
-const BigInt BigInt::operator/(const BigInt& rhs) const {
+BigInt BigInt::operator/(const BigInt& rhs) const {
     BigInt buffer;
     BigInt result;
     BigInt rhsAbs = rhs.abs();
     result.digits.clear();
     buffer.digits.clear();
-
-    if (rhs == BigInt(0))
-        throw std::overflow_error("Divide by zero exception");
 
     for (size_t i = 0; i < digits.size(); ++i) {
         buffer.digits.push_back(digits[i]);
@@ -212,7 +200,7 @@ BigInt BigInt::digitMultiply(unsigned int digit) const {
     return result;
 }
 
-const BigInt BigInt::operator*(const BigInt& rhs) const {
+BigInt BigInt::operator*(const BigInt& rhs) const {
     BigInt product;
     BigInt psum;
     unsigned int zeros_to_insert = 0;
@@ -227,21 +215,12 @@ const BigInt BigInt::operator*(const BigInt& rhs) const {
     return psum;
 }
 
-const BigInt BigInt::operator%(const BigInt& rhs) const {
+BigInt BigInt::operator%(const BigInt& rhs) const {
     BigInt result;
     BigInt divResult = *this / rhs;
 
     result = *this - divResult * rhs;
     return result;
-}
-
-std::istream& operator>>(std::istream& ist, BigInt& bigint) {
-    std::string number;
-    ist >> number;
-
-    bigint = BigInt(number);
-
-    return ist;
 }
 
 std::ostream& operator<<(std::ostream& ost, BigInt& bigint) {
@@ -251,4 +230,63 @@ std::ostream& operator<<(std::ostream& ost, BigInt& bigint) {
 
 int BigInt::digit(int index) const {
     return index >= 0 ? digits[index] : 0;
+}
+
+std::string BigInt::addBigInt(const BigInt* rhs)
+{
+    Result = ((*rhs) + *this).to_string();
+    return Result;
+}
+
+std::string BigInt::subBigInt(const BigInt* rhs)
+{
+    Result = ((*rhs) - *this).to_string();
+    return Result;
+}
+
+std::string BigInt::mulBigInt(const BigInt* rhs)
+{
+    Result = ((*rhs) + *this).to_string();
+    return Result;
+}
+
+std::string BigInt::divBigInt(const BigInt* rhs)
+{
+    Result = ((*rhs) + *this).to_string();
+    return Result;
+}
+
+std::string BigInt::result() const
+{
+    return Result;
+}
+
+Calculatable* BigInt::add(Calculatable* other)
+{
+    Result = addBigInt(((BigInt*)other));
+    return this;
+}
+
+Calculatable* BigInt::sub(Calculatable* other)
+{
+    Result = (*this).to_string();
+    return this;
+}
+
+Calculatable* BigInt::mul(Calculatable* other)
+{
+    Result = (*this).to_string();
+    return this;
+}
+
+Calculatable* BigInt::div(Calculatable* other)
+{
+    Result = (*this).to_string();
+    return this;
+}
+
+Calculatable* BigInt::rtd(Calculatable* other)
+{
+    Result = (*this).to_string();
+    return this;
 }

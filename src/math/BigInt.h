@@ -1,37 +1,12 @@
 #include <algorithm>
-#include <sstream>
 #include <string>
 #include <vector>
-#include <exception>
 #include <iostream>
+#include "Calculatable.hpp"
 
 using namespace std;
 
-class BigInt {
-public:
-	BigInt();
-	BigInt(std::string number);
-	BigInt(long long number);
-	BigInt(const BigInt& rhs);
-
-	BigInt& operator=(const BigInt& rhs);
-
-	bool operator>(const BigInt& rhs) const;
-	bool operator<(const BigInt& rhs) const;
-	bool operator==(const BigInt& rhs) const;
-
-	friend std::istream& operator>>(std::istream& inStream, BigInt& bigint);
-	friend std::ostream& operator<<(std::ostream& outStream, BigInt& bigint);
-
-	const BigInt operator+(const BigInt& rhs) const;
-	const BigInt operator-(const BigInt& rhs) const;
-	const BigInt operator*(const BigInt& rhs) const;
-	const BigInt operator/(const BigInt& rhs) const;
-	const BigInt operator%(const BigInt& rhs) const;
-
-	std::string to_string() const;
-
-	BigInt abs() const;
+class BigInt : public Calculatable {
 private:
 	void ignoreLeadingZeros();
 	BigInt digitMultiply(unsigned int digit) const;
@@ -40,4 +15,39 @@ private:
 
 	std::vector<unsigned int> digits;
 	bool sign;
+
+	string Result;
+
+public:
+	BigInt();
+	BigInt(std::string number);
+
+	BigInt& operator=(const BigInt& rhs);
+
+	bool operator>(const BigInt& rhs) const;
+	bool operator<(const BigInt& rhs) const;
+	bool operator==(const BigInt& rhs) const;
+
+	friend std::ostream& operator<<(std::ostream& outStream, BigInt& bigint);
+
+	BigInt operator+(const BigInt& rhs) const;
+	BigInt operator-(const BigInt& rhs) const;
+	BigInt operator*(const BigInt& rhs) const;
+	BigInt operator/(const BigInt& rhs) const;
+	BigInt operator%(const BigInt& rhs) const;
+
+	std::string to_string() const;
+	std::string addBigInt(const BigInt* rhs);
+	std::string subBigInt(const BigInt* rhs);
+	std::string mulBigInt(const BigInt* rhs);
+	std::string divBigInt(const BigInt* rhs);
+
+	BigInt abs() const;
+
+	std::string result() const;
+	Calculatable* add(Calculatable* other);
+	Calculatable* sub(Calculatable* other);
+	Calculatable* mul(Calculatable* other);
+	Calculatable* div(Calculatable* other);
+	Calculatable* rtd(Calculatable* other);
 };
