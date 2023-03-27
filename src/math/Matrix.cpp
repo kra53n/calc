@@ -6,7 +6,7 @@
 Matrix::Matrix(std::string& text)
 {
     data = parse_matrix(text);
-	token_name = Token::TokenName::Matrix;
+    token_name = Token::TokenName::Matrix;
 }
 
 Matrix::~Matrix()
@@ -25,46 +25,69 @@ std::string Matrix::result() const
     return ResultStr;
 }
 
-int Matrix::get_data() const
-{
-    return 0;
-}
-
 Calculatable* Matrix::add(Calculatable* other)
 {
-    if (other->get_token_name() == Token::TokenName::Matrix)
-        data = addMatrices(data, ((Matrix*)other)->data);
-    else
-        data = matrix_scalar_addition(data, ((Matrix*)other)->data[0][0]);
+    switch (other->get_token_name()) {
+    case Token::TokenName::Matrix: {
+        data = add_matrix(data, ((Matrix*)other)->data);
+    } break;
+    case Token::TokenName::Num: {
+        data = add_num(data, ((Num*)other)->get_data());
+    } break;
+    default: {
+        // error
+    } break;
+    }
+
     return this;
 }
 
 Calculatable* Matrix::sub(Calculatable* other)
 {
-    if (other->get_token_name() == Token::TokenName::Matrix)
-        data = subtractMatrices(data, ((Matrix*)other)->data);
-    else
-        data = matrix_scalar_subtract(data, ((Matrix*)other)->data[0][0]);
+    switch (other->get_token_name()) {
+    case Token::TokenName::Matrix: {
+        data = sub_matrix(data, ((Matrix*)other)->data);
+    } break;
+    case Token::TokenName::Num: {
+        data = sub_num(data, ((Num*)other)->get_data());
+    } break;
+    default: {
+        // error
+    } break;
+    }
     
     return this;
 }
 
 Calculatable* Matrix::mul(Calculatable* other)
 {
-    if(other->get_token_name() == Token::TokenName::Matrix)
-        data = multiplyMatrices(data, ((Matrix*)other)->data);
-    else
-        data = matrix_scalar_multiply(data, ((Matrix*)other)->data[0][0]);
+    switch (other->get_token_name()) {
+    case Token::TokenName::Matrix: {
+        data = mul_matrix(data, ((Matrix*)other)->data);
+    } break;
+    case Token::TokenName::Num: {
+        data = mul_num(data, ((Num*)other)->get_data());
+    } break;
+    default: {
+        // error
+    } break;
+    }
 
     return this;
 }
 
 Calculatable* Matrix::div(Calculatable* other)
 {
-    if (other->get_token_name() == Token::TokenName::Matrix)
-        data = divideMatrixByNumber(data, ((Matrix*)other)->data[0][0]);
-    else
-        data = matrix_scalar_divide(data, ((Matrix*)other)->data[0][0]);
+    switch (other->get_token_name()) {
+    case Token::TokenName::Matrix: {
+    } break;
+    case Token::TokenName::Num: {
+        data = div_num(data, ((Num*)other)->get_data());
+    } break;
+    default: {
+        // error
+    } break;
+    }
     
     return this;
 }
@@ -98,7 +121,7 @@ std::vector<std::vector<int>> Matrix::parse_matrix(std::string s)
     return result;
 }
 
-std::vector<std::vector<int>> Matrix::multiplyMatrices(const std::vector<std::vector<int>>& A, const std::vector<std::vector<int>>& B)
+std::vector<std::vector<int>> Matrix::mul_matrix(std::vector<std::vector<int>>& A, std::vector<std::vector<int>>& B)
 {
     // ���������, ��� ������� ����� �����������
     if (A[0].size() != B.size()) {
@@ -119,7 +142,7 @@ std::vector<std::vector<int>> Matrix::multiplyMatrices(const std::vector<std::ve
     return C;
 }
 
-std::vector<std::vector<int>> Matrix::addMatrices(const std::vector<std::vector<int>>& A, const std::vector<std::vector<int>>& B)
+std::vector<std::vector<int>> Matrix::add_matrix(std::vector<std::vector<int>>& A, std::vector<std::vector<int>>& B)
 {
     // ���������, ��� ������� ����� ���������� ������
     if (A.size() != B.size() || A[0].size() != B[0].size()) {
@@ -138,7 +161,7 @@ std::vector<std::vector<int>> Matrix::addMatrices(const std::vector<std::vector<
     return C;
 }
 
-std::vector<std::vector<int>> Matrix::subtractMatrices(const std::vector<std::vector<int>>& A, const std::vector<std::vector<int>>& B)
+std::vector<std::vector<int>> Matrix::sub_matrix(std::vector<std::vector<int>>& A, std::vector<std::vector<int>>& B)
 {
     // ���������, ��� ������� ����� ���������� ������
     if (A.size() != B.size() || A[0].size() != B[0].size()) {
@@ -157,21 +180,7 @@ std::vector<std::vector<int>> Matrix::subtractMatrices(const std::vector<std::ve
     return C;
 }
 
-std::vector<std::vector<int>> Matrix::divideMatrixByNumber(const std::vector<std::vector<int>>& A, int num)
-{
-    // �������������� ���������
-    std::vector<std::vector<int>> C(A.size(), std::vector<int>(A[0].size(), 0));
-    // ����� ������� �� �����
-    for (int i = 0; i < A.size(); i++) {
-        for (int j = 0; j < A[0].size(); j++) {
-            C[i][j] = A[i][j] / num;
-        }
-    }
-    // ���������� ���������
-    return C;
-}
-
-std::vector<std::vector<int>> matrix_scalar_multiply(const std::vector<std::vector<int>>& matrix, const int scalar) {
+std::vector<std::vector<int>> Matrix::mul_num(std::vector<std::vector<int>>& matrix, int num) {
     // Получаем размер матрицы
     int rows = matrix.size();
     int cols = matrix[0].size();
@@ -180,14 +189,14 @@ std::vector<std::vector<int>> matrix_scalar_multiply(const std::vector<std::vect
     // Умножаем каждый элемент матрицы на скаляр
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
-            result[i][j] = matrix[i][j] * scalar;
+            result[i][j] = matrix[i][j] * num;
         }
     }
     // Возвращаем новую матрицу
     return result;
 }
 
-std::vector<std::vector<int>> matrix_scalar_addition(const std::vector<std::vector<int>>& matrix, const int num) {
+std::vector<std::vector<int>> Matrix::add_num(std::vector<std::vector<int>>& matrix, int num) {
     // Получаем размер матрицы
     int rows = matrix.size();
     int cols = matrix[0].size();
@@ -203,7 +212,7 @@ std::vector<std::vector<int>> matrix_scalar_addition(const std::vector<std::vect
     return result;
 }
 
-std::vector<std::vector<int>> matrix_scalar_subtract(const std::vector<std::vector<int>>& matrix, const int scalar) {
+std::vector<std::vector<int>> Matrix::sub_num(std::vector<std::vector<int>>& matrix, int num) {
     // Получаем размер матрицы
     int rows = matrix.size();
     int cols = matrix[0].size();
@@ -212,14 +221,14 @@ std::vector<std::vector<int>> matrix_scalar_subtract(const std::vector<std::vect
     // Вычитаем из каждого элемента матрицы скаляр
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
-            result[i][j] = matrix[i][j] - scalar;
+            result[i][j] = matrix[i][j] - num;
         }
     }
     // Возвращаем новую матрицу
     return result;
 }
 
-std::vector<std::vector<int>> matrix_scalar_divide(const std::vector<std::vector<int>>& matrix, const int scalar) {
+std::vector<std::vector<int>> Matrix::div_num(std::vector<std::vector<int>>& matrix, int num) {
     // Получаем размер матрицы
     int rows = matrix.size();
     int cols = matrix[0].size();
@@ -228,7 +237,7 @@ std::vector<std::vector<int>> matrix_scalar_divide(const std::vector<std::vector
     // Делим каждый элемент матрицы на скаляр
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
-            result[i][j] = matrix[i][j] / scalar;
+            result[i][j] = matrix[i][j] / num;
         }
     }
     // Возвращаем новую матрицу

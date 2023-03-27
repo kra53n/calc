@@ -19,5 +19,5 @@ int main() {
     if (val) {
       cout << val->result() << endl;
     }
-  } while(usr_expr != "0");
+  } while(usr_expr != "q");
 }
