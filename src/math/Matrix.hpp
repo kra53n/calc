@@ -20,6 +20,10 @@ public:
 	std::vector<std::vector<int>> addMatrices(const std::vector<std::vector<int>>& A, const std::vector<std::vector<int>>& B);
 	std::vector<std::vector<int>> subtractMatrices(const std::vector<std::vector<int>>& A, const std::vector<std::vector<int>>& B);
 	std::vector<std::vector<int>> divideMatrixByNumber(const std::vector<std::vector<int>>& A, int num);
+	std::vector<std::vector<int>> matrix_scalar_multiply(const std::vector<std::vector<int>>& matrix, const int scalar);
+	std::vector<std::vector<int>> matrix_scalar_addition(const std::vector<std::vector<int>>& matrix, const int num);
+	std::vector<std::vector<int>> matrix_scalar_subtract(const std::vector<std::vector<int>>& matrix, const int scalar);
+	std::vector<std::vector<int>> matrix_scalar_divide(const std::vector<std::vector<int>>& matrix, const int scalar);
 	std::string result() const;
 	int get_data() const;
 
