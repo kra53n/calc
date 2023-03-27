@@ -178,6 +178,14 @@ std::vector<Token> lex(std::string& usr_expr) {
     default: {
       if (isdigit(chars.front().ch)) {
         tk = process_digit(chars, chars.front().pos);
+        for (; chars.size() and (chars.front().ch == ' ' or chars.front().ch == '\t'); chars.pop());
+        if (chars.size() and chars.front().ch == '[') {
+          tokens.push_back(Token{ Token::TokenName::OBrac, "", 0, 0 });
+          tokens.push_back(tk);
+          tokens.push_back(Token { Token::TokenName::Add, "", 0, 0 });
+          tokens.push_back(process_sq_brac(chars, chars.front().pos));
+          tk = Token{ Token::TokenName::CBrac, "", 0, 0 };
+        }
       }
       else if (isalpha(chars.front().ch)) {
         tk = process_symbols(chars, chars.front().pos);

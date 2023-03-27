@@ -5,6 +5,11 @@ Num::Num(std::string& text) {
   data = stoi(text);
 }
 
+Num::Num(int num) {
+  token_name = Token::TokenName::Num;
+  data = num;
+}
+
 Num::~Num() {
 }
 

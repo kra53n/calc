@@ -8,6 +8,7 @@ class Num : public Calculatable {
   int data;
 public:
   Num(std::string& text);
+  Num(int num);
   ~Num();
   std::string result() const;
 

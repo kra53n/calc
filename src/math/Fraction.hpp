@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <algorithm>
 
+#include "../util.hpp"
 #include "Calculatable.hpp"
 #include "../syntax/Token.hpp"
 
@@ -20,6 +21,9 @@ public:
   Fraction(Num* num);
   ~Fraction();
   std::string result() const;
+
+  void simplify();
+  Calculatable* post_treatment();
 
   _Data get_data() const;
   Calculatable* add(Calculatable* other);

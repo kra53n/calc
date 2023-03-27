@@ -28,9 +28,35 @@ Fraction::Fraction(Num* num) {
   this->data.denominator = 1;
 }
 
+Fraction::~Fraction() {
+}
+
 std::string Fraction::result() const {
-  std::string res = "[" + std::to_string(this->data.numerator) + "/" + std::to_string(this->data.denominator) + "]";
+  std::string res;
+  if (data.numerator / data.denominator) {
+	res = std::to_string(data.numerator / data.denominator);
+  }
+  res = res + "[" + std::to_string(data.numerator % data.denominator) + "/" + std::to_string(data.denominator) + "]";
   return res;
+}
+
+void Fraction::simplify() {
+  int divisor;
+  if ((divisor = gcd(data.numerator, data.denominator)) == 1) {
+    return;
+  }
+  data.numerator /= divisor;
+  data.denominator /= divisor;
+}
+
+Calculatable* Fraction::post_treatment() {
+  simplify();
+  if (data.denominator != 1) {
+    return this;
+  }
+  Num* num = new Num(data.numerator);
+  delete this;
+  return num;
 }
 
 Fraction::_Data Fraction::get_data() const {
@@ -43,7 +69,7 @@ Calculatable* Fraction::add(Calculatable* other) {
     _Data other_data = ((Fraction*)other)->get_data();
     if (this->data.denominator == other_data.denominator) {
       this->data.numerator += other_data.numerator;
-      return this;
+      break;
     }
     this->data.numerator = this->data.numerator * other_data.denominator + other_data.numerator * this->data.denominator;
     this->data.denominator *= other_data.denominator;
@@ -55,7 +81,7 @@ Calculatable* Fraction::add(Calculatable* other) {
     // error
     break;
   }
-  return this;
+  return post_treatment();
 }
 
 Calculatable* Fraction::sub(Calculatable* other) {
@@ -76,7 +102,7 @@ Calculatable* Fraction::sub(Calculatable* other) {
     // error
     break;
   }
-  return this;
+  return post_treatment();
 }
 
 Calculatable* Fraction::mul(Calculatable* other) {
@@ -93,7 +119,7 @@ Calculatable* Fraction::mul(Calculatable* other) {
     // error
     break;
   }
-  return this;
+  return post_treatment();
 }
 
 Calculatable* Fraction::div(Calculatable* other) {
@@ -110,7 +136,7 @@ Calculatable* Fraction::div(Calculatable* other) {
     // error
     break;
   }
-  return this;
+  return post_treatment();
 }
 
 Calculatable* Fraction::rtd(Calculatable* other) {
@@ -129,5 +155,5 @@ Calculatable* Fraction::rtd(Calculatable* other) {
   } else {
     // error
   }
-  return this;
+  return post_treatment();
 }
