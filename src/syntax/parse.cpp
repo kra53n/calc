@@ -22,7 +22,7 @@ std::queue<Token>* parse(std::list<Token> tokens) {
         s.push(tk);
       } else if (tk.priority(s.top()) <= 0) {
         while (s.size() and
-               tk.priority(s.top()) < 0 and
+               tk.priority(s.top()) <= 0 and
                s.top().name != Token::TokenName::OBrac
         ) {
           q->push(s.top());

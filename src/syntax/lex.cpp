@@ -141,7 +141,7 @@ Token process_obrac(std::queue<LexChar>& chars, int pos) {
 
 Token process_cbrac(std::queue<LexChar>& chars, int pos) {
   chars.pop();
-  return Token { Token::TokenName::OBrac, ")", pos, pos + 1};
+  return Token { Token::TokenName::CBrac, ")", pos, pos + 1};
 }
 
 Token process_sq_brac(std::queue<LexChar>& chars, int pos) {
@@ -185,6 +185,7 @@ void treat_minus(std::list<Token>& tokens) {
       it->start_pos = tmp->start_pos;
       tokens.erase(tmp);
     }
+    it++;
   }
 }
 
