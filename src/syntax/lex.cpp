@@ -9,6 +9,12 @@ std::queue<LexChar> get_chars(std::string& usr_expr) {
   return q;
 }
 
+bool is_bigint(std::string& text) {
+  int minus = text[0] == '-';
+  std::string limit = "4294967296";
+  return text.length() - minus > limit.length();
+}
+
 Token process_digit(std::queue<LexChar>& chars, int pos) {
   std::string text;
   int end_pos = pos;
@@ -16,7 +22,13 @@ Token process_digit(std::queue<LexChar>& chars, int pos) {
     text = text + chars.front().ch;
     end_pos = chars.front().pos;
   }
-  return Token { Token::TokenName::Num, text, pos, end_pos+1 };
+  int minus = text[0] == '-' ? 1 : 0;
+  return Token {
+    is_bigint(text) ? Token::TokenName::BigInt : Token::TokenName::Num,
+    text,
+    pos,
+    end_pos+1
+  };
 }
 
 // input: ((1 2) (2 1))...

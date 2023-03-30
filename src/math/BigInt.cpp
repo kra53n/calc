@@ -1,18 +1,21 @@
-#include "BigInt.h"
+#include "Num.hpp"
+#include "BigInt.hpp"
 
 BigInt::BigInt() {
     digits.push_back(0);
     sign = true;
+    token_name = Token::TokenName::BigInt;
 }
 
 BigInt::BigInt(std::string number) {
     int didits_pos = isdigit(number.at(0)) ? 0 : 1;
-    sign = number.at(0) == '-' ? false : true;
+    sign = number.at(0) == '-' ? 0 : 1;
 
     for (unsigned int i = didits_pos; i < number.length(); i++)
         digits.push_back(number.at(i) - '0');
 
     ignoreLeadingZeros();
+    token_name = Token::TokenName::BigInt;
 }
 
 void BigInt::ignoreLeadingZeros() {
@@ -263,7 +266,16 @@ std::string BigInt::result() const
 
 Calculatable* BigInt::add(Calculatable* other)
 {
-    Result = addBigInt(((BigInt*)other));
+    switch (other->get_token_name()) {
+    case Token::TokenName::BigInt: {
+        Result = addBigInt((BigInt*)other);
+    } break;
+    case Token::TokenName::Num: {
+        BigInt* tmp = new BigInt(other->result());
+        Result = addBigInt(tmp);
+        delete tmp;
+    } break;
+    }
     return this;
 }
 
