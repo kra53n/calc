@@ -34,7 +34,7 @@ Fraction::~Fraction() {
 std::string Fraction::result() const {
   std::string res;
   if (data.numerator / data.denominator) {
-	res = std::to_string(data.numerator / data.denominator);
+    res = std::to_string(data.numerator / data.denominator);
   }
   res = res + "[" + std::to_string(data.numerator % data.denominator) + "/" + std::to_string(data.denominator) + "]";
   return res;

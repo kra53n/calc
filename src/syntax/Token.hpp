@@ -27,6 +27,7 @@ struct Token {
   int end_pos;
 
   int priority(Token& tk);
+  bool is_type();
   friend std::ostream& operator<<(std::ostream& out, const Token& token);
 };
 
@@ -40,3 +41,4 @@ const std::unordered_map<Token::TokenName, int> _token_priority = {
   { Token::TokenName::OBrac, 4 },
   { Token::TokenName::CBrac, 4 },
 };
+

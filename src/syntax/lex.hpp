@@ -1,5 +1,6 @@
 #pragma once
 
+#include <list>
 #include <stack>
 #include <queue>
 #include <vector>
@@ -14,4 +15,4 @@ struct LexChar {
 };
 
 std::string get_chars_between(std::queue<LexChar>& chars, char open, char close);
-std::vector<Token> lex(std::string& usr_expr);
+std::list<Token> lex(std::string& usr_expr);

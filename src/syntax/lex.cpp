@@ -157,8 +157,39 @@ Token process_sq_brac(std::queue<LexChar>& chars, int pos) {
   return Token { Token::TokenName::Fraction, text, pos, end_pos+1 };
 }
 
-std::vector<Token> lex(std::string& usr_expr) {
-  std::vector<Token> tokens;
+void treat_minus(std::list<Token>& tokens) {
+  if (tokens.begin() == tokens.end()) {
+    return;
+  }
+  auto it = tokens.begin();
+  if (it->name == Token::TokenName::Sub) {
+    auto tmp = it++;
+    if (it->is_type()) {
+      it->text = "-" + it->text;
+      it->start_pos = tmp->start_pos;
+      tokens.erase(tmp);
+    }
+  }
+  while (it != tokens.end()) {
+    if (it->name != Token::TokenName::Sub) {
+      it++;
+      continue;
+    }
+    auto left = it; left--;
+    auto right = it; right++;
+    if (right != tokens.end() and
+        (left->name == Token::TokenName::OBrac or left->name == Token::TokenName::AssignVar) and
+        right->is_type()) {
+      auto tmp = it++;
+      it->text = "-" + it->text;
+      it->start_pos = tmp->start_pos;
+      tokens.erase(tmp);
+    }
+  }
+}
+
+std::list<Token> lex(std::string& usr_expr) {
+  std::list<Token> tokens;
   std::queue<LexChar> chars = get_chars(usr_expr); 
   while (chars.size()) {
     Token tk;
@@ -194,5 +225,6 @@ std::vector<Token> lex(std::string& usr_expr) {
     }
     tokens.push_back(tk);
   }
+  treat_minus(tokens);
   return tokens;
 }
