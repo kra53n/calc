@@ -6,6 +6,7 @@ Fraction::Fraction(std::string& text) {
   std::string denominator;
   std::string* curr = &numerator;
   for (char ch : text) {
+    // TODO: use is_skip_char here
     switch (ch) {
     case ' ':
     case '\t':
