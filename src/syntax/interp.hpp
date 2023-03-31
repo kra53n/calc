@@ -9,6 +9,7 @@
 #include "../math/Num.hpp"
 #include "../math/BigInt.hpp"
 #include "../math/Matrix.hpp"
+#include "../math/Complex.hpp"
 #include "../math/Fraction.hpp"
 #include "../math/Calculatable.hpp"
 

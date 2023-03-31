@@ -29,3 +29,13 @@ int gcd(int num1, int num2) {
   }
   return d * std::max(num1, num2);
 }
+
+bool is_skip_char(char ch) {
+  switch (ch) {
+  case ' ':
+  case '\t':
+  case '\n':
+    return true;
+  }
+  return false;
+}

@@ -5,6 +5,7 @@ Calculatable* get_type(Token& token) {
   case Token::TokenName::Num: return new Num(token.text);
   case Token::TokenName::BigInt: return new BigInt(token.text);
   case Token::TokenName::Matrix: return new Matrix(token.text);
+  case Token::TokenName::Complex: return new Complex(token.text);
   case Token::TokenName::Fraction: return new Fraction(token.text);
   }
 }
