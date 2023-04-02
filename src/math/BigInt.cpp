@@ -16,6 +16,7 @@ BigInt::BigInt(std::string number) {
 
     ignoreLeadingZeros();
     token_name = Token::TokenName::BigInt;
+    Result = to_string();
 }
 
 void BigInt::ignoreLeadingZeros() {
@@ -261,7 +262,7 @@ std::string BigInt::divBigInt(const BigInt* rhs)
 
 std::string BigInt::result() const
 {
-    return this->to_string();
+    return Result;
 }
 
 Calculatable* BigInt::add(Calculatable* other)
