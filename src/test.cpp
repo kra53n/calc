@@ -2,6 +2,7 @@
 #include <vector>
 #include <iostream>
 
+#include "errors.hpp"
 #include "syntax/lex.hpp"
 #include "syntax/parse.hpp"
 #include "syntax/interp.hpp"
@@ -15,9 +16,14 @@ int main() {
     cout << "> ";
     getline(cin, usr_expr);
     list<Token> tokens = lex(usr_expr);
-    Calculatable* val = interp(parse(tokens));
-    if (val) {
-      cout << val->result() << endl;
+    try {
+      Calculatable* val = interp(parse(tokens));
+      if (val) {
+        cout << val->result() << endl;
+      }
+    }
+    catch (UnderliningError e) {
+      std::cout << e;
     }
   } while(usr_expr != "q");
 }

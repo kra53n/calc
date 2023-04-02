@@ -275,6 +275,8 @@ Calculatable* BigInt::add(Calculatable* other)
         Result = addBigInt(tmp);
         delete tmp;
     } break;
+    default:
+        throw IncompatibleTypesError();
     }
     return this;
 }
@@ -290,6 +292,8 @@ Calculatable* BigInt::sub(Calculatable* other)
         Result = subBigInt(tmp);
         delete tmp;
     } break;
+    default:
+        throw IncompatibleTypesError();
     }
     return this;
 }
@@ -305,6 +309,8 @@ Calculatable* BigInt::mul(Calculatable* other)
         Result = mulBigInt(tmp);
         delete tmp;
     } break;
+    default:
+        throw IncompatibleTypesError();
     }
     return this;
 }
@@ -320,12 +326,13 @@ Calculatable* BigInt::div(Calculatable* other)
         Result = divBigInt(tmp);
         delete tmp;
     } break;
+    default:
+        throw IncompatibleTypesError();
     }
     return this;
 }
 
 Calculatable* BigInt::rtd(Calculatable* other)
 {
-    Result = (*this).to_string();
-    return this;
+    throw UnsupportedOperationError();
 }

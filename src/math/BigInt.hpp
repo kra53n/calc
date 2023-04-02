@@ -1,10 +1,10 @@
 #include <string>
 #include <vector>
 #include <iostream>
-#include <algorithm>
 #include <iostream>
-using namespace std;
+#include <algorithm>
 
+#include "../errors.hpp"
 #include "Calculatable.hpp"
 #include "../syntax/Token.hpp"
 

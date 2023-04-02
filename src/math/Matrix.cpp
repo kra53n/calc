@@ -35,7 +35,7 @@ Calculatable* Matrix::add(Calculatable* other)
         data = add_num(data, ((Num*)other)->get_data());
     } break;
     default: {
-        // error
+        throw IncompatibleTypesError();
     } break;
     }
 
@@ -52,7 +52,7 @@ Calculatable* Matrix::sub(Calculatable* other)
         data = sub_num(data, ((Num*)other)->get_data());
     } break;
     default: {
-        // error
+        throw IncompatibleTypesError();
     } break;
     }
     
@@ -69,7 +69,7 @@ Calculatable* Matrix::mul(Calculatable* other)
         data = mul_num(data, ((Num*)other)->get_data());
     } break;
     default: {
-        // error
+		throw IncompatibleTypesError();
     } break;
     }
 
@@ -85,7 +85,7 @@ Calculatable* Matrix::div(Calculatable* other)
         data = div_num(data, ((Num*)other)->get_data());
     } break;
     default: {
-        // error
+		throw IncompatibleTypesError();
     } break;
     }
     
@@ -94,7 +94,7 @@ Calculatable* Matrix::div(Calculatable* other)
 
 Calculatable* Matrix::rtd(Calculatable* other)
 {
-    return this;
+    throw UnsupportedOperationError();
 }
 
 std::vector<std::vector<int>> Matrix::parse_matrix(std::string s)

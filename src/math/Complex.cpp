@@ -110,5 +110,5 @@ Calculatable* Complex::div(Calculatable* other)
 
 Calculatable* Complex::rtd(Calculatable* other)
 {
-    return this;
+    throw UnsupportedOperationError();
 }

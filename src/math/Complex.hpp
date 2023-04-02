@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "../util.hpp"
+#include "../errors.hpp"
 #include "Fraction.hpp"
 #include "Calculatable.hpp"
 #include "../syntax/Token.hpp"

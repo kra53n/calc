@@ -33,7 +33,7 @@ Calculatable* Num::add(Calculatable* other) {
     return fraction;
   } break;
   default:
-    // error
+    throw IncompatibleTypesError();
     break;
   }
   return this;
@@ -51,7 +51,7 @@ Calculatable* Num::sub(Calculatable* other) {
     return fraction;
   } break;
   default:
-    // error
+    throw IncompatibleTypesError();
     break;
   }
   return this;
@@ -69,7 +69,7 @@ Calculatable* Num::mul(Calculatable* other) {
     return fraction;
   } break;
   default:
-    // error
+    throw IncompatibleTypesError();
     break;
   }
   return this;
@@ -78,7 +78,11 @@ Calculatable* Num::mul(Calculatable* other) {
 Calculatable* Num::div(Calculatable* other) {
   switch (other->get_token_name()) {
   case Token::TokenName::Num: {
-    this->data /= ((Num*)other)->get_data();
+    int data = ((Num*)other)->get_data();
+    if (data == 0) {
+      throw DivisionByZeroError();
+    }
+    this->data /= data;
   } break;
   case Token::TokenName::Fraction: {
     Fraction* fraction = new Fraction(this);
@@ -87,7 +91,7 @@ Calculatable* Num::div(Calculatable* other) {
     return fraction;
   } break;
   default:
-    // error
+    throw IncompatibleTypesError();
     break;
   }
   return this;
@@ -112,7 +116,7 @@ Calculatable* Num::rtd(Calculatable* other) {
     return fraction;
   } break;
   default:
-    // error
+    throw IncompatibleTypesError();
     break;
   }
   return this;

@@ -5,6 +5,7 @@
 
 #include "Num.hpp"
 #include "Fraction.hpp"
+#include "../errors.hpp"
 #include "Calculatable.hpp"
 #include "../syntax/Token.hpp"
 
