@@ -29,6 +29,7 @@ public:
     std::vector<std::vector<int>> sub_num(std::vector<std::vector<int>>& matrix, int num);
     std::vector<std::vector<int>> div_num(std::vector<std::vector<int>>& matrix, int scalar);
 
+    void clear();
     std::string result() const;
     Calculatable* copy() const;
     Calculatable* add(Calculatable* other);

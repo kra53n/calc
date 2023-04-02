@@ -8,12 +8,29 @@ Matrix::Matrix(std::string& text)
 
 Matrix::Matrix(std::vector<std::vector<int>> data)
 {
-    // TODO
+    clear();
+    for (int i = 0; i < data.size(); i++) 
+    {
+        this->data.push_back(std::vector<int> {});
+        for (int j = 0; j < data[i].size(); j++)
+        {
+            this->data[i].push_back(data[i][j]);
+        }
+    }
     token_name = Token::TokenName::Matrix;
 }
 
 Matrix::~Matrix()
 {
+}
+
+void Matrix::clear()
+{
+    for (std::vector<int>& v : this->data)
+    {
+        v.clear();
+    }
+    this->data.clear();
 }
 
 std::string Matrix::result() const
@@ -30,7 +47,7 @@ std::string Matrix::result() const
 
 Calculatable* Matrix::copy() const
 {
-    return nullptr;
+    return new Matrix(data);
 }
 
 Calculatable* Matrix::add(Calculatable* other)
