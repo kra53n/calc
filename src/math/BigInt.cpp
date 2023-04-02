@@ -237,25 +237,25 @@ int BigInt::digit(int index) const {
 
 std::string BigInt::addBigInt(const BigInt* rhs)
 {
-    Result = ((*rhs) + *this).to_string();
-    return Result;
+    BigInt a = (*this + (*rhs));
+    return a.to_string();
 }
 
 std::string BigInt::subBigInt(const BigInt* rhs)
 {
-    Result = ((*rhs) - *this).to_string();
-    return Result;
+    BigInt a = (*this - (*rhs));
+    return a.to_string();
 }
 
 std::string BigInt::mulBigInt(const BigInt* rhs)
 {
-    Result = ((*rhs) + *this).to_string();
-    return Result;
+    BigInt a = (*this * (*rhs));
+    return a.to_string();
 }
 
 std::string BigInt::divBigInt(const BigInt* rhs)
 {
-    Result = ((*rhs) + *this).to_string();
+    Result = (*this / (*rhs)).to_string();
     return Result;
 }
 
@@ -271,7 +271,7 @@ Calculatable* BigInt::add(Calculatable* other)
         Result = addBigInt((BigInt*)other);
     } break;
     case Token::TokenName::Num: {
-        BigInt* tmp = new BigInt(other->result());
+        BigInt* tmp = new BigInt(std::to_string(((Num*)other)->get_data()));
         Result = addBigInt(tmp);
         delete tmp;
     } break;
@@ -281,19 +281,46 @@ Calculatable* BigInt::add(Calculatable* other)
 
 Calculatable* BigInt::sub(Calculatable* other)
 {
-    Result = (*this).to_string();
+    switch (other->get_token_name()) {
+    case Token::TokenName::BigInt: {
+        Result = subBigInt((BigInt*)other);
+    } break;
+    case Token::TokenName::Num: {
+        BigInt* tmp = new BigInt(std::to_string(((Num*)other)->get_data()));
+        Result = subBigInt(tmp);
+        delete tmp;
+    } break;
+    }
     return this;
 }
 
 Calculatable* BigInt::mul(Calculatable* other)
 {
-    Result = (*this).to_string();
+    switch (other->get_token_name()) {
+    case Token::TokenName::BigInt: {
+        Result = mulBigInt((BigInt*)other);
+    } break;
+    case Token::TokenName::Num: {
+        BigInt* tmp = new BigInt(std::to_string(((Num*)other)->get_data()));
+        Result = mulBigInt(tmp);
+        delete tmp;
+    } break;
+    }
     return this;
 }
 
 Calculatable* BigInt::div(Calculatable* other)
 {
-    Result = (*this).to_string();
+    switch (other->get_token_name()) {
+    case Token::TokenName::BigInt: {
+        Result = divBigInt((BigInt*)other);
+    } break;
+    case Token::TokenName::Num: {
+        BigInt* tmp = new BigInt(other->result());
+        Result = divBigInt(tmp);
+        delete tmp;
+    } break;
+    }
     return this;
 }
 
