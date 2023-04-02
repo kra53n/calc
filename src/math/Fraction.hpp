@@ -4,8 +4,9 @@
 #include <cstdlib>
 #include <algorithm>
 
-#include "../util.hpp"
 #include "Calculatable.hpp"
+#include "../util.hpp"
+#include "../errors.hpp"
 #include "../syntax/Token.hpp"
 
 class Num;

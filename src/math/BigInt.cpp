@@ -261,7 +261,7 @@ std::string BigInt::divBigInt(const BigInt* rhs)
 
 std::string BigInt::result() const
 {
-    return Result;
+    return this->to_string();
 }
 
 Calculatable* BigInt::add(Calculatable* other)

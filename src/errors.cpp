@@ -2,19 +2,19 @@
 
 void UnderliningError::underline(std::ostream& out) const {
   for (int i = 0; i < start_pos; i++) {
-	out << ' ';
+    out << ' ';
   }
   for (int i = start_pos; i < end_pos; i++) {
-	char ch = '-';
-	if (end_pos - start_pos > 1) {
-	  if (i == start_pos) {
-		ch = '\\';
-	  }
-	  else if (i == end_pos - 1) {
-		ch = '/';
-	  }
-	}
-	out << ch;
+    char ch = '-';
+    if (end_pos - start_pos > 1) {
+      if (i == start_pos) {
+        ch = '\\';
+      }
+      else if (i == end_pos - 1) {
+        ch = '/';
+      }
+    }
+    out << ch;
   }
 }
 

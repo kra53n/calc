@@ -21,6 +21,9 @@ Fraction::Fraction(std::string& text) {
   this->token_name = Token::TokenName::Fraction;
   this->data.numerator = std::stoi(numerator);
   this->data.denominator = std::stoi(denominator);
+  if (this->data.denominator == 0) {
+    throw DivisionByZeroError();
+  }
 }
 
 Fraction::Fraction(Num* num) {
@@ -79,7 +82,7 @@ Calculatable* Fraction::add(Calculatable* other) {
     this->data.numerator += ((Num*)other)->get_data() * this->data.denominator;
   } break;
   default:
-    // error
+    throw IncompatibleTypesError();
     break;
   }
   return post_treatment();
@@ -100,7 +103,7 @@ Calculatable* Fraction::sub(Calculatable* other) {
     this->data.numerator -= ((Num*)other)->get_data() * this->data.denominator;
   } break;
   default:
-    // error
+    throw IncompatibleTypesError();
     break;
   }
   return post_treatment();
@@ -117,7 +120,7 @@ Calculatable* Fraction::mul(Calculatable* other) {
     this->data.numerator *= ((Num*)other)->get_data();
   } break;
   default:
-    // error
+    throw IncompatibleTypesError();
     break;
   }
   return post_treatment();
@@ -134,7 +137,7 @@ Calculatable* Fraction::div(Calculatable* other) {
     this->data.denominator *= ((Num*)other)->get_data();
   } break;
   default:
-    // error
+    throw IncompatibleTypesError();
     break;
   }
   return post_treatment();
@@ -154,7 +157,7 @@ Calculatable* Fraction::rtd(Calculatable* other) {
       this->data.denominator = 1;
     }
   } else {
-    // error
+    throw IncompatibleTypesError();
   }
   return post_treatment();
 }

@@ -3,6 +3,7 @@
 Complex::Complex(int real, int img)
     : data{ real, img }
 {
+    token_name = Token::TokenName::Complex;
 }
 
 Complex::Complex(std::string& text)
@@ -44,6 +45,7 @@ Complex::Complex(std::string& text)
         data.a = 0;
         data.b = std::stoi(nums[0]) * (minuses[0] ^ minuses[1] ? -1 : 1);
     }
+    token_name = Token::TokenName::Complex;
 }
 
 Complex::_Data Complex::add_complex(const _Data& a, const _Data& b)

@@ -1,9 +1,12 @@
 #pragma once
 
 #include "Fraction.hpp"
-#include "../errors.hpp"
 #include "Calculatable.hpp"
+#include "../errors.hpp"
 #include "../syntax/Token.hpp"
+
+class BigInt;
+class Complex;
 
 class Num : public Calculatable {
   int data;

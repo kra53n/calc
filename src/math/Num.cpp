@@ -1,4 +1,6 @@
 #include "Num.hpp"
+#include "BigInt.hpp"
+#include "Complex.hpp"
 
 Num::Num(std::string& text) {
   token_name = Token::TokenName::Num;
@@ -32,6 +34,18 @@ Calculatable* Num::add(Calculatable* other) {
     delete this;
     return fraction;
   } break;
+  case Token::TokenName::Complex: {
+    Complex* complex = new Complex(this->data);
+    complex->add(other);
+    delete this;
+    return complex;
+  } break;
+  case Token::TokenName::BigInt: {
+    BigInt* bigint = new BigInt(std::to_string(this->data));
+    bigint->add(other);
+    delete this;
+    return bigint;
+  } break;
   default:
     throw IncompatibleTypesError();
     break;
@@ -50,6 +64,18 @@ Calculatable* Num::sub(Calculatable* other) {
     delete this;
     return fraction;
   } break;
+  case Token::TokenName::Complex: {
+    Complex* complex = new Complex(this->data);
+    complex->sub(other);
+    delete this;
+    return complex;
+  } break;
+  case Token::TokenName::BigInt: {
+    BigInt* bigint = new BigInt(std::to_string(this->data));
+    bigint->sub(other);
+    delete this;
+    return bigint;
+  } break;
   default:
     throw IncompatibleTypesError();
     break;
@@ -67,6 +93,18 @@ Calculatable* Num::mul(Calculatable* other) {
     fraction->mul(other);
     delete this;
     return fraction;
+  } break;
+  case Token::TokenName::Complex: {
+    Complex* complex = new Complex(this->data);
+    complex->mul(other);
+    delete this;
+    return complex;
+  } break;
+  case Token::TokenName::BigInt: {
+    BigInt* bigint = new BigInt(std::to_string(this->data));
+    bigint->mul(other);
+    delete this;
+    return bigint;
   } break;
   default:
     throw IncompatibleTypesError();
@@ -89,6 +127,18 @@ Calculatable* Num::div(Calculatable* other) {
     fraction->div(other);
     delete this;
     return fraction;
+  } break;
+  case Token::TokenName::Complex: {
+    Complex* complex = new Complex(this->data);
+    complex->div(other);
+    delete this;
+    return complex;
+  } break;
+  case Token::TokenName::BigInt: {
+    BigInt* bigint = new BigInt(std::to_string(this->data));
+    bigint->div(other);
+    delete this;
+    return bigint;
   } break;
   default:
     throw IncompatibleTypesError();
@@ -114,6 +164,18 @@ Calculatable* Num::rtd(Calculatable* other) {
     fraction->rtd(other);
     delete this;
     return fraction;
+  } break;
+  case Token::TokenName::Complex: {
+    Complex* complex = new Complex(this->data);
+    complex->rtd(other);
+    delete this;
+    return complex;
+  } break;
+  case Token::TokenName::BigInt: {
+    BigInt* bigint = new BigInt(std::to_string(this->data));
+    bigint->rtd(other);
+    delete this;
+    return bigint;
   } break;
   default:
     throw IncompatibleTypesError();
