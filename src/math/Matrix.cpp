@@ -1,11 +1,14 @@
-#include <vector>
-#include <sstream>
-
 #include "Matrix.hpp"
 
 Matrix::Matrix(std::string& text)
 {
     data = parse_matrix(text);
+    token_name = Token::TokenName::Matrix;
+}
+
+Matrix::Matrix(std::vector<std::vector<int>> data)
+{
+    // TODO
     token_name = Token::TokenName::Matrix;
 }
 
@@ -23,6 +26,11 @@ std::string Matrix::result() const
         ResultStr += "\n";
     }
     return ResultStr;
+}
+
+Calculatable* Matrix::copy() const
+{
+    return nullptr;
 }
 
 Calculatable* Matrix::add(Calculatable* other)

@@ -2,17 +2,19 @@
 #include "Fraction.hpp"
 
 Fraction::Fraction(std::string& text) {
+  std::string integer;
   std::string numerator;
   std::string denominator;
-  std::string* curr = &numerator;
+  std::string* curr = &integer;
   for (char ch : text) {
-    // TODO: use is_skip_char here
-    switch (ch) {
-    case ' ':
-    case '\t':
-    case '\n':
+    if (is_skip_char(ch)) {
       continue;
-    case '/':
+    }
+    if (ch == '[') {
+      curr = &numerator;
+      continue;
+    }
+    if (ch == '/') {
       curr = &denominator;
       continue;
     }
@@ -21,6 +23,9 @@ Fraction::Fraction(std::string& text) {
   this->token_name = Token::TokenName::Fraction;
   this->data.numerator = std::stoi(numerator);
   this->data.denominator = std::stoi(denominator);
+  if (integer != "") {
+     this->data.numerator += std::stoi(integer) * this->data.denominator;
+  }
   if (this->data.denominator == 0) {
     throw DivisionByZeroError();
   }
@@ -42,6 +47,12 @@ std::string Fraction::result() const {
   }
   res = res + "[" + std::to_string(data.numerator % data.denominator) + "/" + std::to_string(data.denominator) + "]";
   return res;
+}
+
+Calculatable* Fraction::copy() const
+{
+  std::string res = this->result();
+  return new Fraction(res);
 }
 
 void Fraction::simplify() {

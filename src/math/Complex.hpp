@@ -21,10 +21,11 @@ public:
     _Data mul_complex(const _Data& a, const _Data& b);
     _Data div_complex(const _Data& a, const _Data& b);
 
+    std::string result() const;
+    Calculatable* copy() const;
     Calculatable* add(Calculatable* other);
     Calculatable* sub(Calculatable* other);
     Calculatable* mul(Calculatable* other);
     Calculatable* div(Calculatable* other);
     Calculatable* rtd(Calculatable* other);
-    std::string result() const;
 };

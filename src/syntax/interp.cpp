@@ -21,7 +21,7 @@ Calculatable* interp(std::queue<Token>* tokens) {
       if (vars.count(tk.text)) {
         delete vars[tk.text];
       }
-      vars[tk.text] = st.top();
+      vars[tk.text] = st.top()->copy();
       vars[tk.text]->is_var = true;
       st.pop();
       return nullptr;

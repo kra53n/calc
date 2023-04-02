@@ -86,6 +86,11 @@ std::string Complex::result() const
     return ResultStr;   
 }
 
+Calculatable* Complex::copy() const
+{
+    return new Complex(data.a, data.b);
+}
+
 Calculatable* Complex::add(Calculatable* other)
 {
     data = add_complex(data, ((Complex*)other)->data);

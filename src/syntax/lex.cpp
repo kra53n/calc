@@ -15,6 +15,20 @@ bool is_bigint(std::string& text) {
   return text.length() - minus > limit.length();
 }
 
+Token process_sq_brac(std::queue<LexChar>& chars, int pos) {
+  std::string text;
+  int end_pos = pos;
+  chars.pop();
+  do {
+    text = text + chars.front().ch;
+    chars.pop();
+    end_pos = chars.front().pos;
+  } while (chars.size() and chars.front().ch != ']');
+  chars.pop();
+  text = "[" + text;
+  return Token { Token::TokenName::Fraction, text, pos, end_pos+1 };
+}
+
 Token process_digit(std::queue<LexChar>& chars, int pos) {
   std::string text;
   int end_pos = pos;
@@ -22,13 +36,15 @@ Token process_digit(std::queue<LexChar>& chars, int pos) {
     text = text + chars.front().ch;
     end_pos = chars.front().pos;
   }
-  int minus = text[0] == '-' ? 1 : 0;
-  return Token {
-    is_bigint(text) ? Token::TokenName::BigInt : Token::TokenName::Num,
-    text,
-    pos,
-    end_pos+1
-  };
+  Token::TokenName tk_name = is_bigint(text) ? Token::TokenName::BigInt : Token::TokenName::Num;
+  for (; chars.size() and is_skip_char(chars.front().ch); chars.pop());
+  if (chars.size() and chars.front().ch == '[') {
+      Token tmp = process_sq_brac(chars, chars.front().pos);
+      tk_name = tmp.name;
+      text = text + tmp.text;
+      end_pos = tmp.end_pos-1;
+  }
+  return Token { tk_name, text, pos, end_pos+1 };
 }
 
 // input: ((1 2) (2 1))...
@@ -156,19 +172,6 @@ Token process_cbrac(std::queue<LexChar>& chars, int pos) {
   return Token { Token::TokenName::CBrac, ")", pos, pos + 1};
 }
 
-Token process_sq_brac(std::queue<LexChar>& chars, int pos) {
-  std::string text;
-  int end_pos = pos;
-  chars.pop();
-  do {
-    text = text + chars.front().ch;
-    chars.pop();
-    end_pos = chars.front().pos;
-  } while (chars.size() and chars.front().ch != ']');
-  chars.pop();
-  return Token { Token::TokenName::Fraction, text, pos, end_pos+1 };
-}
-
 void treat_minus(std::list<Token>& tokens) {
   if (tokens.begin() == tokens.end()) {
     return;
@@ -222,14 +225,6 @@ std::list<Token> lex(std::string& usr_expr) {
     default: {
       if (isdigit(chars.front().ch)) {
         tk = process_digit(chars, chars.front().pos);
-        for (; chars.size() and (chars.front().ch == ' ' or chars.front().ch == '\t'); chars.pop());
-        if (chars.size() and chars.front().ch == '[') {
-          tokens.push_back(Token{ Token::TokenName::OBrac, "", 0, 0 });
-          tokens.push_back(tk);
-          tokens.push_back(Token { Token::TokenName::Add, "", 0, 0 });
-          tokens.push_back(process_sq_brac(chars, chars.front().pos));
-          tk = Token{ Token::TokenName::CBrac, "", 0, 0 };
-        }
       }
       else if (isalpha(chars.front().ch)) {
         tk = process_symbols(chars, chars.front().pos);

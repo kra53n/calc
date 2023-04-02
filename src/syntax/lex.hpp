@@ -8,6 +8,7 @@
 #include <cctype>
 
 #include "Token.hpp"
+#include "../util.hpp"
 
 struct LexChar {
   int pos;

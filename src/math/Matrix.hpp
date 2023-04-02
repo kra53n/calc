@@ -2,6 +2,8 @@
 
 #include <vector>
 #include <string>
+#include <sstream>
+#include <algorithm>
 
 #include "Num.hpp"
 #include "Fraction.hpp"
@@ -15,6 +17,7 @@ class Matrix : public Calculatable
     std::vector<std::vector<int>> data;
 public:
     Matrix(std::string& text);
+    Matrix(std::vector<std::vector<int>> data);
     ~Matrix();
 
     std::vector<std::vector<int>> parse_matrix(std::string s);
@@ -25,8 +28,9 @@ public:
     std::vector<std::vector<int>> mul_num(std::vector<std::vector<int>>& matrix, int num);
     std::vector<std::vector<int>> sub_num(std::vector<std::vector<int>>& matrix, int num);
     std::vector<std::vector<int>> div_num(std::vector<std::vector<int>>& matrix, int scalar);
-    std::string result() const;
 
+    std::string result() const;
+    Calculatable* copy() const;
     Calculatable* add(Calculatable* other);
     Calculatable* sub(Calculatable* other);
     Calculatable* mul(Calculatable* other);

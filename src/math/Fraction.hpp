@@ -22,6 +22,7 @@ public:
   Fraction(Num* num);
   ~Fraction();
   std::string result() const;
+  Calculatable* copy() const;
 
   void simplify();
   Calculatable* post_treatment();

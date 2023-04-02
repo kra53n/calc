@@ -265,6 +265,11 @@ std::string BigInt::result() const
     return Result;
 }
 
+Calculatable* BigInt::copy() const
+{
+    return new BigInt(this->Result);
+}
+
 Calculatable* BigInt::add(Calculatable* other)
 {
     switch (other->get_token_name()) {

@@ -51,6 +51,7 @@ public:
 	BigInt abs() const;
 
 	std::string result() const;
+	Calculatable* copy() const;
 	Calculatable* add(Calculatable* other);
 	Calculatable* sub(Calculatable* other);
 	Calculatable* mul(Calculatable* other);

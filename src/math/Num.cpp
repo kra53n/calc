@@ -19,6 +19,10 @@ std::string Num::result() const {
   return std::to_string(data);
 }
 
+Calculatable* Num::copy() const {
+  return new Num(this->get_data());
+}
+
 int Num::get_data() const {
   return data;
 }

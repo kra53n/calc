@@ -15,6 +15,7 @@ public:
   Num(int num);
   ~Num();
   std::string result() const;
+  Calculatable* copy() const;
 
   int get_data() const;
   Calculatable* add(Calculatable* other);
