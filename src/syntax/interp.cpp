@@ -1,5 +1,7 @@
 #include "interp.hpp"
 
+// TODO: need a garbage collector here
+
 Calculatable* get_type(Token& token) {
   switch (token.name) {
   case Token::TokenName::Num: return new Num(token.text);
@@ -45,9 +47,9 @@ Calculatable* interp(std::queue<Token>* tokens) {
     case Token::TokenName::Rtd:
     case Token::TokenName::OBrac:
     case Token::TokenName::CBrac: {
-      Calculatable* obj1 = st.top();
+      Calculatable* obj1 = st.top()->copy();
       st.pop();
-      Calculatable* obj2 = st.top();
+      Calculatable* obj2 = st.top()->copy();
       st.pop();
       switch (tk.name) {
       case Token::TokenName::Add: obj2 = obj2->add(obj1); break;
