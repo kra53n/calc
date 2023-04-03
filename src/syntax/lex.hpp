@@ -1,11 +1,8 @@
 #pragma once
 
 #include <list>
-#include <stack>
 #include <queue>
-#include <vector>
 #include <string>
-#include <cctype>
 
 #include "Token.hpp"
 #include "../util.hpp"

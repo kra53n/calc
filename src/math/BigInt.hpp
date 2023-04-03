@@ -5,14 +5,14 @@
 #include <algorithm>
 
 #include "../errors.hpp"
-#include "Calculatable.hpp"
+#include "Calculable.hpp"
 #include "../syntax/Token.hpp"
 
 class Num;
 
 using namespace std;
 
-class BigInt : public Calculatable {
+class BigInt : public Calculable {
 private:
 	void ignoreLeadingZeros();
 	BigInt digitMultiply(unsigned int digit) const;
@@ -51,10 +51,10 @@ public:
 	BigInt abs() const;
 
 	std::string result() const;
-	Calculatable* copy() const;
-	Calculatable* add(Calculatable* other);
-	Calculatable* sub(Calculatable* other);
-	Calculatable* mul(Calculatable* other);
-	Calculatable* div(Calculatable* other);
-	Calculatable* rtd(Calculatable* other);
+	Calculable* copy() const;
+	Calculable* add(Calculable* other);
+	Calculable* sub(Calculable* other);
+	Calculable* mul(Calculable* other);
+	Calculable* div(Calculable* other);
+	Calculable* rtd(Calculable* other);
 };

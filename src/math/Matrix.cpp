@@ -45,12 +45,12 @@ std::string Matrix::result() const
     return ResultStr;
 }
 
-Calculatable* Matrix::copy() const
+Calculable* Matrix::copy() const
 {
     return new Matrix(data);
 }
 
-Calculatable* Matrix::add(Calculatable* other)
+Calculable* Matrix::add(Calculable* other)
 {
     switch (other->get_token_name()) {
     case Token::TokenName::Matrix: {
@@ -67,7 +67,7 @@ Calculatable* Matrix::add(Calculatable* other)
     return this;
 }
 
-Calculatable* Matrix::sub(Calculatable* other)
+Calculable* Matrix::sub(Calculable* other)
 {
     switch (other->get_token_name()) {
     case Token::TokenName::Matrix: {
@@ -84,7 +84,7 @@ Calculatable* Matrix::sub(Calculatable* other)
     return this;
 }
 
-Calculatable* Matrix::mul(Calculatable* other)
+Calculable* Matrix::mul(Calculable* other)
 {
     switch (other->get_token_name()) {
     case Token::TokenName::Matrix: {
@@ -101,7 +101,7 @@ Calculatable* Matrix::mul(Calculatable* other)
     return this;
 }
 
-Calculatable* Matrix::div(Calculatable* other)
+Calculable* Matrix::div(Calculable* other)
 {
     switch (other->get_token_name()) {
     case Token::TokenName::Matrix: {
@@ -117,7 +117,7 @@ Calculatable* Matrix::div(Calculatable* other)
     return this;
 }
 
-Calculatable* Matrix::rtd(Calculatable* other)
+Calculable* Matrix::rtd(Calculable* other)
 {
     throw UnsupportedOperationError();
 }

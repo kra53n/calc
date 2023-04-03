@@ -4,10 +4,10 @@
 #include "../util.hpp"
 #include "../errors.hpp"
 #include "Fraction.hpp"
-#include "Calculatable.hpp"
+#include "Calculable.hpp"
 #include "../syntax/Token.hpp"
 
-class Complex : public Calculatable {
+class Complex : public Calculable {
     struct _Data {
         int a, b;
     };
@@ -22,10 +22,10 @@ public:
     _Data div_complex(const _Data& a, const _Data& b);
 
     std::string result() const;
-    Calculatable* copy() const;
-    Calculatable* add(Calculatable* other);
-    Calculatable* sub(Calculatable* other);
-    Calculatable* mul(Calculatable* other);
-    Calculatable* div(Calculatable* other);
-    Calculatable* rtd(Calculatable* other);
+    Calculable* copy() const;
+    Calculable* add(Calculable* other);
+    Calculable* sub(Calculable* other);
+    Calculable* mul(Calculable* other);
+    Calculable* div(Calculable* other);
+    Calculable* rtd(Calculable* other);
 };

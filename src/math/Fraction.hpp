@@ -4,14 +4,14 @@
 #include <cstdlib>
 #include <algorithm>
 
-#include "Calculatable.hpp"
+#include "Calculable.hpp"
 #include "../util.hpp"
 #include "../errors.hpp"
 #include "../syntax/Token.hpp"
 
 class Num;
 
-class Fraction : public Calculatable {
+class Fraction : public Calculable {
   struct _Data {
     int numerator;
     int denominator;
@@ -22,15 +22,15 @@ public:
   Fraction(Num* num);
   ~Fraction();
   std::string result() const;
-  Calculatable* copy() const;
+  Calculable* copy() const;
 
   void simplify();
-  Calculatable* post_treatment();
+  Calculable* post_treatment();
 
   _Data get_data() const;
-  Calculatable* add(Calculatable* other);
-  Calculatable* sub(Calculatable* other);
-  Calculatable* mul(Calculatable* other);
-  Calculatable* div(Calculatable* other);
-  Calculatable* rtd(Calculatable* other);
+  Calculable* add(Calculable* other);
+  Calculable* sub(Calculable* other);
+  Calculable* mul(Calculable* other);
+  Calculable* div(Calculable* other);
+  Calculable* rtd(Calculable* other);
 };

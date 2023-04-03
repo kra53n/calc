@@ -49,7 +49,7 @@ std::string Fraction::result() const {
   return res;
 }
 
-Calculatable* Fraction::copy() const
+Calculable* Fraction::copy() const
 {
   std::string res = this->result();
   return new Fraction(res);
@@ -64,7 +64,7 @@ void Fraction::simplify() {
   data.denominator /= divisor;
 }
 
-Calculatable* Fraction::post_treatment() {
+Calculable* Fraction::post_treatment() {
   simplify();
   if (data.denominator != 1) {
     return this;
@@ -78,7 +78,7 @@ Fraction::_Data Fraction::get_data() const {
   return this->data;
 }
 
-Calculatable* Fraction::add(Calculatable* other) {
+Calculable* Fraction::add(Calculable* other) {
   switch (other->get_token_name()) {
   case Token::TokenName::Fraction: {
     _Data other_data = ((Fraction*)other)->get_data();
@@ -99,7 +99,7 @@ Calculatable* Fraction::add(Calculatable* other) {
   return post_treatment();
 }
 
-Calculatable* Fraction::sub(Calculatable* other) {
+Calculable* Fraction::sub(Calculable* other) {
   switch (other->get_token_name()) {
   case Token::TokenName::Fraction: {
     _Data other_data = ((Fraction*)other)->get_data();
@@ -120,7 +120,7 @@ Calculatable* Fraction::sub(Calculatable* other) {
   return post_treatment();
 }
 
-Calculatable* Fraction::mul(Calculatable* other) {
+Calculable* Fraction::mul(Calculable* other) {
   switch (other->get_token_name()) {
   case Token::TokenName::Fraction: {
     _Data other_data = ((Fraction*)other)->get_data();
@@ -137,7 +137,7 @@ Calculatable* Fraction::mul(Calculatable* other) {
   return post_treatment();
 }
 
-Calculatable* Fraction::div(Calculatable* other) {
+Calculable* Fraction::div(Calculable* other) {
   switch (other->get_token_name()) {
   case Token::TokenName::Fraction: {
     _Data other_data = ((Fraction*)other)->get_data();
@@ -154,7 +154,7 @@ Calculatable* Fraction::div(Calculatable* other) {
   return post_treatment();
 }
 
-Calculatable* Fraction::rtd(Calculatable* other) {
+Calculable* Fraction::rtd(Calculable* other) {
   if (other->get_token_name() == Token::TokenName::Num) {
     int power = ((Num*)other)->get_data();
     int numerator = this->data.numerator;

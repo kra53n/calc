@@ -8,10 +8,10 @@
 #include "Num.hpp"
 #include "Fraction.hpp"
 #include "../errors.hpp"
-#include "Calculatable.hpp"
+#include "Calculable.hpp"
 #include "../syntax/Token.hpp"
 
-class Matrix : public Calculatable
+class Matrix : public Calculable
 {
     int R, C;
     std::vector<std::vector<int>> data;
@@ -31,11 +31,11 @@ public:
 
     void clear();
     std::string result() const;
-    Calculatable* copy() const;
-    Calculatable* add(Calculatable* other);
-    Calculatable* sub(Calculatable* other);
-    Calculatable* mul(Calculatable* other);
-    Calculatable* div(Calculatable* other);
-    Calculatable* rtd(Calculatable* other);
+    Calculable* copy() const;
+    Calculable* add(Calculable* other);
+    Calculable* sub(Calculable* other);
+    Calculable* mul(Calculable* other);
+    Calculable* div(Calculable* other);
+    Calculable* rtd(Calculable* other);
 };
 

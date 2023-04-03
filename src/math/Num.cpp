@@ -19,7 +19,7 @@ std::string Num::result() const {
   return std::to_string(data);
 }
 
-Calculatable* Num::copy() const {
+Calculable* Num::copy() const {
   return new Num(this->get_data());
 }
 
@@ -27,7 +27,7 @@ int Num::get_data() const {
   return data;
 }
 
-Calculatable* Num::add(Calculatable* other) {
+Calculable* Num::add(Calculable* other) {
   switch (other->get_token_name()) {
   case Token::TokenName::Num: {
     this->data += ((Num*)other)->get_data();
@@ -57,7 +57,7 @@ Calculatable* Num::add(Calculatable* other) {
   return this;
 }
 
-Calculatable* Num::sub(Calculatable* other) {
+Calculable* Num::sub(Calculable* other) {
   switch (other->get_token_name()) {
   case Token::TokenName::Num: {
     this->data -= ((Num*)other)->get_data();
@@ -87,7 +87,7 @@ Calculatable* Num::sub(Calculatable* other) {
   return this;
 }
 
-Calculatable* Num::mul(Calculatable* other) {
+Calculable* Num::mul(Calculable* other) {
   switch (other->get_token_name()) {
   case Token::TokenName::Num: {
     this->data *= ((Num*)other)->get_data();
@@ -117,7 +117,7 @@ Calculatable* Num::mul(Calculatable* other) {
   return this;
 }
 
-Calculatable* Num::div(Calculatable* other) {
+Calculable* Num::div(Calculable* other) {
   switch (other->get_token_name()) {
   case Token::TokenName::Num: {
     int data = ((Num*)other)->get_data();
@@ -151,7 +151,7 @@ Calculatable* Num::div(Calculatable* other) {
   return this;
 }
 
-Calculatable* Num::rtd(Calculatable* other) {
+Calculable* Num::rtd(Calculable* other) {
   switch (other->get_token_name()) {
   case Token::TokenName::Num: {
     int power = ((Num*)other)->get_data();

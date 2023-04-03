@@ -2,7 +2,7 @@
 
 // TODO: need a garbage collector here
 
-Calculatable* get_type(Token& token) {
+Calculable* get_type(Token& token) {
   switch (token.name) {
   case Token::TokenName::Num: return new Num(token.text);
   case Token::TokenName::BigInt: return new BigInt(token.text);
@@ -12,9 +12,9 @@ Calculatable* get_type(Token& token) {
   }
 }
 
-Calculatable* interp(std::queue<Token>* tokens) {
-  static std::unordered_map<std::string, Calculatable*> vars;
-  std::stack<Calculatable*> st;
+Calculable* interp(std::queue<Token>* tokens) {
+  static std::unordered_map<std::string, Calculable*> vars;
+  std::stack<Calculable*> st;
   while (tokens->size()) {
     Token tk = tokens->front();
     tokens->pop();
@@ -47,9 +47,9 @@ Calculatable* interp(std::queue<Token>* tokens) {
     case Token::TokenName::Rtd:
     case Token::TokenName::OBrac:
     case Token::TokenName::CBrac: {
-      Calculatable* obj1 = st.top()->copy();
+      Calculable* obj1 = st.top()->copy();
       st.pop();
-      Calculatable* obj2 = st.top()->copy();
+      Calculable* obj2 = st.top()->copy();
       st.pop();
       switch (tk.name) {
       case Token::TokenName::Add: obj2 = obj2->add(obj1); break;
@@ -65,5 +65,5 @@ Calculatable* interp(std::queue<Token>* tokens) {
     } break;
     }
   }
-  return st.top();
+  return st.size() ? st.top() : nullptr;
 }

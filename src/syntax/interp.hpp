@@ -11,6 +11,6 @@
 #include "../math/Matrix.hpp"
 #include "../math/Complex.hpp"
 #include "../math/Fraction.hpp"
-#include "../math/Calculatable.hpp"
+#include "../math/Calculable.hpp"
 
-Calculatable* interp(std::queue<Token>* tokens);
+Calculable* interp(std::queue<Token>* tokens);

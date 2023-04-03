@@ -1,5 +1,26 @@
 #include "lex.hpp"
 
+// input: ((1 2) (2 1))...
+// output: (1 2) (2 1)
+//
+// input: (1 2i)...
+// output: 1 2i
+std::string get_chars_between(std::queue<LexChar>& chars, char open, char close) {
+  std::string text;
+  int balancer = 0;
+  do {
+    if (chars.front().ch == open) {
+      balancer++;
+    }
+    else if (chars.front().ch == close) {
+      balancer--;
+    }
+    text = text + chars.front().ch;
+    chars.pop();
+  } while (balancer and chars.size());
+  return text.substr(1, text.length()-2);
+}
+
 std::queue<LexChar> get_chars(std::string& usr_expr) {
   std::queue<LexChar> q;
   for (int i = 0; i < usr_expr.length(); i++) {
@@ -45,27 +66,6 @@ Token process_digit(std::queue<LexChar>& chars, int pos) {
       end_pos = tmp.end_pos-1;
   }
   return Token { tk_name, text, pos, end_pos+1 };
-}
-
-// input: ((1 2) (2 1))...
-// output: (1 2) (2 1)
-//
-// input: (1 2i)...
-// output: 1 2i
-std::string get_chars_between(std::queue<LexChar>& chars, char open, char close) {
-  std::string text;
-  std::stack<char> st;
-  do {
-    if (chars.front().ch == open) {
-      st.push(open);
-    }
-    else if (chars.front().ch == close) {
-      st.pop();
-    }
-    text = text + chars.front().ch;
-    chars.pop();
-  } while (st.size() and chars.size());
-  return text.substr(1, text.length()-2);
 }
 
 Token process_symbols(std::queue<LexChar>& chars, int pos) {

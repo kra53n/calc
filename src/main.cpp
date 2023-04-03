@@ -16,7 +16,7 @@ int main() {
     getline(cin, usr_expr);
     list<Token> tokens = lex(usr_expr);
     try {
-      Calculatable* val = interp(parse(tokens));
+      Calculable* val = interp(parse(tokens));
       if (val) {
         cout << val->result() << endl;
       }

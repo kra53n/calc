@@ -86,36 +86,36 @@ std::string Complex::result() const
     return ResultStr;   
 }
 
-Calculatable* Complex::copy() const
+Calculable* Complex::copy() const
 {
     return new Complex(data.a, data.b);
 }
 
-Calculatable* Complex::add(Calculatable* other)
+Calculable* Complex::add(Calculable* other)
 {
     data = add_complex(data, ((Complex*)other)->data);
     return this;
 }
 
-Calculatable* Complex::sub(Calculatable* other)
+Calculable* Complex::sub(Calculable* other)
 {
     data = sub_complex(data, ((Complex*)other)->data);
     return this;
 }
 
-Calculatable* Complex::mul(Calculatable* other)
+Calculable* Complex::mul(Calculable* other)
 {
     data = mul_complex(data, ((Complex*)other)->data);
     return this;
 }
 
-Calculatable* Complex::div(Calculatable* other)
+Calculable* Complex::div(Calculable* other)
 {
     data = div_complex(data, ((Complex*)other)->data);
     return this;
 }
 
-Calculatable* Complex::rtd(Calculatable* other)
+Calculable* Complex::rtd(Calculable* other)
 {
     throw UnsupportedOperationError();
 }

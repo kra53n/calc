@@ -265,12 +265,12 @@ std::string BigInt::result() const
     return Result;
 }
 
-Calculatable* BigInt::copy() const
+Calculable* BigInt::copy() const
 {
     return new BigInt(this->Result);
 }
 
-Calculatable* BigInt::add(Calculatable* other)
+Calculable* BigInt::add(Calculable* other)
 {
     switch (other->get_token_name()) {
     case Token::TokenName::BigInt: {
@@ -287,7 +287,7 @@ Calculatable* BigInt::add(Calculatable* other)
     return this;
 }
 
-Calculatable* BigInt::sub(Calculatable* other)
+Calculable* BigInt::sub(Calculable* other)
 {
     switch (other->get_token_name()) {
     case Token::TokenName::BigInt: {
@@ -304,7 +304,7 @@ Calculatable* BigInt::sub(Calculatable* other)
     return this;
 }
 
-Calculatable* BigInt::mul(Calculatable* other)
+Calculable* BigInt::mul(Calculable* other)
 {
     switch (other->get_token_name()) {
     case Token::TokenName::BigInt: {
@@ -321,7 +321,7 @@ Calculatable* BigInt::mul(Calculatable* other)
     return this;
 }
 
-Calculatable* BigInt::div(Calculatable* other)
+Calculable* BigInt::div(Calculable* other)
 {
     switch (other->get_token_name()) {
     case Token::TokenName::BigInt: {
@@ -338,7 +338,7 @@ Calculatable* BigInt::div(Calculatable* other)
     return this;
 }
 
-Calculatable* BigInt::rtd(Calculatable* other)
+Calculable* BigInt::rtd(Calculable* other)
 {
     throw UnsupportedOperationError();
 }
