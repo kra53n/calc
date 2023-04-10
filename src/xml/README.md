@@ -1,6 +1,6 @@
 # Calculation from XML file
 
-## Appearance
+## Example
 
 ```xml
 <calc>

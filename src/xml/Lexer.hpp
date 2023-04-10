@@ -13,7 +13,7 @@ private:
   int bol;
   int row;
   std::fstream& const src;
-  std::string* cons file_path;
+  std::string* const file_path;
 public:
   Lexer(std::string& const _file_path);
 

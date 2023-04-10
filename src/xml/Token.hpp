@@ -11,10 +11,10 @@ struct Token {
     TagName,
     Elem, // <tag_name>some elem</tag_name>
           //           ~~~~~~~~~ - Elem
-    AttrName, // <tag_name attr1="some info"  attr2="another info"></tag_name>
-              //           ~~~~~ - Attribute- ~~~~~
-    AttrVal, // <tag_name attr1="some info"                   attr2='another info'></tag_name>
-             //                  ~~~~~~~~~ - Attribute value -       ~~~~~~~~~~~~
+    AttrName, // <tag_name attr1="some info"         attr2="another info"></tag_name>
+              //           ~~~~~ - Attribute names - ~~~~~
+    AttrVal, // <tag_name attr1="some info"                    attr2='another info'></tag_name>
+             //                  ~~~~~~~~~ - Attribute values -       ~~~~~~~~~~~~
   };
 
   int row;
