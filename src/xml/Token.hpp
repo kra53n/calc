@@ -8,6 +8,8 @@ struct Token {
   enum class TokenName {
     OBrac, // <
     CBrac, // >
+    OBracWithSlash, // </
+
     TagName,
     Elem, // <tag_name>some elem</tag_name>
           //           ~~~~~~~~~ - Elem
@@ -17,8 +19,12 @@ struct Token {
              //                  ~~~~~~~~~ - Attribute values -       ~~~~~~~~~~~~
   };
 
+  TokenName name; 
+  std::string& lexeme;
   int row;
-  std::string text;
+  int col; // where lexeme begins
+
+  Token(TokenName _name, std::string& _lexeme, int _row, int _col);
 };
 
 } // xml
