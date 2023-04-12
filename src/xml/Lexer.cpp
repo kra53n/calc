@@ -12,12 +12,12 @@ Lexer::Lexer(std::string& const src)
   tokens = new std::vector<Token*>;
 }
 
-bool Lexer::is_empty() {
+bool Lexer::_is_empty() {
   return cur >= src.length();
 }
 
-void Lexer::chop_char() {
-  if (is_empty()) {
+void Lexer::_chop_char() {
+  if (_is_empty()) {
     return;
   }
   cur++;
@@ -27,13 +27,13 @@ void Lexer::chop_char() {
   }
 }
 
-void Lexer::trim_left() {
-  while (not is_empty() and is_skip_char(src[cur])) {
-    chop_char();
+void Lexer::_trim_left() {
+  while (not _is_empty() and is_skip_char(src[cur])) {
+    _chop_char();
   }
 }
 
-Token* Lexer::process_double_lexeme() {
+Token* Lexer::_process_double_lexeme() {
   Token* tk = nullptr;
   if (cur + 1 >= src.length()) {
     return tk;
@@ -48,12 +48,12 @@ Token* Lexer::process_double_lexeme() {
   } break;
   }
   if (tk) {
-    chop_char();
+    _chop_char();
   }
   return tk;
 }
 
-Token* Lexer::process_single_lexeme() {
+Token* Lexer::_process_single_lexeme() {
   Token* tk = nullptr;
   char ch = src[cur];
   switch (ch) {
@@ -61,23 +61,33 @@ Token* Lexer::process_single_lexeme() {
   case '>': tk = new Token(Token::TokenName::CBrac, ">", row, bol); break;
   }
   if (tk) {
-    chop_char();
+    _chop_char();
   }
   return tk;
 }
 
-Token* Lexer::process_alpha_lexeme() {
+bool Lexer::_is_part_of_plural_lexeme() {
+  return (
+    not _is_empty() and
+    not (src[cur] == '<' ^ src[cur] == '>') and
+    (
+      not is_skip_char(src[cur]) or
+      (
+        tokens->size() and
+        (*tokens)[tokens->size()-1]->name == Token::TokenName::CBrac
+      )
+    )
+  );
+}
+
+Token* Lexer::_process_plural_lexeme() {
   Token* tk = nullptr;
   std::string lexeme;
   int start_col = bol;
 
-  while (not is_empty() && (isalpha(src[cur]) || isdigit(src[cur]))) {
+  while (_is_part_of_plural_lexeme()) {
     lexeme = lexeme + src[cur];
-    chop_char();
-  }
-
-  if (tokens->empty()) {
-    return tk;
+    _chop_char();
   }
 
   if (lexeme != "") {
@@ -86,10 +96,16 @@ Token* Lexer::process_alpha_lexeme() {
       tk_name == Token::TokenName::OBrac or
       tk_name == Token::TokenName::OBracWithSlash
     ) {
-      tk = new Token(Token::TokenName::TagName, lexeme.c_str(), row, start_col);
+      tk = new Token(Token::TokenName::TagName, lexeme, row, start_col);
     }
     else if (tk_name == Token::TokenName::CBrac) {
-      tk = new Token(Token::TokenName::Elem, lexeme.c_str(), row, start_col);
+      tk = new Token(Token::TokenName::Elem, lexeme, row, start_col);
+    }
+    else if (
+      tk_name == Token::TokenName::TagName or
+      tk_name == Token::TokenName::Attr
+    ) {
+      tk = new Token(Token::TokenName::Attr, lexeme, row, start_col);
     }
   }
 
@@ -97,28 +113,19 @@ Token* Lexer::process_alpha_lexeme() {
 }
 
 Token* Lexer::next_token() {
-  while (not is_empty()) {
-    trim_left();
-
+  while (not _is_empty()) {
+    _trim_left();
     Token* tk = nullptr;
-
-    if ((tk = process_double_lexeme())) {
+    if (
+      (tk = _process_double_lexeme()) or
+      (tk = _process_single_lexeme()) or
+      (tk = _process_single_lexeme()) or
+      (isalnum(src[cur]) and (tk = _process_plural_lexeme()))
+    ) {
       return tk;
     }
-
-    if ((tk = process_single_lexeme())) {
-      return tk;
-    }
-
-    if (isalpha(src[cur]) || isdigit(src[cur])) {
-      if ((tk = process_alpha_lexeme())) {
-        return tk;
-      }
-    }
-
-    // TODO: delete condition below
-    if (not tk) {
-      chop_char();
+    else {
+      _chop_char();
     }
   }
   return nullptr;

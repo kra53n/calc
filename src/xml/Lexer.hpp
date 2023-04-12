@@ -14,19 +14,20 @@ private:
   int row;
   std::string& const src;
   std::vector<Token*>* tokens = nullptr;
-public:
-  Lexer(std::string& const src);
 
-  bool is_empty();
+  bool _is_empty();
+  bool _is_part_of_plural_lexeme();
 
-  void chop_char();
-  void trim_left();
+  void _chop_char();
+  void _trim_left();
 
-  Token* process_double_lexeme();
-  Token* process_single_lexeme();
-  Token* process_alpha_lexeme();
+  Token* _process_double_lexeme();
+  Token* _process_single_lexeme();
+  Token* _process_plural_lexeme();
   
   Token* next_token();
+public:
+  Lexer(std::string& const src);
   std::vector<Token*>* lex();
 };
 

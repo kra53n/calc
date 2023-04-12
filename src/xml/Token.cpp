@@ -2,11 +2,11 @@
 
 namespace xml {
 
-Token::Token(TokenName _name, const char* _lexeme, int _row, int _col)
-  : name(_name)
-  , lexeme(_lexeme)
-  , row(_row)
-  , col(_col)
+Token::Token(TokenName name, std::string lexeme, int row, int col)
+  : name(name)
+  , lexeme(lexeme)
+  , row(row)
+  , col(col)
 {
 }
 
