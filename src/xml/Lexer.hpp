@@ -2,7 +2,6 @@
 
 #include <string>
 #include <vector>
-#include <fstream>
 
 #include "Token.hpp"
 
@@ -13,19 +12,19 @@ private:
   int cur;
   int bol;
   int row;
-  std::fstream& const src;
-  std::string* const file_path = nullptr;
+  std::string& const src;
   std::vector<Token*>* tokens = nullptr;
 public:
-  Lexer(std::string& const _file_path);
+  Lexer(std::string& const src);
 
   bool is_empty();
 
   void chop_char();
-  void trim_letf();
+  void trim_left();
 
   Token* process_double_lexeme();
   Token* process_single_lexeme();
+  Token* process_alpha_lexeme();
   
   Token* next_token();
   std::vector<Token*>* lex();

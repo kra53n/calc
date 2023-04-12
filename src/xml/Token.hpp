@@ -2,6 +2,8 @@
 
 #include <string>
 
+// TODO: replace `const char*` to `std::string`
+
 namespace xml {
 
 struct Token {
@@ -20,11 +22,11 @@ struct Token {
   };
 
   TokenName name; 
-  std::string& lexeme;
+  const char* lexeme;
   int row;
   int col; // where lexeme begins
 
-  Token(TokenName _name, std::string& _lexeme, int _row, int _col);
+  Token(TokenName _name, const char* _lexeme, int _row, int _col);
 };
 
 } // xml
