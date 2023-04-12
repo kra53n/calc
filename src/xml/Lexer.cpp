@@ -99,7 +99,7 @@ Token* Lexer::_process_plural_lexeme() {
       tk = new Token(Token::TokenName::TagName, lexeme, row, start_col);
     }
     else if (tk_name == Token::TokenName::CBrac) {
-      tk = new Token(Token::TokenName::Elem, lexeme, row, start_col);
+      tk = new Token(Token::TokenName::Val, lexeme, row, start_col);
     }
     else if (
       tk_name == Token::TokenName::TagName or
