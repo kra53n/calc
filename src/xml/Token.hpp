@@ -12,8 +12,8 @@ struct Token {
     OBracWithSlash, // </
 
     TagName,
-    Elem, // <tag_name>some elem</tag_name>
-          //           ~~~~~~~~~ - Elem
+    Val, // <tag_name>some elem</tag_name>
+         //           ~~~~~~~~~ - Elem
     Attr, // <tag_name attr1="some info"               attr2></tag_name>
           //           ~~~~~~~~~~~~~~~~~ - Attribute - ~~~~~
   };
