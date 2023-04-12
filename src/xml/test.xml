@@ -1,0 +1,12 @@
+<calc>
+
+<vars type="Num">
+  <var name="a">12</var>
+  <var name="a">13</var>
+</vars>
+
+<eval>
+  (a + b) * 2
+</eval>
+  
+</calc>
