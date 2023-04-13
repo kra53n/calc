@@ -8,7 +8,7 @@ Error::Error(std::string message)
 }
 
 std::ostream& operator<<(std::ostream& out, const Error& e) {
-	out << "XML Error: " << e.message;
+	out << "XML Error: " << e.message << "!";
 	return out;
 }
 
