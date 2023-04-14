@@ -26,7 +26,7 @@ int main() {
   xml::Token* tmp = (*tokens)[0];
   xml::Tag* tag = xml::Parser(tokens).parse();
   xml::Interp interp(tag);
-  interp.interp();
+  xml::Result res = interp.interp();
   delete_tokens(tokens);
   return 0;
 }

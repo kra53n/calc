@@ -7,18 +7,29 @@
 
 namespace xml {
 
+struct Result {
+  struct _Data {
+    std::string type;
+    std::string val;
+  };
+
+  std::unordered_map<std::string, _Data> vars;
+  std::string eval;
+};
+
 class Interp {
-	Tag* root = nullptr;
+  Tag* root = nullptr;
+  Result res;
 
-	void _process_errors();
+  bool _wrong_structure();
+  void _process_errors();
+
+  void _interp_vars_tags();
+  void _interp_eval_tag();
 public:
-	struct Result {
-		std::unordered_map<std::string, std::string> vars;
-		std::string eval;
-	};
 
-	Interp(Tag* root);
-	Result interp();
+  Interp(Tag* root);
+  Result interp();
 };
 
 } // xml

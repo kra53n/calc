@@ -4,40 +4,75 @@
 namespace xml {
 
 Interp::Interp(Tag* root) 
-	: root(root)
+  : root(root)
 {
 }
 
-void Interp::_process_errors() {
-	if (root == nullptr) {
-		throw Error("file without any tags");
-	}
-	if (root->name != "calc") {
-		throw Error("file must begin with calc, " + root->name + " was given");
-	}
+bool Interp::_wrong_structure() {
+  if (
+    root->tags.size() < 2 or
+    root->tags[0]->name != "vars"
+  ) {
+    return true;
+  }
 
-	int size = root->tags.size();
-	if (
-		size != 2 or
-		root->tags[0]->name != "vars" or
-		root->tags[1]->name != "eval"
-	) {
-		throw Error("file must contain `types`, `eval` tags");
-	}
+  bool was_eval = false;
+  for (Tag* tag : root->tags) {
+    if (tag->name == "vars") {
+      continue;
+    }
+    else if (tag->name == "eval") {
+      if (was_eval) {
+        return true;
+      }
+      was_eval = true;
+    }
+    else {
+      return true;
+    }
+  }
+
+  return false;
 }
 
-Interp::Result Interp::interp() {
-	_process_errors();
-	Result res;
-	for (Tag* tag : root->tags[0]->tags) {
-		std::string s1 = tag->attrs[0].val;
-		std::string s2 = tag->val->substr(0, tag->val->length());
-		res.vars.insert({ s1, s2 });
-	}
-	res.eval = root->tags[1]->val->substr(0, root->tags[1]->val->length());
-	delete_tag(root);
-	root = nullptr;
-	return res;
+void Interp::_process_errors() {
+  if (root == nullptr) {
+    throw Error("file without any tags");
+  }
+  if (root->name != "calc") {
+    throw Error("file must begin with calc, " + root->name + " was given");
+  }
+
+  if (_wrong_structure()) {
+    throw Error("file must contain `vars`, `eval` tags");
+  }
+}
+
+void Interp::_interp_vars_tags() {
+  for (int i = 0; root->tags[i]->name == "vars"; i++) {
+    std::string var_type = root->tags[i]->attrs[0].val;
+    for (Tag* tag : root->tags[i]->tags) {
+      std::string var_name = tag->attrs[0].val;
+      std::string var_val = tag->val->substr(0, tag->val->length());
+      res.vars.insert({ var_name, Result::_Data { var_type, var_val }});
+    }
+  }
+}
+
+void Interp::_interp_eval_tag() {
+  int eval_idx = root->tags.size() - 1;
+  res.eval = root->tags[eval_idx]->val->substr(0, root->tags[eval_idx]->val->length());
+}
+
+Result Interp::interp() {
+  _process_errors();
+
+  _interp_vars_tags();
+  _interp_eval_tag();
+
+  delete_tag(root);
+  root = nullptr;
+  return res;
 }
 
 } // xml

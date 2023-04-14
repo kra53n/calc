@@ -5,10 +5,10 @@
 namespace xml {
 
 struct Error {
-	std::string message;
+  std::string message;
 
-	Error(std::string message);
-	friend std::ostream& operator<<(std::ostream& out, const Error& e);
+  Error(std::string message);
+  friend std::ostream& operator<<(std::ostream& out, const Error& e);
 };
 
 } // xml

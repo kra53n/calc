@@ -6,10 +6,10 @@ namespace xml {
 
 void _delete_tag_recursively(Tag* tag) {
   if (tag->tags.size()) {
-		for (Tag* it : tag->tags) {
-			_delete_tag_recursively(it);
+    for (Tag* it : tag->tags) {
+      _delete_tag_recursively(it);
       delete it;
-		}
+    }
   }
   if (tag->val) {
     delete tag->val;

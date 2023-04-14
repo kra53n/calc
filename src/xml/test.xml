@@ -5,8 +5,16 @@
   <var name="b">13</var>
 </vars>
 
+<vars type="Matrix">
+  <var name="c">mx((1 0) (0 1))</var>
+  <var name="d">mx((0 1) (0 1))</var>
+</vars>
+
 <eval>
-  (a + b) * 2
+  e = (a + b) * 2
+  a = c + d
+  e
+  a + a
 </eval>
   
 </calc>
