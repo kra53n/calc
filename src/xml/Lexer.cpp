@@ -43,7 +43,7 @@ Token* Lexer::_process_double_lexeme() {
   switch (ch1) {
   case '<': {
     switch (ch2) {
-    case '/': tk = new Token(Token::TokenName::OBracWithSlash, "</", row, bol); break;
+    case '/': tk = new Token(Token::TokenName::OBracWithSlash, "</", row, cur-bol); break;
     }
   } break;
   }
@@ -57,8 +57,8 @@ Token* Lexer::_process_single_lexeme() {
   Token* tk = nullptr;
   char ch = src[cur];
   switch (ch) {
-  case '<': tk = new Token(Token::TokenName::OBrac, "<", row, bol); break;
-  case '>': tk = new Token(Token::TokenName::CBrac, ">", row, bol); break;
+  case '<': tk = new Token(Token::TokenName::OBrac, "<", row, cur-bol); break;
+  case '>': tk = new Token(Token::TokenName::CBrac, ">", row, cur-bol); break;
   }
   if (tk) {
     _chop_char();
@@ -83,7 +83,7 @@ bool Lexer::_is_part_of_plural_lexeme() {
 Token* Lexer::_process_plural_lexeme() {
   Token* tk = nullptr;
   std::string lexeme;
-  int start_col = bol;
+  int start_col = cur - bol;
 
   while (_is_part_of_plural_lexeme()) {
     lexeme = lexeme + src[cur];
@@ -119,8 +119,10 @@ Token* Lexer::next_token() {
     if (
       (tk = _process_double_lexeme()) or
       (tk = _process_single_lexeme()) or
-      (tk = _process_single_lexeme()) or
-      (isalnum(src[cur]) and (tk = _process_plural_lexeme()))
+      (
+        (isalnum(src[cur]) or src[cur] == '(') and
+        (tk = _process_plural_lexeme())
+      )
     ) {
       return tk;
     }

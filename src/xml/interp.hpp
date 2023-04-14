@@ -18,8 +18,6 @@ public:
 	};
 
 	Interp(Tag* root);
-	/// return value of `eval` tag from xml, throw errors if file content of xml
-	/// not an appropriate structre
 	Result interp();
 };
 

@@ -19,6 +19,9 @@ struct Tag {
   std::vector<Tag*> tags;
 };
 
+void _delete_tag_recursively(Tag* tag);
+void delete_tag(Tag* tag);
+
 class Parser {
   int pos;
   std::vector<Token*>* tokens = nullptr;

@@ -2,6 +2,7 @@
 
 #include "Lexer.hpp"
 #include "Parser.hpp"
+#include "Interp.hpp"
 
 std::vector<xml::Token*>* get_tokens(const char* filename) {
   std::fstream file = std::fstream(filename, std::fstream::in);
@@ -13,10 +14,19 @@ std::vector<xml::Token*>* get_tokens(const char* filename) {
   return xml::Lexer(string).lex();
 }
 
-int main() {
-  //std::string string = "<div     attr1='123123' attr2 attr3>mx((1 0) (0 1))< / div>\n<calc><type>< / type>< / calc>";
-  std::vector<xml::Token*>* tokens = get_tokens("test.xml");
-  xml::Tag* tag = xml::Parser(tokens).parse();
+void delete_tokens(std::vector<xml::Token*>* tokens) {
+  for (xml::Token* it : *tokens) {
+    delete it;
+  }
   delete tokens;
+}
+
+int main() {
+  std::vector<xml::Token*>* tokens = get_tokens("test.xml");
+  xml::Token* tmp = (*tokens)[0];
+  xml::Tag* tag = xml::Parser(tokens).parse();
+  xml::Interp interp(tag);
+  interp.interp();
+  delete_tokens(tokens);
   return 0;
 }

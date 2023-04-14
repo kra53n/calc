@@ -13,7 +13,7 @@ struct Token {
 
     TagName,
     Val, // <tag_name>some elem</tag_name>
-         //           ~~~~~~~~~ - Elem
+         //           ~~~~~~~~~ - Val
     Attr, // <tag_name attr1="some info"               attr2></tag_name>
           //           ~~~~~~~~~~~~~~~~~ - Attribute - ~~~~~
   };

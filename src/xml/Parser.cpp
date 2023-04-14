@@ -1,6 +1,25 @@
+#include <malloc.h>
+
 #include "Parser.hpp"
 
 namespace xml {
+
+void _delete_tag_recursively(Tag* tag) {
+  if (tag->tags.size()) {
+		for (Tag* it : tag->tags) {
+			_delete_tag_recursively(it);
+      delete it;
+		}
+  }
+  if (tag->val) {
+    delete tag->val;
+  }
+}
+
+void delete_tag(Tag* tag) {
+  _delete_tag_recursively(tag);
+  delete tag;
+}
 
 Parser::Parser(std::vector<Token*>* tokens)
   : tokens(tokens)
@@ -52,6 +71,15 @@ Tag* Parser::_collect_tag(bool& closing) {
     } break;
     }
   } while (not _empty() and token->name != Token::TokenName::CBrac);
+
+  if (not _empty()) {
+    token = (*tokens)[pos];
+    switch (token->name) {
+    case Token::TokenName::Val: {
+      tag->val = new std::string(token->lexeme);
+    } break;
+    }
+  }
 
   return tag;
 }
