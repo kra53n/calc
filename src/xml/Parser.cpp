@@ -16,7 +16,7 @@ void _delete_tag_recursively(Tag* tag) {
   }
 }
 
-void delete_tag(Tag* tag) {
+void _delete_tag(Tag* tag) {
   _delete_tag_recursively(tag);
   delete tag;
 }

@@ -7,19 +7,19 @@
 
 namespace xml {
 
-struct Result {
+struct Content {
   struct _Data {
     std::string type;
     std::string val;
   };
 
   std::unordered_map<std::string, _Data> vars;
-  std::string eval;
+  std::vector<std::string> eval;
 };
 
 class Interp {
   Tag* root = nullptr;
-  Result res;
+  Content res;
 
   bool _wrong_structure();
   void _process_errors();
@@ -29,7 +29,7 @@ class Interp {
 public:
 
   Interp(Tag* root);
-  Result interp();
+  Content interp();
 };
 
 } // xml
