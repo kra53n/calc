@@ -7,7 +7,7 @@
 
 <vars type="Matrix">
   <var name="c">mx((1 0) (0 1))</var>
-  <var name="d">mx((0 1) (0 1))</var>
+  <var name="d">mx((0 1) (1 0))</var>
 </vars>
 
 <eval>

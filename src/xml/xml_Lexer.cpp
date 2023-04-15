@@ -1,4 +1,4 @@
-#include "Lexer.hpp"
+#include "xml_Lexer.hpp"
 #include "../util.hpp"
 
 namespace xml {
@@ -120,7 +120,7 @@ Token* Lexer::next_token() {
       (tk = _process_double_lexeme()) or
       (tk = _process_single_lexeme()) or
       (
-        (isalnum(src[cur]) or src[cur] == '(') and
+        (isalnum(src[cur]) or src[cur] == '(' or src[cur] == '[') and
         (tk = _process_plural_lexeme())
       )
     ) {

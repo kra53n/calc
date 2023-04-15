@@ -1,7 +1,7 @@
 #include <fstream>
 
-#include "lib.hpp"
-#include "Lexer.hpp"
+#include "xml_lib.hpp"
+#include "xml_Lexer.hpp"
 
 namespace xml {
 

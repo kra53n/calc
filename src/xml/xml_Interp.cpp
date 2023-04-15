@@ -1,5 +1,5 @@
-#include "Error.hpp"
-#include "Interp.hpp"
+#include "xml_Error.hpp"
+#include "xml_Interp.hpp"
 #include "../util.hpp"
 
 namespace xml {

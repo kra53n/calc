@@ -1,4 +1,4 @@
-#include "lib.hpp"
+#include "xml_lib.hpp"
 
 int main() {
   xml::Content content = xml::get_content("test.xml");

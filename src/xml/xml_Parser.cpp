@@ -1,6 +1,6 @@
 #include <malloc.h>
 
-#include "Parser.hpp"
+#include "xml_Parser.hpp"
 
 namespace xml {
 
@@ -104,7 +104,7 @@ Tag* Parser::parse() {
       st.top()->tags.push_back(tmp);
     }
   }
-  return st.top();
+  return st.size() ? st.top() : nullptr;
 }
 
 } // xml

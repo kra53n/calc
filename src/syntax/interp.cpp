@@ -1,8 +1,6 @@
 #include "interp.hpp"
 
-// TODO: need a garbage collector here
-
-Calculable* get_type(Token& token) {
+Calculable* get_type_by_token(Token& token) {
   switch (token.name) {
   case Token::TokenName::Num: return new Num(token.text);
   case Token::TokenName::BigInt: return new BigInt(token.text);
@@ -10,10 +8,22 @@ Calculable* get_type(Token& token) {
   case Token::TokenName::Complex: return new Complex(token.text);
   case Token::TokenName::Fraction: return new Fraction(token.text);
   }
+  return nullptr;
 }
 
-Calculable* interp(std::queue<Token>* tokens) {
-  static std::unordered_map<std::string, Calculable*> vars;
+Calculable* get_type_by_name_and_val(std::string name, std::string val) {
+  if (name == "Num") return new Num(val);
+  else if (name == "BigInt") return new BigInt(val);
+  else if (name == "Matrix") return new Matrix(val);
+  else if (name == "Complex") return new Complex(val);
+  else if (name == "Fraction") return new Fraction(val);
+  return nullptr;
+}
+
+Calculable* interp(
+  std::unordered_map<std::string, Calculable*>& vars,
+  std::queue<Token>* tokens
+) {
   std::stack<Calculable*> st;
   while (tokens->size()) {
     Token tk = tokens->front();
@@ -38,7 +48,7 @@ Calculable* interp(std::queue<Token>* tokens) {
         st.push(vars[tk.text]);
         continue;
       }
-      st.push(get_type(tk));
+      st.push(get_type_by_token(tk));
     } break;
     case Token::TokenName::Add:
     case Token::TokenName::Sub:
