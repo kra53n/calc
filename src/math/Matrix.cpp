@@ -20,6 +20,21 @@ Matrix::Matrix(std::vector<std::vector<int>> data)
     token_name = Token::TokenName::Matrix;
 }
 
+bool isSquare(std::vector<std::vector<int>> matrix) {
+    int rows = matrix.size();
+    if (rows == 0) {
+        return false;
+    }
+    int cols = matrix[0].size();
+    if (cols != rows) {
+        throw std::invalid_argument("Matrix is not square");
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+
 Matrix::~Matrix()
 {
 }
@@ -254,6 +269,8 @@ std::vector<std::vector<int>> Matrix::sub_num(std::vector<std::vector<int>>& mat
 }
 
 std::vector<std::vector<int>> Matrix::div_num(std::vector<std::vector<int>>& matrix, int num) {
+    if (num == 0)
+        throw DivisionByZeroError();
     // Получаем размер матрицы
     int rows = matrix.size();
     int cols = matrix[0].size();

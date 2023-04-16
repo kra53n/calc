@@ -29,6 +29,8 @@ public:
     std::vector<std::vector<int>> sub_num(std::vector<std::vector<int>>& matrix, int num);
     std::vector<std::vector<int>> div_num(std::vector<std::vector<int>>& matrix, int scalar);
 
+    bool isSquare(std::vector<std::vector<int>> matrix);
+
     void clear();
     std::string result() const;
     Calculable* copy() const;
