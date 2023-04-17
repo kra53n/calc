@@ -2,12 +2,15 @@
 #include <iostream>
 
 #include "../util.hpp"
-#include "../errors.hpp"
 #include "Fraction.hpp"
-#include "Calculable.hpp"
+#include "Calculatable.hpp"
 #include "../syntax/Token.hpp"
+#include "Num.hpp"
 
-class Complex : public Calculable {
+class Num;
+using namespace std;
+
+class Complex : public Calculatable {
     struct _Data {
         int a, b;
     };
@@ -20,12 +23,17 @@ public:
     _Data sub_complex(const _Data& a, const _Data& b);
     _Data mul_complex(const _Data& a, const _Data& b);
     _Data div_complex(const _Data& a, const _Data& b);
+    _Data add_num(int a, const _Data& b);
+    _Data sub_num(int a, const _Data& b);
+    _Data mul_num(int a, const _Data& b);
+    _Data div_num(int a, const _Data& b);
 
+
+
+    Calculatable* add(Calculatable* other);
+    Calculatable* sub(Calculatable* other);
+    Calculatable* mul(Calculatable* other);
+    Calculatable* div(Calculatable* other);
+    Calculatable* rtd(Calculatable* other);
     std::string result() const;
-    Calculable* copy() const;
-    Calculable* add(Calculable* other);
-    Calculable* sub(Calculable* other);
-    Calculable* mul(Calculable* other);
-    Calculable* div(Calculable* other);
-    Calculable* rtd(Calculable* other);
 };
