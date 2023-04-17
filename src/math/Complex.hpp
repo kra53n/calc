@@ -3,14 +3,14 @@
 
 #include "../util.hpp"
 #include "Fraction.hpp"
-#include "Calculatable.hpp"
+#include "Calculable.hpp"
 #include "../syntax/Token.hpp"
 #include "Num.hpp"
 
 class Num;
 using namespace std;
 
-class Complex : public Calculatable {
+class Complex : public Calculable {
     struct _Data {
         int a, b;
     };
@@ -28,12 +28,11 @@ public:
     _Data mul_num(int a, const _Data& b);
     _Data div_num(int a, const _Data& b);
 
-
-
-    Calculatable* add(Calculatable* other);
-    Calculatable* sub(Calculatable* other);
-    Calculatable* mul(Calculatable* other);
-    Calculatable* div(Calculatable* other);
-    Calculatable* rtd(Calculatable* other);
+    Calculable* copy() const;
+    Calculable* add(Calculable* other);
+    Calculable* sub(Calculable* other);
+    Calculable* mul(Calculable* other);
+    Calculable* div(Calculable* other);
+    Calculable* rtd(Calculable* other);
     std::string result() const;
 };

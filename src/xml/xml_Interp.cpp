@@ -62,6 +62,7 @@ void Interp::_interp_vars_tags() {
 
 void Interp::_interp_eval_tag() {
   int eval_idx = root->tags.size() - 1;
+
   std::string buf = root->tags[eval_idx]->val->substr(0, root->tags[eval_idx]->val->length());
   std::string line;
   for (char ch : buf) {

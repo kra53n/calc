@@ -23,7 +23,15 @@ void repl() {
 }
 
 void process_xml(std::string filename) {
-  xml::Content content = xml::get_content(filename);
+  xml::Content content;
+
+  try {
+		content = xml::get_content(filename);
+  }
+  catch (xml::Error e) {
+    cout << e;
+  }
+
   std::unordered_map<std::string, Calculable*> vars;
   for (auto var : content.vars) {
     auto s = var.first;

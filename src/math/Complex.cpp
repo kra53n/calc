@@ -47,6 +47,10 @@ Complex::Complex(std::string& text)
     }
 }
 
+Calculable* Complex::copy() const {
+  return new Complex(data.a, data.b);
+}
+
 Complex::_Data Complex::add_complex(const _Data& a, const _Data& b)
 {
     _Data d;
@@ -129,7 +133,7 @@ std::string Complex::result() const
     return ResultStr;   
 }
 
-Calculatable* Complex::add(Calculatable* other)
+Calculable* Complex::add(Calculable* other)
 {
     switch (other->get_token_name()) {
     case Token::TokenName::Complex:
@@ -143,7 +147,7 @@ Calculatable* Complex::add(Calculatable* other)
     return this;
 }
 
-Calculatable* Complex::sub(Calculatable* other)
+Calculable* Complex::sub(Calculable* other)
 {
     switch (other->get_token_name()) {
     case Token::TokenName::Complex:
@@ -158,7 +162,7 @@ Calculatable* Complex::sub(Calculatable* other)
    
 }
 
-Calculatable* Complex::mul(Calculatable* other)
+Calculable* Complex::mul(Calculable* other)
 {
     switch (other->get_token_name()) {
     case Token::TokenName::Complex:
@@ -173,7 +177,7 @@ Calculatable* Complex::mul(Calculatable* other)
     return this;
 }
 
-Calculatable* Complex::div(Calculatable* other)
+Calculable* Complex::div(Calculable* other)
 {
     switch (other->get_token_name()) {
     case Token::TokenName::Complex:
@@ -188,7 +192,7 @@ Calculatable* Complex::div(Calculatable* other)
     return this;
 }
 
-Calculatable* Complex::rtd(Calculatable* other)
+Calculable* Complex::rtd(Calculable* other)
 {
     return this;
 }
