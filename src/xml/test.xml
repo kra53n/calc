@@ -1,8 +1,8 @@
 <calc>
 
-<vars     type="Complex">
-  <var name="a">cx(1)</var>
-  <var name="b">cx(2 1)</var>
+<vars     type="Num">
+  <var name="a">12</var>
+  <var name="b">13</var>
 </vars>
 
 
@@ -15,7 +15,7 @@
 </vars>
 
 <eval>
-  c + d
+  a + b + d
 </eval>
 
 </calc>

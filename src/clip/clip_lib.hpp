@@ -3,7 +3,7 @@
 #include <vector>
 #include <string>
 
-namespace cli {
+namespace clip {
 
 enum class Type {
 	None,

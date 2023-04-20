@@ -1,6 +1,6 @@
-#include "cli_lib.hpp"
+#include "clip_lib.hpp"
 
-namespace cli {
+namespace clip {
 
 Parser::Parser(int argc, const char** argv)
 {
@@ -8,7 +8,7 @@ Parser::Parser(int argc, const char** argv)
 	if (argc < 1) {
 		return;
 	}
-	for (int i = 1; i <= argc; i++) {
+	for (int i = 1; i < argc; i++) {
 		_argv.push_back(argv[i]);
 	}
 }
@@ -46,7 +46,7 @@ Parser& Parser::add_arg(Arg arg)
 
 Cmd* Parser::next()
 {
-	return empty() ? nullptr : _cmds[pos];
+	return empty() ? nullptr : _cmds[pos++];
 }
 
 } // cli
