@@ -35,6 +35,29 @@ bool isSquare(std::vector<std::vector<int>> matrix) {
     }
 }
 
+std::vector<std::vector<int>> Matrix::parse_matrix(std::string s)
+{
+    std::vector<std::vector<int>> result;
+    std::stringstream ss(s);
+    char c;
+
+    while (ss >> c) {
+        std::vector<int> row;
+        int val;
+        while (ss >> val) {
+            row.push_back(val);
+
+            if (ss.peek() == ')') {
+                ss.ignore();
+                break;
+            }
+        }
+        result.push_back(row);
+    }
+    isSquare(result);
+    return result;
+}
+
 Matrix::~Matrix()
 {
 }
