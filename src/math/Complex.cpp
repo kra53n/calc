@@ -3,7 +3,6 @@
 Complex::Complex(int real, int img)
     : data{ real, img }
 {
-    token_name = Token::TokenName::Complex;
 }
 
 Complex::Complex(std::string& text)
@@ -37,6 +36,7 @@ Complex::Complex(std::string& text)
     }
     nums[num_pos] = num;
 
+   
     if (num_pos > 0) {
         data.a = std::stoi(nums[0]) * (minuses[0] ^ minuses[1] ? -1 : 1);
         data.b = std::stoi(nums[1]) * (minuses[0] ^ minuses[2] ? -1 : 1);
@@ -45,12 +45,26 @@ Complex::Complex(std::string& text)
         data.a = 0;
         data.b = std::stoi(nums[0]) * (minuses[0] ^ minuses[1] ? -1 : 1);
     }
-    token_name = Token::TokenName::Complex;
+}
+
+Calculable* Complex::copy() const {
+  return new Complex(data.a, data.b);
 }
 
 Complex::_Data Complex::add_complex(const _Data& a, const _Data& b)
 {
     _Data d;
+    d.a = a.a + b.a;
+    d.b = a.b + b.b;
+    return d;
+}
+
+Complex::_Data Complex::add_num(int num, const _Data& b)
+{
+    _Data d;
+    _Data a;
+    a.a = num; 
+    a.b = 0;
     d.a = a.a + b.a;
     d.b = a.b + b.b;
     return d;
@@ -64,9 +78,31 @@ Complex::_Data Complex::sub_complex(const _Data& a, const _Data& b)
     return d;
 }
 
+Complex::_Data Complex::sub_num(int num, const _Data& b)
+{
+    _Data d;
+    _Data a;
+    a.a = num;
+    a.b = 0;
+    d.a = a.a - b.a;
+    d.b = a.b - b.b;
+    return d;
+}
+
 Complex::_Data Complex::mul_complex(const _Data& a, const _Data& b)
 {
     _Data d;
+    d.a = a.a * b.a - a.b * b.b;
+    d.b = a.a * b.b + a.b * b.a;
+    return d;
+}
+
+Complex::_Data Complex::mul_num(int num, const _Data& b)
+{
+    _Data d;
+    _Data a;
+    a.a = num;
+    a.b = 0;
     d.a = a.a * b.a - a.b * b.b;
     d.b = a.a * b.b + a.b * b.a;
     return d;
@@ -80,42 +116,83 @@ Complex::_Data Complex::div_complex(const _Data& a, const _Data& b)
     return d;
 }
 
+Complex::_Data Complex::div_num(int num, const _Data& b)
+{
+    _Data d;
+    _Data a;
+    a.a = num;
+    a.b = 0;
+    d.a = (a.a * b.a + a.b * b.b) / (a.a * a.a + a.b * a.b);
+    d.b = (a.b * b.a - a.a * b.b) / (a.a * a.a + a.b * a.b);
+    return d;
+}
+
 std::string Complex::result() const
 {
     std::string ResultStr = std::to_string(data.a) + " " + std::to_string(data.b) + "i";;
     return ResultStr;   
 }
 
-Calculable* Complex::copy() const
-{
-    return new Complex(data.a, data.b);
-}
-
 Calculable* Complex::add(Calculable* other)
 {
-    data = add_complex(data, ((Complex*)other)->data);
+    switch (other->get_token_name()) {
+    case Token::TokenName::Complex:
+    {
+        data = add_complex(data, ((Complex*)other)->data);
+    }break;
+    case Token::TokenName::Num: {
+        data = add_num(((Num*)other)->get_data(), data);
+    }break;
+    }
     return this;
 }
 
 Calculable* Complex::sub(Calculable* other)
 {
-    data = sub_complex(data, ((Complex*)other)->data);
+    switch (other->get_token_name()) {
+    case Token::TokenName::Complex:
+    {
+        data = sub_complex(data, ((Complex*)other)->data);
+    }break;
+    case Token::TokenName::Num: {
+        data = sub_num(((Num*)other)->get_data(), data);
+    }break;
+    }
     return this;
+   
 }
 
 Calculable* Complex::mul(Calculable* other)
 {
-    data = mul_complex(data, ((Complex*)other)->data);
+    switch (other->get_token_name()) {
+    case Token::TokenName::Complex:
+    {
+        data = mul_complex(data, ((Complex*)other)->data);
+    }break;
+    case Token::TokenName::Num: {
+        data = mul_num(((Num*)other)->get_data(), data);
+    }break;
+    }
+
     return this;
 }
 
 Calculable* Complex::div(Calculable* other)
 {
-    data = div_complex(data, ((Complex*)other)->data);
+    switch (other->get_token_name()) {
+    case Token::TokenName::Complex:
+    {
+        data = div_complex(data, ((Complex*)other)->data);
+    }break;
+    case Token::TokenName::Num: {
+        data = div_num(((Num*)other)->get_data(), data);
+    }break;
+    }
+   
     return this;
 }
 
 Calculable* Complex::rtd(Calculable* other)
 {
-    throw UnsupportedOperationError();
+    return this;
 }

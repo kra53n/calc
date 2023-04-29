@@ -1,20 +1,21 @@
 <calc>
 
-<vars type="Num">
+<vars     type="Num">
   <var name="a">12</var>
   <var name="b">13</var>
 </vars>
 
+
 <vars type="Matrix">
-  <var name="c">mx((1 0) (0 1))</var>
-  <var name="d">mx((0 1) (1 0))</var>
+  <var nume="c">mx((1 1) (1 1))</var>
+</vars>
+
+<vars type="Fraction">
+  <var nume="d">[1/2]</var>
 </vars>
 
 <eval>
-  e = (a + b) * 2
-  a = c + d
-  e
-  a + a
+  a + b + d
 </eval>
-  
+
 </calc>
