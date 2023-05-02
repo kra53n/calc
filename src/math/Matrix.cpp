@@ -20,19 +20,18 @@ Matrix::Matrix(std::vector<std::vector<int>> data)
     token_name = Token::TokenName::Matrix;
 }
 
-bool isSquare(std::vector<std::vector<int>> matrix) {
-    int rows = matrix.size();
+bool is_square(std::vector<std::vector<int>> data) {
+    int rows = data.size();
     if (rows == 0) {
         return false;
     }
-    int cols = matrix[0].size();
+    int cols = data[0].size();
     if (cols != rows) {
-        throw std::invalid_argument("Matrix is not square");
-        return false;
+        UnderliningError e;
+        e.message = "matrix is not square";;
+        throw e;
     }
-    else {
-        return true;
-    }
+  return true;
 }
 
 std::vector<std::vector<int>> Matrix::parse_matrix(std::string s)
@@ -54,7 +53,7 @@ std::vector<std::vector<int>> Matrix::parse_matrix(std::string s)
         }
         result.push_back(row);
     }
-    isSquare(result);
+    is_square(result);
     return result;
 }
 
@@ -132,7 +131,7 @@ Calculable* Matrix::mul(Calculable* other)
         data = mul_num(data, ((Num*)other)->get_data());
     } break;
     default: {
-		throw IncompatibleTypesError();
+    throw IncompatibleTypesError();
     } break;
     }
 
@@ -148,7 +147,7 @@ Calculable* Matrix::div(Calculable* other)
         data = div_num(data, ((Num*)other)->get_data());
     } break;
     default: {
-		throw IncompatibleTypesError();
+    throw IncompatibleTypesError();
     } break;
     }
     
@@ -158,30 +157,6 @@ Calculable* Matrix::div(Calculable* other)
 Calculable* Matrix::rtd(Calculable* other)
 {
     throw UnsupportedOperationError();
-}
-
-std::vector<std::vector<int>> Matrix::parse_matrix(std::string s)
-{
-    std::vector<std::vector<int>> result;
-    std::stringstream ss(s);
-    char c;
-
-    while (ss >> c) {
-        std::vector<int> row;
-        int val;
-
-        while (ss >> val) {
-            row.push_back(val);
-
-            if (ss.peek() == ')') {
-                ss.ignore();
-                break;
-            }
-        }
-
-        result.push_back(row);
-    }
-    return result;
 }
 
 std::vector<std::vector<int>> Matrix::mul_matrix(std::vector<std::vector<int>>& A, std::vector<std::vector<int>>& B)
