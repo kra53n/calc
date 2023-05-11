@@ -10,6 +10,7 @@ struct Token {
     Mul, // *
     Div, // /
     Rtd, // ** - Raise to degree
+    UnaryMinus,
     OBrac, // (
     CBrac, // )
     Num,
@@ -40,5 +41,6 @@ const std::unordered_map<Token::TokenName, int> _token_priority = {
   { Token::TokenName::Rtd, 3 },
   { Token::TokenName::OBrac, 4 },
   { Token::TokenName::CBrac, 4 },
+  { Token::TokenName::UnaryMinus, 5 },
 };
 

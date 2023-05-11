@@ -43,6 +43,7 @@ void process_xml(std::string filename) {
     vars.insert({ var.first, get_type_by_name_and_val(var.second.type, val) });
   }
   for (std::string it : content.eval) {
+    int code_error = 1;
     try {
       Calculable* val = interp(vars, parse(lex(it)));
       if (val) {
@@ -51,9 +52,11 @@ void process_xml(std::string filename) {
     }
     catch (UnderliningError e) {
       cout << e;
+      exit(code_error);
     }
     catch (...) {
       cout << "Something went wrong ¯\\_(ツ)_/¯" << endl;
+      exit(code_error);
     }
   }
 }

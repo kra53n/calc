@@ -172,6 +172,10 @@ Token process_cbrac(std::queue<LexChar>& chars, int pos) {
   return Token { Token::TokenName::CBrac, ")", pos, pos + 1};
 }
 
+bool is_type_or_var_token(Token& token) {
+  return token.is_type() or token.name == Token::TokenName::Var;
+}
+
 void treat_minus(std::list<Token>& tokens) {
   if (tokens.begin() == tokens.end()) {
     return;
@@ -179,10 +183,8 @@ void treat_minus(std::list<Token>& tokens) {
   auto it = tokens.begin();
   if (it->name == Token::TokenName::Sub) {
     auto tmp = it++;
-    if (it->is_type()) {
-      it->text = "-" + it->text;
-      it->start_pos = tmp->start_pos;
-      tokens.erase(tmp);
+    if (is_type_or_var_token(*it)) {
+      tmp->name = Token::TokenName::UnaryMinus;
     }
   }
   while (it != tokens.end()) {
@@ -193,12 +195,12 @@ void treat_minus(std::list<Token>& tokens) {
     auto left = it; left--;
     auto right = it; right++;
     if (right != tokens.end() and
-        (left->name == Token::TokenName::OBrac or left->name == Token::TokenName::AssignVar) and
-        right->is_type()) {
+        (left->name == Token::TokenName::OBrac or
+         left->name == Token::TokenName::AssignVar or
+         not left->is_type()) and
+        is_type_or_var_token(*right)) {
       auto tmp = it++;
-      it->text = "-" + it->text;
-      it->start_pos = tmp->start_pos;
-      tokens.erase(tmp);
+      tmp->name = Token::TokenName::UnaryMinus;
     }
     it++;
   }

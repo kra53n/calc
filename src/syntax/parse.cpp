@@ -12,7 +12,8 @@ std::queue<Token>* parse(std::list<Token> tokens) {
     case Token::TokenName::Mul:
     case Token::TokenName::Div:
     case Token::TokenName::Rtd:
-    case Token::TokenName::AssignVar: {
+    case Token::TokenName::AssignVar:
+    case Token::TokenName::UnaryMinus: {
       if (s.empty() or
           s.top().name == Token::TokenName::OBrac or
           tk.priority(s.top()) > 0

@@ -38,6 +38,14 @@ Calculable* interp(
       st.pop();
       return nullptr;
     } break;
+    case Token::TokenName::UnaryMinus: {
+      Calculable* obj1 = new Num(-1);
+      Calculable* obj2 = st.top()->copy();
+      st.pop();
+      obj2 = obj2->mul(obj1);
+      delete obj1;
+      st.push(obj2);
+    } break;
     case Token::TokenName::Var:
     case Token::TokenName::Num:
     case Token::TokenName::BigInt:
