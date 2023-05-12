@@ -44,6 +44,7 @@ Calculable* interp(
       st.pop();
       obj2 = obj2->mul(obj1);
       delete obj1;
+      obj2->free_up_memory = true;
       st.push(obj2);
     } break;
     case Token::TokenName::Var:
@@ -79,6 +80,7 @@ Calculable* interp(
       if (not obj1->is_var) {
         delete obj1;
       }
+      obj2->free_up_memory = true;
       st.push(obj2);
     } break;
     }

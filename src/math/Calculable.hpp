@@ -9,6 +9,7 @@ protected:
   Token::TokenName token_name;
 public:
   bool is_var = false;
+  bool free_up_memory = false;
 
   friend std::ostream& operator<<(std::ostream& out, const Calculable& Calculable);
   Token::TokenName get_token_name();
