@@ -7,3 +7,5 @@ run.*
 .vs/
 x64/
 x86
+
+src/xml/test_errors.xml

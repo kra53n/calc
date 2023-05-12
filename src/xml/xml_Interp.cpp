@@ -33,6 +33,10 @@ bool Interp::_wrong_structure() {
     }
   }
 
+  if (not was_eval) {
+    return true;
+  }
+
   return false;
 }
 
@@ -45,7 +49,7 @@ void Interp::_process_errors() {
   }
 
   if (_wrong_structure()) {
-    throw Error("file must contain `vars`, `eval` tags");
+    throw Error("file must contain `vars`, `eval`. `eval` tag must be placed after `vars` tags");
   }
 }
 
