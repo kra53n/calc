@@ -20,6 +20,8 @@ public:
     Matrix(std::vector<std::vector<int>> data);
     ~Matrix();
 
+    bool is_square(std::vector<std::vector<int>>& matrix);
+
     std::vector<std::vector<int>> parse_matrix(std::string s);
     std::vector<std::vector<int>> add_matrix(std::vector<std::vector<int>>& A, std::vector<std::vector<int>>& B);
     std::vector<std::vector<int>> sub_matrix(std::vector<std::vector<int>>& A, std::vector<std::vector<int>>& B);
@@ -29,8 +31,6 @@ public:
     std::vector<std::vector<int>> sub_num(std::vector<std::vector<int>>& matrix, int num);
     std::vector<std::vector<int>> div_num(std::vector<std::vector<int>>& matrix, int scalar);
     std::vector<std::vector<int>> rtd_num(std::vector<std::vector<int>>& matrix, int power);
-
-    bool isSquare(std::vector<std::vector<int>> matrix);
 
     void clear();
     std::string result() const;

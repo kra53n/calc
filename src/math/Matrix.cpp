@@ -20,12 +20,12 @@ Matrix::Matrix(std::vector<std::vector<int>> data)
     token_name = Token::TokenName::Matrix;
 }
 
-bool is_square(std::vector<std::vector<int>> data) {
-    int rows = data.size();
+bool Matrix::is_square(std::vector<std::vector<int>>& matrix) {
+    int rows = matrix.size();
     if (rows == 0) {
         return false;
     }
-    int cols = data[0].size();
+    int cols = matrix[0].size();
     if (cols != rows) {
         UnderliningError e;
         e.message = "matrix is not square";;
