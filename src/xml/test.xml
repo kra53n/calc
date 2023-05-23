@@ -1,10 +1,9 @@
 <calc>
 
-<vars     type="Num">
+<vars type="Num">
   <var name="a">12</var>
   <var name="b">13</var>
 </vars>
-
 
 <vars type="Matrix">
   <var nume="c">mx((1 1) (1 1))</var>
@@ -15,9 +14,9 @@
 </vars>
 
 <eval>
-  a + b + d
-  812374812749812789128947127123**2
-  a + b + d
+  m = c * 2
+  m * m
+	(c * 2)**2
 </eval>
 
 </calc>

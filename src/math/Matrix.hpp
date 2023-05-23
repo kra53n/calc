@@ -28,6 +28,7 @@ public:
     std::vector<std::vector<int>> mul_num(std::vector<std::vector<int>>& matrix, int num);
     std::vector<std::vector<int>> sub_num(std::vector<std::vector<int>>& matrix, int num);
     std::vector<std::vector<int>> div_num(std::vector<std::vector<int>>& matrix, int scalar);
+    std::vector<std::vector<int>> rtd_num(std::vector<std::vector<int>>& matrix, int power);
 
     bool isSquare(std::vector<std::vector<int>> matrix);
 

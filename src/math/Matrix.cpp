@@ -156,7 +156,45 @@ Calculable* Matrix::div(Calculable* other)
 
 Calculable* Matrix::rtd(Calculable* other)
 {
-    throw UnsupportedOperationError();
+    if (other->get_token_name() != Token::TokenName::Num) {
+      throw UnsupportedOperationError();
+    }
+    data = rtd_num(data, ((Num*)other)->get_data());
+    return this;
+}
+
+std::vector<std::vector<int>> Matrix::rtd_num(std::vector<std::vector<int>>& matrix, int power) {
+    // Получаем размер матрицы
+    int rows = matrix.size();
+    int cols = matrix[0].size();
+
+    if (power < 0) {
+        throw std::invalid_argument("Степень должна быть неотрицательной.");
+    }
+    if (power == 0) {
+        // Создаем новую единичную матрицу
+        std::vector<std::vector<int>> result(rows, std::vector<int>(cols, 0));
+        for (int i = 0; i < rows; ++i) {
+            result[i][i] = 1;
+        }
+        return result;
+    }
+
+    // Возводим матрицу в положительную степень
+    std::vector<std::vector<int>> result(rows, std::vector<int>(cols, 0));
+    for (int i = 0; i < rows; ++i) {
+        result[i][i] = 1;
+    }
+    while (power > 0) {
+        if (power % 2) {
+            result = mul_matrix(result, matrix);
+        }
+        matrix = mul_matrix(matrix, matrix);
+        power /= 2;
+    }
+
+    // Возвращаем новую матрицу
+    return result;
 }
 
 std::vector<std::vector<int>> Matrix::mul_matrix(std::vector<std::vector<int>>& A, std::vector<std::vector<int>>& B)
