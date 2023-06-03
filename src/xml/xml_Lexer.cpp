@@ -68,15 +68,17 @@ Token* Lexer::_process_single_lexeme() {
 
 bool Lexer::_is_part_of_plural_lexeme() {
   return (
-    not _is_empty() and
-    not (src[cur] == '<' ^ src[cur] == '>') and
-    (
-      not is_skip_char(src[cur]) or
-      (
-        tokens->size() and
-        (*tokens)[tokens->size()-1]->name == Token::TokenName::CBrac
-      )
-    )
+    src[cur] == '-' or (
+			not _is_empty() and
+			not (src[cur] == '<' ^ src[cur] == '>') and
+			(
+				not is_skip_char(src[cur]) or
+				(
+					tokens->size() and
+					(*tokens)[tokens->size()-1]->name == Token::TokenName::CBrac
+				)
+			)
+		)
   );
 }
 
@@ -86,6 +88,9 @@ Token* Lexer::_process_plural_lexeme() {
   int start_col = cur - bol;
 
   while (_is_part_of_plural_lexeme()) {
+    if (src[cur] == '-') {
+      printf("");
+    }
     lexeme = lexeme + src[cur];
     _chop_char();
   }

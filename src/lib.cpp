@@ -35,12 +35,23 @@ void process_xml(std::string filename) {
   std::unordered_map<std::string, Calculable*> vars;
   for (auto var : content.vars) {
     auto s = var.first;
-    list<Token> tokens = lex(var.second.val);
+    list<Token> tokens;
+    try {
+			tokens = lex(var.second.val);
+			std::string val = tokens.front().text;
+			vars.insert({ var.first, get_type_by_name_and_val(var.second.type, val) });
+    }
+    catch (UnderliningError e) {
+      cout << e;
+      exit(1);
+    }
+    catch (...) {
+      cout << "Something went wrong ¯\\_(ツ)_/¯" << endl;
+      exit(1);
+    }
     if (tokens.size() != 1) {
       throw xml::Error("mistake in type declaration");
     }
-    std::string val = tokens.front().text;
-    vars.insert({ var.first, get_type_by_name_and_val(var.second.type, val) });
   }
   for (std::string it : content.eval) {
     int code_error = 1;

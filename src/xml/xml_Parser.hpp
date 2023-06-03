@@ -28,6 +28,9 @@ class Parser {
 
   bool _empty();
 
+  void _handle_attr_health(Tag::Attr& attr);
+  void _handle_tag_health(Tag* tag);
+
   Tag::Attr _parse_attr(Token* token);
   Tag* _collect_tag(bool& closing);
 public:
