@@ -14,7 +14,7 @@ Type            | Declaration
 Matrix          | `matrix((1 1) (1 1))` or `mx((1 1) (1 1))`
 Complex         | `complex(1 1)` or `cx(1 1)`
 Big int         | `2354672543213341212323`
-Fraction        | `[1/2]` or `1[1/2`
+Fraction        | `[1/2]` or `1[1/2]`
 Just a number   | `777`
 
 ## Usage
